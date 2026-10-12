@@ -1,0 +1,26 @@
+.venv/
+.deps/
+build/
+__pycache__/
+*.egg-info/
+*.jsonl
+private-exports/
+
+# Local editor/agent settings and generated deliverables
+/.agents/
+/.codex/
+/output/
+/installers/
+/*.pdf
+
+# Local telemetry and profile metadata; keep the synthetic experiment
+/docs/research/*.json
+!/docs/research/thesis_synthetic_experiment_2026-10-06.json
+*.log
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+/tdata/

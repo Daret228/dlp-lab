@@ -1,0 +1,11 @@
+version: 1
+mode: messengers
+uid: 1000
+messengers:
+  telegram:
+    enabled: true
+    executables:
+    - /opt/telegram-desktop/Telegram
+  express:
+    enabled: false
+    executables: []

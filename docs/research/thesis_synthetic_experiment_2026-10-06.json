@@ -1,0 +1,327 @@
+{
+  "date": "2026-10-06",
+  "python": "3.13.5",
+  "scope": "in_process_TextContent_synthetic_only",
+  "policy_sha256": "a1d11287fa6d2e30cb19ab8979ba6e06c70c0172f69404ae9937225f3efcd96b",
+  "functional_cases": [
+    {
+      "id": "P01",
+      "text": "Привет, встречаемся завтра",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "P02",
+      "text": "Почта: test@example.com",
+      "expected": "WARN",
+      "actual": "WARN",
+      "score": 0.35,
+      "complete": true
+    },
+    {
+      "id": "P03",
+      "text": "Это коммерческая тайна",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "P04",
+      "text": "КОММЕРЧЕСКАЯ ТАЙНА",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "P05",
+      "text": "top secret",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "P06",
+      "text": "TOP SECRET",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "P07",
+      "text": "Закрытый проект",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.75,
+      "complete": true
+    },
+    {
+      "id": "P08",
+      "text": "restricted project",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.75,
+      "complete": true
+    },
+    {
+      "id": "P09",
+      "text": "Проект готов",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "P10",
+      "text": "Открытый проект",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "P11",
+      "text": "test@example.com test@example.com",
+      "expected": "WARN",
+      "actual": "WARN",
+      "score": 0.35,
+      "complete": true
+    },
+    {
+      "id": "P12",
+      "text": "коммерческая тайна test@example.com",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 1.15,
+      "complete": true
+    },
+    {
+      "id": "P13",
+      "text": "",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "P14",
+      "text": "коммерческая тайна коммерческая тайна",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "P15",
+      "text": "проект аааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа закрытый",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "P16",
+      "text": "проект закрытый",
+      "expected": "BLOCK",
+      "actual": "BLOCK",
+      "score": 0.75,
+      "complete": true
+    }
+  ],
+  "semantic_probes": [
+    {
+      "id": "S01",
+      "text": "Это не коммерческая тайна",
+      "probe": "semantic_negation",
+      "actual": "BLOCK",
+      "score": 0.8,
+      "complete": true
+    },
+    {
+      "id": "S02",
+      "text": "коммерческую тайну",
+      "probe": "inflection",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S03",
+      "text": "коммерческая\nтайна",
+      "probe": "whitespace",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S04",
+      "text": "коммерческая тайна",
+      "probe": "nbsp",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S05",
+      "text": "коммерческая тaйна",
+      "probe": "mixed_alphabet",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S06",
+      "text": "коммерческая​ тайна",
+      "probe": "zero_width",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S07",
+      "text": "контакт: тест@пример.рф",
+      "probe": "unicode_email",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    },
+    {
+      "id": "S08",
+      "text": "Расписание закрытых встреч по проекту",
+      "probe": "inflection_context",
+      "actual": "ALLOW",
+      "score": 0,
+      "complete": true
+    }
+  ],
+  "timing": [
+    {
+      "bytes": 1024,
+      "runs": 31,
+      "warmups": 5,
+      "min_ms": 0.058644,
+      "median_ms": 0.060095,
+      "max_ms": 0.07977,
+      "samples_ms": [
+        0.059578,
+        0.061821,
+        0.060244,
+        0.060203,
+        0.059486,
+        0.059931,
+        0.060095,
+        0.06092,
+        0.059524,
+        0.059194,
+        0.058647,
+        0.059112,
+        0.059406,
+        0.059967,
+        0.058644,
+        0.07977,
+        0.060384,
+        0.059762,
+        0.06058,
+        0.060304,
+        0.058959,
+        0.060377,
+        0.061881,
+        0.060236,
+        0.061554,
+        0.060741,
+        0.069367,
+        0.060538,
+        0.059209,
+        0.059905,
+        0.059018
+      ]
+    },
+    {
+      "bytes": 65536,
+      "runs": 31,
+      "warmups": 5,
+      "min_ms": 3.109464,
+      "median_ms": 3.364609,
+      "max_ms": 3.586756,
+      "samples_ms": [
+        3.226784,
+        3.109464,
+        3.190846,
+        3.230853,
+        3.372579,
+        3.536927,
+        3.340762,
+        3.197748,
+        3.314157,
+        3.247674,
+        3.275831,
+        3.469355,
+        3.350886,
+        3.233003,
+        3.364206,
+        3.381916,
+        3.383514,
+        3.382028,
+        3.38137,
+        3.314477,
+        3.498096,
+        3.414722,
+        3.465344,
+        3.479642,
+        3.586756,
+        3.357316,
+        3.362732,
+        3.425894,
+        3.364609,
+        3.450497,
+        3.422701
+      ]
+    },
+    {
+      "bytes": 1048576,
+      "runs": 31,
+      "warmups": 5,
+      "min_ms": 53.296032,
+      "median_ms": 59.847923,
+      "max_ms": 100.437501,
+      "samples_ms": [
+        53.700846,
+        53.296032,
+        54.54645,
+        54.809962,
+        56.949703,
+        57.642286,
+        57.448252,
+        56.889591,
+        65.834132,
+        100.437501,
+        78.580786,
+        72.628238,
+        70.387022,
+        69.300283,
+        64.358183,
+        62.130716,
+        57.120546,
+        56.382103,
+        59.847923,
+        60.298285,
+        60.639438,
+        57.407539,
+        58.227213,
+        59.159268,
+        62.872996,
+        62.186375,
+        63.916782,
+        64.830419,
+        60.816183,
+        59.180604,
+        58.038056
+      ]
+    }
+  ]
+}

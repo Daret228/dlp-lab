@@ -1,0 +1,30 @@
+version: 1
+thresholds:
+  warn: 0.3
+  block: 0.7
+weights:
+  dictionary: 1.0
+  regex: 1.0
+  context: 1.0
+limits:
+  max_bytes: 1048576
+  timeout_seconds: 2
+on_error: BLOCK
+rules:
+  - id: secret_keywords
+    type: dictionary
+    category: confidential
+    severity: 0.8
+    terms: ["коммерческая тайна", "top secret"]
+  - id: email
+    type: regex
+    category: personal
+    severity: 0.35
+    pattern: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+  - id: project_context
+    type: context
+    category: internal
+    severity: 0.75
+    terms: ["проект", "project"]
+    context: ["закрытый", "restricted"]
+    window: 80

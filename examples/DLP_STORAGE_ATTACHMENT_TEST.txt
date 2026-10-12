@@ -1,0 +1,3 @@
+DLP_STORAGE_ATTACHMENT_TEST
+Synthetic public file for the local Telegram file-location experiment.
+No confidential information.

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Use the system Python with Debian's AT-SPI bindings and project dependencies.
+set -eu
+project_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$project_dir"
+export PYTHONPATH="$project_dir/src:$project_dir/.deps"
+exec /usr/bin/python3 -m dlp.cli "$@"

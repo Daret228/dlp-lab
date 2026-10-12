@@ -1,0 +1,12 @@
+{
+  "name": "Synthetic DLP test — not an actual Telegram export",
+  "type": "personal_chat",
+  "id": 100,
+  "messages": [
+    {"id": 1, "type": "message", "date": "2026-10-06T12:00:00", "date_unixtime": "1791288000", "from_id": "user100", "text": "Привет, встречаемся завтра"},
+    {"id": 2, "type": "message", "date": "2026-10-06T12:00:01", "date_unixtime": "1791288001", "from_id": "user100", "text": "Почта: test@example.com"},
+    {"id": 3, "type": "message", "date": "2026-10-06T12:00:02", "date_unixtime": "1791288002", "from_id": "user100", "text": ["Это коммер", {"type": "bold", "text": "ческая"}, " тайна"]},
+    {"id": 4, "type": "service", "date": "2026-10-06T12:00:03", "date_unixtime": "1791288003", "action": "clear_history", "text": ""},
+    {"id": 5, "type": "message", "date": "2026-10-06T12:00:04", "date_unixtime": "1791288004", "from_id": "user100", "text": "", "file": "files/synthetic-not-present.txt"}
+  ]
+}

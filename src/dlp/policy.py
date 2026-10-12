@@ -1,0 +1,109 @@
+import math
+import re
+from pathlib import Path
+import yaml
+from .models import Decision
+
+
+class PolicyError(ValueError):
+    pass
+
+
+class StrictLoader(yaml.SafeLoader):
+    pass
+
+
+def mapping(loader, node, deep=False):
+    result = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if not isinstance(key, str) or key in result:
+            raise PolicyError("Mapping keys must be unique strings")
+        result[key] = loader.construct_object(value_node, deep=deep)
+    return result
+
+
+StrictLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, mapping)
+
+
+def keys(value, required):
+    if not isinstance(value, dict) or set(value) != set(required):
+        raise PolicyError(f"Expected exactly these keys: {required}")
+
+
+def number(value, minimum=0, maximum=float("inf")):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise PolicyError("Expected number")
+    if not math.isfinite(value) or not minimum <= value <= maximum:
+        raise PolicyError("Number out of range")
+    return value
+
+
+def load_policy(path: str | Path) -> dict:
+    try:
+        if Path(path).stat().st_size > 262144:
+            raise PolicyError("Policy exceeds 256 KiB")
+        p = yaml.load(Path(path).read_text(encoding="utf-8"), Loader=StrictLoader)
+        keys(p, ("version", "thresholds", "weights", "limits", "on_error", "rules"))
+        keys(p["thresholds"], ("warn", "block"))
+        keys(p["weights"], ("dictionary", "regex", "context"))
+        keys(p["limits"], ("max_bytes", "timeout_seconds"))
+        if type(p["version"]) is not int or p["version"] != 1:
+            raise PolicyError("Unsupported policy version")
+        t = p["thresholds"]
+        if not 0 <= number(t["warn"]) < number(t["block"]):
+            raise PolicyError("Expected 0 <= warn < block")
+        for kind in ("dictionary", "regex", "context"):
+            number(p["weights"][kind])
+        n = p["limits"]["max_bytes"]
+        if type(n) is not int or not 1 <= n <= 16 * 1024 * 1024:
+            raise PolicyError("max_bytes must be 1..16777216")
+        number(p["limits"]["timeout_seconds"], 0.01, 30)
+        Decision(p["on_error"])
+        if not isinstance(p["rules"], list) or len(p["rules"]) > 1000:
+            raise PolicyError("Expected at most 1000 rules")
+        ids = set()
+        for r in p["rules"]:
+            if not isinstance(r, dict):
+                raise PolicyError("Rule must be a mapping")
+            fields = {"regex": ["pattern"], "dictionary": ["terms"], "context": ["terms", "context", "window"]}
+            if r.get("type") not in fields:
+                raise PolicyError("Unknown analyzer")
+            keys(r, ["id", "type", "category", "severity"] + fields[r["type"]])
+            if not isinstance(r["id"], str) or not r["id"] or r["id"] in ids:
+                raise PolicyError("Rule IDs must be nonempty and unique")
+            ids.add(r["id"])
+            if r["type"] not in ("dictionary", "regex", "context"):
+                raise PolicyError("Unknown analyzer")
+            number(r["severity"], 0, 1)
+            if not isinstance(r["category"], str):
+                raise PolicyError("Invalid category")
+            if r["type"] == "regex":
+                if not isinstance(r["pattern"], str) or not r["pattern"]:
+                    raise PolicyError("Empty regex")
+                re.compile(r["pattern"])
+            else:
+                for key in (["terms", "context"] if r["type"] == "context" else ["terms"]):
+                    if not isinstance(r[key], list) or not r[key] or not all(isinstance(x, str) and x for x in r[key]):
+                        raise PolicyError("Expected nonempty terms")
+                if r["type"] == "context" and (type(r["window"]) is not int or not 0 <= r["window"] <= 10000):
+                    raise PolicyError("Invalid context window")
+        return p
+    except (KeyError, TypeError, ValueError, re.error, yaml.YAMLError, RecursionError) as exc:
+        raise PolicyError(f"Invalid policy: {exc}") from exc
+
+
+class PolicyEngine:
+    def __init__(self, policy):
+        self.policy = policy
+
+    def decide(self, findings):
+        # Each rule contributes once; repeating a word cannot inflate the score.
+        by_rule = {}
+        for f in findings:
+            contribution = self.policy["weights"].get(f.analyzer, 0) * f.severity * f.confidence
+            by_rule[f.rule_id] = max(by_rule.get(f.rule_id, 0), contribution)
+        score = sum(by_rule.values())
+        thresholds = self.policy["thresholds"]
+        decision = Decision.BLOCK if score >= thresholds["block"] else Decision.WARN if score >= thresholds["warn"] else Decision.ALLOW
+        return score, decision
