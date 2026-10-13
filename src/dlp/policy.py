@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 import yaml
 from .models import Decision
+from .file_types import SUPPORTED_TYPES
 
 
 class PolicyError(ValueError):
@@ -44,7 +45,19 @@ def load_policy(path: str | Path) -> dict:
         if Path(path).stat().st_size > 262144:
             raise PolicyError("Policy exceeds 256 KiB")
         p = yaml.load(Path(path).read_text(encoding="utf-8"), Loader=StrictLoader)
-        keys(p, ("version", "thresholds", "weights", "limits", "on_error", "rules"))
+        required = ("version", "thresholds", "weights", "limits", "on_error", "rules")
+        keys(p, required + (("file_types",) if isinstance(p, dict) and "file_types" in p else ()))
+        if "file_types" in p:
+            file_types = p["file_types"]
+            keys(file_types, ("allow", "deny"))
+            for name in ("allow", "deny"):
+                values = file_types[name]
+                if (not isinstance(values, list)
+                        or not all(isinstance(v, str) and v in SUPPORTED_TYPES for v in values)
+                        or len(set(values)) != len(values)):
+                    raise PolicyError("Invalid file type list")
+            if set(file_types["allow"]) & set(file_types["deny"]):
+                raise PolicyError("File type cannot be both allowed and denied")
         keys(p["thresholds"], ("warn", "block"))
         keys(p["weights"], ("dictionary", "regex", "context"))
         keys(p["limits"], ("max_bytes", "timeout_seconds"))

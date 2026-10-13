@@ -39,6 +39,7 @@ class AnalysisResult:
     decision: Decision
     complete: bool = True
     reason: str | None = None
+    metadata: dict = field(default_factory=dict)
 
 
 @dataclass(frozen=True)

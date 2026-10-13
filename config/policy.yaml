@@ -10,6 +10,11 @@ limits:
   max_bytes: 1048576
   timeout_seconds: 2
 on_error: BLOCK
+# Empty allow means no allowlist; deny always takes precedence.
+# DOCX candidates are validated by the bounded document reader.
+file_types:
+  allow: [text, pdf, docx]
+  deny: [elf, dos_pe, script, zip, gzip, 7z, rar]
 rules:
   - id: secret_keywords
     type: dictionary
