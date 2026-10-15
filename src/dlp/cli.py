@@ -20,6 +20,8 @@ def main():
     export = sub.add_parser("analyze-export", help="Audit text in a single Telegram JSON chat export")
     export.add_argument("--file", type=Path, required=True)
     sub.add_parser("monitor", help="Internal: launch through fanotify-launcher")
+    dashboard = sub.add_parser("dashboard", help="Локальная веб-панель событий, только просмотр")
+    dashboard.add_argument("--port", type=int, default=8765)
     processes = sub.add_parser("processes", help="List configured messenger processes of current user")
     processes.add_argument("--config", default="config/processes.yaml")
     mode = sub.add_parser("process-mode", help="Select file monitoring scope; restart monitor afterward")
@@ -55,6 +57,10 @@ def main():
     sub.add_parser("notification-test-worker", help=argparse.SUPPRESS)
     args = parser.parse_args()
     try:
+        if args.command == "dashboard":
+            from .dashboard import run
+            run(args.port)
+            return 0
         if args.command == "agent":
             from .service import manage
             return manage(args)

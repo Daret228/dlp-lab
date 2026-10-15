@@ -12,3 +12,6 @@ telegram-local = ["pycryptodome==3.23.0"]
 dlp-agent = "dlp.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+dlp = ["dashboard_assets/*.html", "dashboard_assets/*.css", "dashboard_assets/*.js"]
