@@ -1,0 +1,304 @@
+[
+  {
+    "id": "financial-017",
+    "group_id": "financial-scenario-017",
+    "split": "dev",
+    "text": "Служебная записка финансового директора: планируемая цена продажи подразделения 68 млн рублей; переговорная позиция покупателю не раскрывается.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-018",
+    "group_id": "financial-scenario-018",
+    "split": "dev",
+    "text": "Справка о доходах Примерова Петра: за январь выплачено 73420 рублей, за февраль — 78110.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-019",
+    "group_id": "financial-scenario-019",
+    "split": "dev",
+    "text": "Реквизиты получателя возврата: лицевой счёт 00000444555666777888, банк «Учебный банк», БИК 000000002.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-020",
+    "group_id": "financial-scenario-020",
+    "split": "dev",
+    "text": "Передаю детализацию по закрытой сделке: наша маржа 18,4%, затраты 812000, вознаграждение посреднику 97000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-017",
+    "group_id": "passport-scenario-017",
+    "split": "dev",
+    "text": "Для нотариуса выписал реквизиты из удостоверения: паспорт Российской Федерации, две первые группы 00 17, далее 789010.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-018",
+    "group_id": "passport-scenario-018",
+    "split": "dev",
+    "text": "Новый документ вместо утраченного: паспорт 0018 № 890120, получен Макетовой 04.03.2022.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-019",
+    "group_id": "passport-scenario-019",
+    "split": "dev",
+    "text": "Сверка клиента № 54: удостоверение личности — паспорт; значение поля «серия/номер»: 00 19 / 901230.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-020",
+    "group_id": "passport-scenario-020",
+    "split": "dev",
+    "text": "В ответе на запрос кадров указан документ работника: паспорт 0020 012340, выдавший орган — учебное отделение.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-017",
+    "group_id": "credentials-scenario-017",
+    "split": "dev",
+    "text": "В закрытом файле настроек осталась строка access_key = \"example_only_key_18a72b39\".",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-018",
+    "group_id": "credentials-scenario-018",
+    "split": "dev",
+    "text": "Зайди под lab_reader; в поле пароля введи Example-Lake-731.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-019",
+    "group_id": "credentials-scenario-019",
+    "split": "dev",
+    "text": "Для доступа к макету шлюза используй секретную фразу ExampleBridge204! и пользователя demo_gate.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-020",
+    "group_id": "credentials-scenario-020",
+    "split": "dev",
+    "text": "curl -H \"X-Api-Key: example_only_6s8d2f4g9h\" https://api.example.invalid/status",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-017",
+    "group_id": "normal-scenario-017",
+    "split": "dev",
+    "text": "На афише написано: вход 1200 рублей, студентам скидка 20 процентов.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-018",
+    "group_id": "normal-scenario-018",
+    "split": "dev",
+    "text": "Подскажите, в каком отделении можно заменить загранпаспорт после окончания срока?",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-019",
+    "group_id": "normal-scenario-019",
+    "split": "dev",
+    "text": "В журнале отображается только password=[REDACTED], значение секрета удалено.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-020",
+    "group_id": "normal-scenario-020",
+    "split": "dev",
+    "text": "Доклад посвящён способам защиты банковских реквизитов при обмене документами.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-financial-009",
+    "group_id": "v2-financial-scenario-009",
+    "split": "dev",
+    "text": "Account statement for client Q: balance RUB 68410; debt RUB 217800; overdue amount RUB 13700.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-financial-010",
+    "group_id": "v2-financial-scenario-010",
+    "split": "dev",
+    "text": "В индивидуальном пенсионном расчёте заявителя указано ежемесячное начисление 28460 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-passport-009",
+    "group_id": "v2-passport-scenario-009",
+    "split": "dev",
+    "text": "Identity verification form: document PASSPORT, series 00, serial number 5182947.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-passport-010",
+    "group_id": "v2-passport-scenario-010",
+    "split": "dev",
+    "text": "Кадровый реестр: Примеров Максим, удостоверение личности — паспорт, 0038 062748.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-credentials-009",
+    "group_id": "v2-credentials-scenario-009",
+    "split": "dev",
+    "text": "The mock service credential is access_token=q7W2eR9tY4uI6oP8.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-credentials-010",
+    "group_id": "v2-credentials-scenario-010",
+    "split": "dev",
+    "text": "Для входа в учебный кабинет получен одноразовый код 004817.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-normal-009",
+    "group_id": "v2-normal-scenario-009",
+    "split": "dev",
+    "text": "The account name is lab_ops. Contact support for the password reset procedure.",
+    "labels": [],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-normal-010",
+    "group_id": "v2-normal-scenario-010",
+    "split": "dev",
+    "text": "Инвентарный номер станка 0038629183, дата проверки 12 мая.",
+    "labels": [],
+    "rationale": "Предварительная разметка по согласованным границам категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-mixed-009",
+    "group_id": "v2-mixed-scenario-009",
+    "split": "dev",
+    "text": "Ведомость: паспорт исполнителя 00 47 № 173628; выплаченный гонорар 58600 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "rationale": "В тексте присутствуют значения двух защищаемых категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "v2-mixed-010",
+    "group_id": "v2-mixed-scenario-010",
+    "split": "dev",
+    "text": "Финансовый кабинет макета: пароль B7q!5mR9vK; номер карты возврата 0000 8391 6274 0518.",
+    "labels": [
+      "financial",
+      "credentials"
+    ],
+    "rationale": "В тексте присутствуют значения двух защищаемых категорий.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  }
+]

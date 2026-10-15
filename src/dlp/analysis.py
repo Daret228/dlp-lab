@@ -111,6 +111,30 @@ class ContentAnalyzer:
                 if not extraction_complete:
                     rank = {Decision.ALLOW: 0, Decision.WARN: 1, Decision.BLOCK: 2}
                     decision = max(decision, Decision(self.policy["on_error"]), key=rank.get)
+                # Advisory categories are outside the score engine: they can
+                # raise ALLOW to WARN, never increase a score to BLOCK.
+                if self.policy.get("sensitive_alerts", {}).get("enabled", False):
+                    from .sensitive_values_v4 import rule_predict
+                    status = {"mode": "rules", "action": "WARN", "complete": True}
+                    try:
+                        labels = rule_predict(text)
+                        status["categories"] = labels
+                        for label in labels:
+                            findings.append(Finding("sensitive_advisory", "advisory_" + label,
+                                label, 1.0, 0.0, (0, len(text)),
+                                {"location_scope": "whole_extracted_text", "action": "WARN",
+                                 "confidence_semantics": "rule_match_not_probability"}))
+                        if labels and decision == Decision.ALLOW:
+                            decision = Decision.WARN
+                    except (ValueError, AnalysisTimeout):
+                        status.update(complete=False, reason="advisory_limit_or_timeout")
+                        extraction_complete = False
+                        if "file_type" in metadata:
+                            metadata["content_checked"] = False
+                        extraction_reason = extraction_reason or "sensitive_alerts_incomplete"
+                        if decision == Decision.ALLOW:
+                            decision = Decision.WARN
+                    metadata["sensitive_alerts"] = status
                 return AnalysisResult(findings, score, decision, extraction_complete,
                                       extraction_reason, metadata)
         except (OSError, UnicodeError, ValueError, AnalysisTimeout) as exc:

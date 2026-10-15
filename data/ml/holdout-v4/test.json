@@ -1,0 +1,584 @@
+[
+  {
+    "id": "v4-financial-01",
+    "group_id": "v4-financial-01",
+    "split": "holdout",
+    "text": "По индивидуальному расчёту Макетовой выплачено 64720 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-02",
+    "group_id": "v4-financial-02",
+    "split": "holdout",
+    "text": "Личный банковский счёт получателя: 00000471628395047162.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-03",
+    "group_id": "v4-financial-03",
+    "split": "holdout",
+    "text": "За работником У-26 числится долг 37840 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-04",
+    "group_id": "v4-financial-04",
+    "split": "holdout",
+    "text": "Начислено сотруднику 93710 руб.; удержано 12182 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-05",
+    "group_id": "v4-financial-05",
+    "split": "holdout",
+    "text": "Моя зарплата за август составила 87460 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-06",
+    "group_id": "v4-financial-06",
+    "split": "holdout",
+    "text": "Учебнов получил компенсацию лечения 17480 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-07",
+    "group_id": "v4-financial-07",
+    "split": "holdout",
+    "text": "Для возврата указываю карту 0000 5629 1847 3061.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-08",
+    "group_id": "v4-financial-08",
+    "split": "holdout",
+    "text": "Неопубликованная прибыль фирмы за месяц 2380000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-09",
+    "group_id": "v4-financial-09",
+    "split": "holdout",
+    "text": "Внутренние расходы проекта на подрядчиков — 764000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-10",
+    "group_id": "v4-financial-10",
+    "split": "holdout",
+    "text": "Bank statement: personal balance RUB 52380; monthly loan payment RUB 12800.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-11",
+    "group_id": "v4-financial-11",
+    "split": "holdout",
+    "text": "Сведения о доходах заявителя: 106700 рублей в месяц.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-financial-12",
+    "group_id": "v4-financial-12",
+    "split": "holdout",
+    "text": "Данные заёмщика: задолженность 268700 руб., просрочка 34 дня.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-01",
+    "group_id": "v4-passport-01",
+    "split": "holdout",
+    "text": "Доверенность оформлена на паспорт 0085 384716.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-02",
+    "group_id": "v4-passport-02",
+    "split": "holdout",
+    "text": "Паспортные реквизиты: серия 00 86, номер 273605.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-03",
+    "group_id": "v4-passport-03",
+    "split": "holdout",
+    "text": "Регистрация гостя: паспорт РФ 0087 № 162594.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-04",
+    "group_id": "v4-passport-04",
+    "split": "holdout",
+    "text": "Анкета: паспорт гражданина России, серия 0088, номер 051483.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-05",
+    "group_id": "v4-passport-05",
+    "split": "holdout",
+    "text": "ПАСПОРТ\nСЕРИЯ 00 89\nНОМЕР 940372",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-06",
+    "group_id": "v4-passport-06",
+    "split": "holdout",
+    "text": "Для страховки указан загранпаспорт 00 № 8273645.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-07",
+    "group_id": "v4-passport-07",
+    "split": "holdout",
+    "text": "Сведения из документа: паспорт серии 0090 с номером 839261.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-08",
+    "group_id": "v4-passport-08",
+    "split": "holdout",
+    "text": "Документ посетителя — паспорт 00 91 728150.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-09",
+    "group_id": "v4-passport-09",
+    "split": "holdout",
+    "text": "Для доверителя записаны реквизиты паспорта 0092/617049.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-10",
+    "group_id": "v4-passport-10",
+    "split": "holdout",
+    "text": "Passport: series 00, number 7162534.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-11",
+    "group_id": "v4-passport-11",
+    "split": "holdout",
+    "text": "Кадровая анкета содержит паспорт 00 93 № 506938.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-passport-12",
+    "group_id": "v4-passport-12",
+    "split": "holdout",
+    "text": "Паспорт исполнителя: 0094 495827.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-01",
+    "group_id": "v4-credentials-01",
+    "split": "holdout",
+    "text": "Для лабораторного портала пароль: сосновыйлес.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-02",
+    "group_id": "v4-credentials-02",
+    "split": "holdout",
+    "text": "Пароль учебного кабинета = туман.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-03",
+    "group_id": "v4-credentials-03",
+    "split": "holdout",
+    "text": "Для макета password: oak.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-04",
+    "group_id": "v4-credentials-04",
+    "split": "holdout",
+    "text": "В конфиге LAB_TOKEN=F6n3R9w2T8q4K7m1.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-05",
+    "group_id": "v4-credentials-05",
+    "split": "holdout",
+    "text": "Секретная фраза аккаунта: «зимний лес у реки».",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-06",
+    "group_id": "v4-credentials-06",
+    "split": "holdout",
+    "text": "Для входа в учебный кабинет код 006285.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-07",
+    "group_id": "v4-credentials-07",
+    "split": "holdout",
+    "text": "Ключ доступа к макету API: M4r8W2q7N6t3P9v1.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-08",
+    "group_id": "v4-credentials-08",
+    "split": "holdout",
+    "text": "Пароль к архиву: 729461.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-09",
+    "group_id": "v4-credentials-09",
+    "split": "holdout",
+    "text": "Учебный access_key = r6T2wN8qK4mV9pL3.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-10",
+    "group_id": "v4-credentials-10",
+    "split": "holdout",
+    "text": "Authorization: Bearer j5R9wQ2nT8kM4vL6.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-11",
+    "group_id": "v4-credentials-11",
+    "split": "holdout",
+    "text": "В учебной базе password=Z8q!3nW6rK.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-credentials-12",
+    "group_id": "v4-credentials-12",
+    "split": "holdout",
+    "text": "Строка для стенда: postgres://lab_user:X5r!8qN2mV@lab.example.invalid/db",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-01",
+    "group_id": "v4-normal-01",
+    "split": "holdout",
+    "text": "Обновите пароль до 2028 года.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-02",
+    "group_id": "v4-normal-02",
+    "split": "holdout",
+    "text": "Номер паспорта удалён. Заказ 0085384716 уже доставлен.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-03",
+    "group_id": "v4-normal-03",
+    "split": "holdout",
+    "text": "Логин lab_helper опубликован в справочнике.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-04",
+    "group_id": "v4-normal-04",
+    "split": "holdout",
+    "text": "Пароль не указан; номер обращения 762819.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-05",
+    "group_id": "v4-normal-05",
+    "split": "holdout",
+    "text": "PASSWORD=<hidden>; статус проверки success.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-06",
+    "group_id": "v4-normal-06",
+    "split": "holdout",
+    "text": "Публичная вакансия: оклад 97000 рублей, полная занятость.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-07",
+    "group_id": "v4-normal-07",
+    "split": "holdout",
+    "text": "В публичном отчёте указана прибыль 7 млн рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-08",
+    "group_id": "v4-normal-08",
+    "split": "holdout",
+    "text": "Паспорт нужен на проходной, телефон для связи 0018273645.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-09",
+    "group_id": "v4-normal-09",
+    "split": "holdout",
+    "text": "Пароль должен содержать не менее 12 символов.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-10",
+    "group_id": "v4-normal-10",
+    "split": "holdout",
+    "text": "Ключ API хранится в защищённом хранилище, здесь его нет.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-11",
+    "group_id": "v4-normal-11",
+    "split": "holdout",
+    "text": "На выставке вход стоит 760 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-normal-12",
+    "group_id": "v4-normal-12",
+    "split": "holdout",
+    "text": "DB_PASSWORD=${SECRET_FROM_STORE}; DB_USER=lab_helper.",
+    "labels": [],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-01",
+    "group_id": "v4-mixed-01",
+    "split": "holdout",
+    "text": "Паспорт 0095 384716; мой оклад 118700 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-02",
+    "group_id": "v4-mixed-02",
+    "split": "holdout",
+    "text": "Пароль: берёзка; карта для возврата 0000 4918 2736 5061.",
+    "labels": [
+      "credentials",
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-03",
+    "group_id": "v4-mixed-03",
+    "split": "holdout",
+    "text": "Паспорт 00 96 № 273605; пароль анкеты: Q2w!7nR5mV.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-04",
+    "group_id": "v4-mixed-04",
+    "split": "holdout",
+    "text": "Начислено работнику 72180 руб.; паспорт 0097 162594; API_KEY=h7R2nW9qT4mK6vP3.",
+    "labels": [
+      "financial",
+      "passport",
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-05",
+    "group_id": "v4-mixed-05",
+    "split": "holdout",
+    "text": "Публичный тариф — 420 рублей; моя зарплата — 91400 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-06",
+    "group_id": "v4-mixed-06",
+    "split": "holdout",
+    "text": "Номер заказа 628194; паспорт посетителя 0098 051483.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-07",
+    "group_id": "v4-mixed-07",
+    "split": "holdout",
+    "text": "Пароль не указан; новый пароль: лунныйсвет.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-08",
+    "group_id": "v4-mixed-08",
+    "split": "holdout",
+    "text": "PASSWORD=[REDACTED]; access_token=t8Q3rN6wK2mV9pL4.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-09",
+    "group_id": "v4-mixed-09",
+    "split": "holdout",
+    "text": "Логин lab_clerk; паспорт 00 99 940372; долг заявителя 18270 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-10",
+    "group_id": "v4-mixed-10",
+    "split": "holdout",
+    "text": "На сайте цена 1200 рублей; API_KEY=a9W4nR7qT2mK6vP3.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-11",
+    "group_id": "v4-mixed-11",
+    "split": "holdout",
+    "text": "Паспорт понадобится завтра; пароль стенда: 937162.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "v4-mixed-12",
+    "group_id": "v4-mixed-12",
+    "split": "holdout",
+    "text": "Мой доход 136200 рублей; пароль в этом письме отсутствует.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic"
+  }
+]

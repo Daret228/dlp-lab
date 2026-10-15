@@ -15,6 +15,10 @@ on_error: BLOCK
 file_types:
   allow: [text, pdf, docx]
   deny: [elf, dos_pe, script, zip, gzip, 7z, rar]
+sensitive_alerts:
+  enabled: true
+  mode: rules
+  action: WARN
 rules:
   - id: secret_keywords
     type: dictionary

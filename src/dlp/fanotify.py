@@ -26,7 +26,7 @@ def events(data):
         offset += length
 
 
-def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None, correlator=None):
+def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None, correlator=None, warnings=None):
     if fd < 0:
         if mask & OVERFLOW:
             audit.emit({"event": "queue_overflow", "coverage": "lost"})
@@ -68,13 +68,18 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
     # Respond before potentially blocking audit IO. Audit failure terminates daemon.
     if mask & OPEN_PERM:
         audit.emit(record)
+        if warnings is not None:
+            warnings.submit(record)
 
 
 def run(group_fd, analyzer, audit, process_filter=None):
+    from .file_notifications import FileWarnings
+    warnings = FileWarnings(audit)
     correlator = AccessCorrelator()
     audit.emit({"event": "monitor_started", "pid": os.getpid(), "uid": os.geteuid(), "filter_mode": process_filter.mode if process_filter else "all", "scope": "direct_children", "warn_enforcement": "ALLOW"})
     try:
         while True:
+            warnings.drain()
             ready, _, _ = select.select([group_fd], [], [], 1)
             if ready:
                 try:
@@ -84,7 +89,8 @@ def run(group_fd, analyzer, audit, process_filter=None):
                 if not data:
                     raise OSError("fanotify stream closed")
                 for mask, fd, pid in events(data):
-                    process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter, correlator)
+                    process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter, correlator, warnings)
     finally:
         # Closing the group releases outstanding operations (kernel fail-open).
         os.close(group_fd)
+        warnings.close()

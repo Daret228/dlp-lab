@@ -1,0 +1,738 @@
+[
+  {
+    "id": "financial-001",
+    "group_id": "financial-scenario-001",
+    "split": "train",
+    "text": "Ведомость за апрель: сотруднику Учебнову начислено 84200 рублей, удержано 10946, к выплате 73254.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-002",
+    "group_id": "financial-scenario-002",
+    "split": "train",
+    "text": "Переведите оплату на карту 0000 1234 5678 9012, получатель — Примерова Анна.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-003",
+    "group_id": "financial-scenario-003",
+    "split": "train",
+    "text": "Для перечисления аванса: расчётный счёт 00000123456789012345, БИК 000000001, получатель ООО «Учебный пример».",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-004",
+    "group_id": "financial-scenario-004",
+    "split": "train",
+    "text": "Внутренний отчёт: выручка отдела за квартал 4,8 млн, убыток 630 тысяч. Данные ещё не опубликованы.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-005",
+    "group_id": "financial-scenario-005",
+    "split": "train",
+    "text": "Выгрузка выплат: табельный номер 17 — премия 28000; табельный номер 23 — премия 46000.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-006",
+    "group_id": "financial-scenario-006",
+    "split": "train",
+    "text": "Возврат клиенту оформляем по реквизитам: номер карты 0000-4321-8765-2109, срок 12/30.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-007",
+    "group_id": "financial-scenario-007",
+    "split": "train",
+    "text": "Платёжное поручение № 418: контрагент ООО «Макет», счёт 00000987654321098765, сумма 182450 руб.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-008",
+    "group_id": "financial-scenario-008",
+    "split": "train",
+    "text": "Индивидуальные условия договора: скидка покупателю 37%, наша себестоимость 12400 руб.; только для финансового отдела.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-009",
+    "group_id": "financial-scenario-009",
+    "split": "train",
+    "text": "Сверка задолженности: клиент Тестов должен 153800 руб., просрочка 46 дней, договор Ф-18.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-010",
+    "group_id": "financial-scenario-010",
+    "split": "train",
+    "text": "Внутренняя таблица расходов на персонал: инженер — оклад 96000, руководитель — 175000, значения по сотрудникам приложены ниже.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-011",
+    "group_id": "financial-scenario-011",
+    "split": "train",
+    "text": "Банковская выписка Примеровой: остаток 214508 руб., списание 9800 руб. в пользу ООО «Макет».",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-012",
+    "group_id": "financial-scenario-012",
+    "split": "train",
+    "text": "Список компенсаций: сотрудник № 301 получил 18400 рублей за лечение; сотрудник № 302 — 7600.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-013",
+    "group_id": "financial-scenario-013",
+    "split": "train",
+    "text": "Номер корпоративной карты: 0000111122223333. Используйте для оплаты по этой заявке.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-014",
+    "group_id": "financial-scenario-014",
+    "split": "train",
+    "text": "Для бухгалтерии: чистая прибыль неопубликованного месяца 780000 руб., операционные затраты 1920000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-015",
+    "group_id": "financial-scenario-015",
+    "split": "train",
+    "text": "Условия персонального кредита Учебнова: долг 480000 рублей, ежемесячный взнос 17300, просрочено два платежа.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "financial-016",
+    "group_id": "financial-scenario-016",
+    "split": "train",
+    "text": "Payroll export: employee U-42, gross 72000 RUB, bonus 12500 RUB. Internal record.",
+    "labels": [
+      "financial"
+    ],
+    "rationale": "Переданы конкретные платёжные реквизиты, индивидуальные финансовые сведения или явно внутренние финансовые показатели.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-001",
+    "group_id": "passport-scenario-001",
+    "split": "train",
+    "text": "Паспорт Учебнова Петра: серия 00 01, номер 234567, выдан учебным подразделением 12.04.2020.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-002",
+    "group_id": "passport-scenario-002",
+    "split": "train",
+    "text": "Для оформления пропуска отправляю паспортные реквизиты: 00 02 № 345678.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-003",
+    "group_id": "passport-scenario-003",
+    "split": "train",
+    "text": "Анкета: Примерова Анна, документ — паспорт РФ, 0003 456789; дата выдачи 03.08.2019.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-004",
+    "group_id": "passport-scenario-004",
+    "split": "train",
+    "text": "В таблице посетителей у Макетова указан паспорт 00-04 567890 и дата рождения 14.02.1990.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-005",
+    "group_id": "passport-scenario-005",
+    "split": "train",
+    "text": "Серия документа 00 05, номер 678901. Это паспорт заявителя по обращению № 12.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-006",
+    "group_id": "passport-scenario-006",
+    "split": "train",
+    "text": "Карточка гостя: вид удостоверения — паспорт; серия 0006; номер 789012; гражданство РФ.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-007",
+    "group_id": "passport-scenario-007",
+    "split": "train",
+    "text": "Прикладываю текст со страницы удостоверения личности: паспорт 00 07 890123, владелец Тестова Елена.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-008",
+    "group_id": "passport-scenario-008",
+    "split": "train",
+    "text": "Данные для договора: Учебнов Илья, паспорт серии 00 08 номер 901234, код подразделения 000-001.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-009",
+    "group_id": "passport-scenario-009",
+    "split": "train",
+    "text": "Загранпаспорт заявителя: серия 00, номер 1234567, действителен до 18.06.2030.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-010",
+    "group_id": "passport-scenario-010",
+    "split": "train",
+    "text": "Паспортные сведения пассажира: документ 0009 № 012345, фамилия Примеров.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-011",
+    "group_id": "passport-scenario-011",
+    "split": "train",
+    "text": "Выгрузка анкет: клиент А — паспорт 0010 123450; клиент Б — паспорт 0011 234560.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-012",
+    "group_id": "passport-scenario-012",
+    "split": "train",
+    "text": "Проверьте реквизиты доверителя: паспорт серии 00 12 № 345670, дата выдачи 21.11.2021.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-013",
+    "group_id": "passport-scenario-013",
+    "split": "train",
+    "text": "Из скана: ПАСПОРТ / СЕРИЯ 00 13 / НОМЕР 456780 / ФАМИЛИЯ МАКЕТОВ.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-014",
+    "group_id": "passport-scenario-014",
+    "split": "train",
+    "text": "Заполняю заявление за Примерову: российский паспорт, серия: 0014, номер: 567890.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-015",
+    "group_id": "passport-scenario-015",
+    "split": "train",
+    "text": "Сведения удостоверяющего документа: тип «паспорт», 00 15 678900, место рождения — Учебный город.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "passport-016",
+    "group_id": "passport-scenario-016",
+    "split": "train",
+    "text": "Identity record: passport number 0016123456, holder Example Person, issued 2020-05-01.",
+    "labels": [
+      "passport"
+    ],
+    "rationale": "Присутствуют значения реквизитов документа с явным паспортным контекстом.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-001",
+    "group_id": "credentials-scenario-001",
+    "split": "train",
+    "text": "Для входа в учебный кабинет логин lab_user, пароль Example!River42.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-002",
+    "group_id": "credentials-scenario-002",
+    "split": "train",
+    "text": "Пароль от служебной почты: Demo-Cloud-582! Передай новому сотруднику.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-003",
+    "group_id": "credentials-scenario-003",
+    "split": "train",
+    "text": "API_TOKEN=example_only_token_7xQ9m2L4r8V6; вставь значение в заголовок запроса.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-004",
+    "group_id": "credentials-scenario-004",
+    "split": "train",
+    "text": "Подключение к тестовой БД: user=sample_db; password=NotARealSecret_71.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-005",
+    "group_id": "credentials-scenario-005",
+    "split": "train",
+    "text": "В конфигурации сохранено: DB_PASSWORD: Example-Pine-604.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-006",
+    "group_id": "credentials-scenario-006",
+    "split": "train",
+    "text": "Учётка администратора макета: username demo_admin, password Sample!Stone29.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-007",
+    "group_id": "credentials-scenario-007",
+    "split": "train",
+    "text": "Authorization: Bearer example_only_Ab3Cd5Ef7Gh9Ij2Kl4Mn6Op8",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-008",
+    "group_id": "credentials-scenario-008",
+    "split": "train",
+    "text": "Секрет клиента OAuth: client_secret=example_only_client_5n8q2r6t.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-009",
+    "group_id": "credentials-scenario-009",
+    "split": "train",
+    "text": "Пользователь сервиса — sample_bot. Его ключ доступа — example_only_access_912abc.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-010",
+    "group_id": "credentials-scenario-010",
+    "split": "train",
+    "text": "Строка подключения: postgres://demo:ExampleOnly56@db.example.invalid/lab",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-011",
+    "group_id": "credentials-scenario-011",
+    "split": "train",
+    "text": "Временный пароль для пользователя student_demo установлен в Example-Snow-832.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-012",
+    "group_id": "credentials-scenario-012",
+    "split": "train",
+    "text": "Скопировал из настроек: SMTP_USER=mail_demo; SMTP_PASSWORD=Example!Mail274.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-013",
+    "group_id": "credentials-scenario-013",
+    "split": "train",
+    "text": "Для демонстрационного VPN: имя sample_vpn, секрет Example-Vpn-904.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-014",
+    "group_id": "credentials-scenario-014",
+    "split": "train",
+    "text": "Вот значение refresh_token: example_only_refresh_f82k19m45v76.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-015",
+    "group_id": "credentials-scenario-015",
+    "split": "train",
+    "text": "Восстановление аккаунта: резервный код входа 0000-1122-3344. Не публикуйте его.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "credentials-016",
+    "group_id": "credentials-scenario-016",
+    "split": "train",
+    "text": "Test service login: demo_operator. Password: ExampleOnly!68. Use both fields to sign in.",
+    "labels": [
+      "credentials"
+    ],
+    "rationale": "Присутствует конкретное значение секрета доступа или пара учётных данных.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-001",
+    "group_id": "normal-scenario-001",
+    "split": "train",
+    "text": "Привет, встречаемся завтра у входа в офис.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-002",
+    "group_id": "normal-scenario-002",
+    "split": "train",
+    "text": "Как поменять пароль в настройках приложения?",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-003",
+    "group_id": "normal-scenario-003",
+    "split": "train",
+    "text": "Для посещения офиса возьмите паспорт с собой.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-004",
+    "group_id": "normal-scenario-004",
+    "split": "train",
+    "text": "Обед стоит 450 рублей, доставка включена.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-005",
+    "group_id": "normal-scenario-005",
+    "split": "train",
+    "text": "Наш публичный тариф — 990 рублей в месяц.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-006",
+    "group_id": "normal-scenario-006",
+    "split": "train",
+    "text": "Логин demo_user можно увидеть в справочнике сотрудников; пароль здесь не указан.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-007",
+    "group_id": "normal-scenario-007",
+    "split": "train",
+    "text": "Не отправляйте номера банковских карт в общий чат.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-008",
+    "group_id": "normal-scenario-008",
+    "split": "train",
+    "text": "На сайте опубликован годовой отчёт: выручка компании 12 млн рублей.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-009",
+    "group_id": "normal-scenario-009",
+    "split": "train",
+    "text": "В шаблоне заявления оставлены пустые поля «серия паспорта» и «номер паспорта».",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-010",
+    "group_id": "normal-scenario-010",
+    "split": "train",
+    "text": "API_TOKEN=${TOKEN_FROM_ENV}; реальное значение подставляется из окружения.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-011",
+    "group_id": "normal-scenario-011",
+    "split": "train",
+    "text": "Приложение сообщает «неверный пароль», войти не получилось.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-012",
+    "group_id": "normal-scenario-012",
+    "split": "train",
+    "text": "Завтра обсудим порядок начисления зарплаты, персональных сумм в повестке нет.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-013",
+    "group_id": "normal-scenario-013",
+    "split": "train",
+    "text": "Номер заказа 123456, серия изделия 0021, отправка в четверг.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-014",
+    "group_id": "normal-scenario-014",
+    "split": "train",
+    "text": "В учебной инструкции пример логина — sample_user; никаких данных для входа не приводится.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-015",
+    "group_id": "normal-scenario-015",
+    "split": "train",
+    "text": "Контакт поддержки: help@example.invalid. Напишите о проблеме с оплатой.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  },
+  {
+    "id": "normal-016",
+    "group_id": "normal-scenario-016",
+    "split": "train",
+    "text": "Password field is empty. Please request a reset link from the administrator.",
+    "labels": [],
+    "rationale": "Нет передаваемых защищаемых значений в рамках выбранной разметки; одно упоминание темы не считается утечкой.",
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional"
+  }
+]

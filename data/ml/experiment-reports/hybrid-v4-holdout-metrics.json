@@ -1,0 +1,312 @@
+{
+  "ml": {
+    "per_label": {
+      "financial": {
+        "tp": 15,
+        "fp": 2,
+        "fn": 3,
+        "tn": 40,
+        "precision": 0.8823529411764706,
+        "recall": 0.8333333333333334,
+        "f1": 0.8571428571428571,
+        "f2": 0.8426966292134831
+      },
+      "passport": {
+        "tp": 17,
+        "fp": 3,
+        "fn": 0,
+        "tn": 40,
+        "precision": 0.85,
+        "recall": 1.0,
+        "f1": 0.918918918918919,
+        "f2": 0.9659090909090909
+      },
+      "credentials": {
+        "tp": 12,
+        "fp": 2,
+        "fn": 7,
+        "tn": 39,
+        "precision": 0.8571428571428571,
+        "recall": 0.631578947368421,
+        "f1": 0.7272727272727273,
+        "f2": 0.6666666666666666
+      }
+    },
+    "any_sensitive": {
+      "tp": 44,
+      "fp": 5,
+      "fn": 4,
+      "tn": 7,
+      "precision": 0.8979591836734694,
+      "recall": 0.9166666666666666,
+      "f1": 0.9072164948453608,
+      "f2": 0.9128630705394191
+    },
+    "normal_count": 12,
+    "normal_false_alarms": 5,
+    "exact_match_count": 45,
+    "count": 60,
+    "median_ms": 0.06205099998624064,
+    "max_ms": 0.29057400001875067,
+    "errors": [
+      {
+        "id": "v4-financial-11",
+        "expected": [
+          "financial"
+        ],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-credentials-06",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "v4-credentials-08",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "v4-normal-02",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-normal-05",
+        "expected": [],
+        "predicted": [
+          "credentials"
+        ]
+      },
+      {
+        "id": "v4-normal-06",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "v4-normal-08",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-normal-12",
+        "expected": [],
+        "predicted": [
+          "credentials"
+        ]
+      },
+      {
+        "id": "v4-mixed-02",
+        "expected": [
+          "credentials",
+          "financial"
+        ],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "v4-mixed-03",
+        "expected": [
+          "passport",
+          "credentials"
+        ],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-mixed-04",
+        "expected": [
+          "financial",
+          "passport",
+          "credentials"
+        ],
+        "predicted": [
+          "financial",
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-mixed-09",
+        "expected": [
+          "passport",
+          "financial"
+        ],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v4-mixed-10",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "v4-mixed-11",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "v4-mixed-12",
+        "expected": [
+          "financial"
+        ],
+        "predicted": []
+      }
+    ],
+    "target_met": false
+  },
+  "rules": {
+    "per_label": {
+      "financial": {
+        "tp": 17,
+        "fp": 0,
+        "fn": 1,
+        "tn": 42,
+        "precision": 1.0,
+        "recall": 0.9444444444444444,
+        "f1": 0.9714285714285714,
+        "f2": 0.9550561797752809
+      },
+      "passport": {
+        "tp": 17,
+        "fp": 0,
+        "fn": 0,
+        "tn": 43,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "f2": 1.0
+      },
+      "credentials": {
+        "tp": 18,
+        "fp": 0,
+        "fn": 1,
+        "tn": 41,
+        "precision": 1.0,
+        "recall": 0.9473684210526315,
+        "f1": 0.972972972972973,
+        "f2": 0.9574468085106383
+      }
+    },
+    "any_sensitive": {
+      "tp": 46,
+      "fp": 0,
+      "fn": 2,
+      "tn": 12,
+      "precision": 1.0,
+      "recall": 0.9583333333333334,
+      "f1": 0.9787234042553191,
+      "f2": 0.9663865546218487
+    },
+    "normal_count": 12,
+    "normal_false_alarms": 0,
+    "exact_match_count": 58,
+    "count": 60,
+    "median_ms": 0.0828455000601025,
+    "max_ms": 0.5767119998836279,
+    "errors": [
+      {
+        "id": "v4-financial-01",
+        "expected": [
+          "financial"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "v4-credentials-06",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      }
+    ],
+    "target_met": true
+  },
+  "hybrid": {
+    "per_label": {
+      "financial": {
+        "tp": 17,
+        "fp": 0,
+        "fn": 1,
+        "tn": 42,
+        "precision": 1.0,
+        "recall": 0.9444444444444444,
+        "f1": 0.9714285714285714,
+        "f2": 0.9550561797752809
+      },
+      "passport": {
+        "tp": 17,
+        "fp": 0,
+        "fn": 0,
+        "tn": 43,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "f2": 1.0
+      },
+      "credentials": {
+        "tp": 18,
+        "fp": 0,
+        "fn": 1,
+        "tn": 41,
+        "precision": 1.0,
+        "recall": 0.9473684210526315,
+        "f1": 0.972972972972973,
+        "f2": 0.9574468085106383
+      }
+    },
+    "any_sensitive": {
+      "tp": 46,
+      "fp": 0,
+      "fn": 2,
+      "tn": 12,
+      "precision": 1.0,
+      "recall": 0.9583333333333334,
+      "f1": 0.9787234042553191,
+      "f2": 0.9663865546218487
+    },
+    "normal_count": 12,
+    "normal_false_alarms": 0,
+    "exact_match_count": 58,
+    "count": 60,
+    "median_ms": 0.13611699989724002,
+    "max_ms": 0.23786299993844295,
+    "errors": [
+      {
+        "id": "v4-financial-01",
+        "expected": [
+          "financial"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "v4-credentials-06",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      }
+    ],
+    "target_met": true
+  }
+}

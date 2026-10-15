@@ -1,0 +1,110 @@
+[
+  {
+    "id": "review-01",
+    "text": "Мне предлагают зарплату 90000 рублей, как оценить предложение?",
+    "proposed_labels": [
+      "financial"
+    ],
+    "question": "Считать ли личное обсуждение своей зарплаты защищаемой финансовой информацией?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-02",
+    "text": "Счёт к оплате за общедоступный курс: 12000 рублей.",
+    "proposed_labels": [],
+    "question": "Нужно ли выявлять любой счёт или только реквизиты и внутренние расчёты?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-03",
+    "text": "Логин сотрудника: sample_user.",
+    "proposed_labels": [],
+    "question": "Должен ли один логин без пароля считаться защищаемыми данными?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-04",
+    "text": "Пример надёжного пароля для учебника: Example!Oak123.",
+    "proposed_labels": [
+      "credentials"
+    ],
+    "question": "Выявлять ли явно учебные примеры паролей так же, как настоящие?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-05",
+    "text": "Номер документа: 0012345678.",
+    "proposed_labels": [],
+    "question": "Достаточно ли числа без указания типа документа для предупреждения?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-06",
+    "text": "Паспорт выдан 12.04.2020; серия и номер удалены.",
+    "proposed_labels": [],
+    "question": "Защищаем только серию/номер или любые сведения из паспорта?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-07",
+    "text": "Последние четыре цифры карты — 9012.",
+    "proposed_labels": [],
+    "question": "Относить ли частично скрытые реквизиты к защищаемым?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-08",
+    "text": "До конца месяца нам нужен бюджет 200000 рублей.",
+    "proposed_labels": [],
+    "question": "Считать ли внутренний план бюджета чувствительным без явного указания на конфиденциальность?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-09",
+    "text": "Пароль: ********. Пользователь: sample_user.",
+    "proposed_labels": [],
+    "question": "Считать ли маску пароля безопасной при наличии логина?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-10",
+    "text": "Учебнов: паспорт 00 01 № 234567; начислено 82000 рублей.",
+    "proposed_labels": [
+      "passport",
+      "financial"
+    ],
+    "question": "Подтвердить, что один текст может иметь несколько категорий.",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-11",
+    "text": "Оплати с карты 0000 1234 5678 9012; пароль кабинета Example!Bank42.",
+    "proposed_labels": [
+      "financial",
+      "credentials"
+    ],
+    "question": "Подтвердить совместную разметку финансовых данных и секрета доступа.",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  },
+  {
+    "id": "review-12",
+    "text": "Одноразовый код входа 001122.",
+    "proposed_labels": [
+      "credentials"
+    ],
+    "question": "Включать ли одноразовые коды и резервные коды в защищаемые данные доступа?",
+    "review_status": "pending",
+    "source": "handwritten_synthetic"
+  }
+]

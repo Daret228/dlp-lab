@@ -1,0 +1,17 @@
+{
+  "model_sha256": "193f60212f7d7df6382a103dad5b223a4b17105327cbd9463a85a76a6374a1b4",
+  "sha256": {
+    "src/dlp/ml_baseline.py": "523a35774e78c1c7795d9a12d0f7bed651c7301d135a71c96800094f342e8449",
+    "src/dlp/sensitive_values.py": "029c14f183c410444ab3047c76d95e4a8b8f2a07be1ab3d49ec8d1c5bc8dcfc7",
+    "src/dlp/sensitive_values_v4.py": "236eb923cf9c50451976eccf75b00a9e21899364004ced3763580f213d2c4255",
+    "scripts/evaluate-ml-hybrid.py": "5d46dd2d523a172e2dd0fd2527e39395ea1f6cc5f6af2e63c8e4a9c4dbb99a19",
+    "scripts/evaluate-ml-hybrid-v4.py": "eb3e778a63f99a0b73a067a3578591dac241d6bf674cb047c8f715bcd05c3f0f",
+    "data/ml/holdout-v4/test.json": "7f9a361b786c87af4c63af7cd8626a946098cea5453b60ab4a6d609365904ca9"
+  },
+  "targets": {
+    "per_label_precision_min": 0.9,
+    "per_label_recall_min": 0.9,
+    "normal_false_alarm_rate_max": 0.05
+  },
+  "note": "ML weights and thresholds unchanged from v3; only rule binding improved using development/unit cases."
+}

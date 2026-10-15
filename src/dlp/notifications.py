@@ -1,4 +1,6 @@
 """Desktop warning delivery with explicit, auditable outcome."""
+import os
+from pathlib import Path
 import shutil
 import subprocess
 
@@ -19,7 +21,13 @@ def desktop_warning(decision):
                    '--method', 'org.freedesktop.Notifications.Notify',
                    'DLP Lab', '0', '', title, body, '[]', "{'urgency': <byte 2>}", '10000']
     try:
-        result = subprocess.run(command, timeout=5, check=False,
+        env = dict(os.environ)
+        # The fixed gateway clears the environment before dropping privileges.
+        # Reconnect only to this UID's standard session bus.
+        bus = Path(f"/run/user/{os.getuid()}/bus")
+        if not env.get("DBUS_SESSION_BUS_ADDRESS") and bus.exists() and bus.stat().st_uid == os.getuid():
+            env["DBUS_SESSION_BUS_ADDRESS"] = "unix:path=" + str(bus)
+        result = subprocess.run(command, timeout=5, check=False, env=env,
                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         return 'accepted' if result.returncode == 0 else 'failed'
     except subprocess.TimeoutExpired:

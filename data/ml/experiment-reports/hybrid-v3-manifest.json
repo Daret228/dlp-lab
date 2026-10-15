@@ -1,0 +1,230 @@
+{
+  "model_sha256": "193f60212f7d7df6382a103dad5b223a4b17105327cbd9463a85a76a6374a1b4",
+  "input_sha256": {
+    "data/ml/synthetic-v2/train.json": "c3b9b203b535d8e723610d3e5025241db997ba252c3c34db710be74765329264",
+    "data/ml/contrast-v3/train.json": "065dabb2ddaef596856ed7e535e3b63a5680846a830b8c77162dd71f14db4539",
+    "data/ml/synthetic-v2/dev.json": "81cdca37a565f1fbe247b1d8c2b8cada781a6ff2b9d7642c50a2858cd1ce367c"
+  },
+  "code_sha256": {
+    "src/dlp/ml_baseline.py": "523a35774e78c1c7795d9a12d0f7bed651c7301d135a71c96800094f342e8449",
+    "src/dlp/sensitive_values.py": "029c14f183c410444ab3047c76d95e4a8b8f2a07be1ab3d49ec8d1c5bc8dcfc7",
+    "scripts/evaluate-ml-hybrid.py": "5d46dd2d523a172e2dd0fd2527e39395ea1f6cc5f6af2e63c8e4a9c4dbb99a19"
+  },
+  "holdout_sha256": "66153f15214cfeb961b93f547f48ade8b2b0b6147bf72ee65849259678abf915",
+  "train_count": 140,
+  "dev_count": 26,
+  "targets": {
+    "per_label_precision_min": 0.9,
+    "per_label_recall_min": 0.9,
+    "normal_false_alarm_rate_max": 0.05
+  },
+  "dev": {
+    "ml": {
+      "per_label": {
+        "financial": {
+          "tp": 8,
+          "fp": 1,
+          "fn": 0,
+          "tn": 17,
+          "precision": 0.8888888888888888,
+          "recall": 1.0,
+          "f1": 0.9411764705882353,
+          "f2": 0.975609756097561
+        },
+        "passport": {
+          "tp": 7,
+          "fp": 2,
+          "fn": 0,
+          "tn": 17,
+          "precision": 0.7777777777777778,
+          "recall": 1.0,
+          "f1": 0.875,
+          "f2": 0.9459459459459459
+        },
+        "credentials": {
+          "tp": 6,
+          "fp": 2,
+          "fn": 1,
+          "tn": 17,
+          "precision": 0.75,
+          "recall": 0.8571428571428571,
+          "f1": 0.8,
+          "f2": 0.8333333333333334
+        }
+      },
+      "any_sensitive": {
+        "tp": 20,
+        "fp": 5,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.8888888888888888,
+        "f2": 0.9523809523809523
+      },
+      "normal_count": 6,
+      "normal_false_alarms": 5,
+      "exact_match_count": 20,
+      "count": 26,
+      "median_ms": 0.09156649997521527,
+      "max_ms": 0.28444700001273304,
+      "errors": [
+        {
+          "id": "normal-017",
+          "expected": [],
+          "predicted": [
+            "financial"
+          ]
+        },
+        {
+          "id": "normal-018",
+          "expected": [],
+          "predicted": [
+            "passport"
+          ]
+        },
+        {
+          "id": "normal-019",
+          "expected": [],
+          "predicted": [
+            "credentials"
+          ]
+        },
+        {
+          "id": "v2-normal-009",
+          "expected": [],
+          "predicted": [
+            "credentials"
+          ]
+        },
+        {
+          "id": "v2-normal-010",
+          "expected": [],
+          "predicted": [
+            "passport"
+          ]
+        },
+        {
+          "id": "v2-mixed-010",
+          "expected": [
+            "financial",
+            "credentials"
+          ],
+          "predicted": [
+            "financial"
+          ]
+        }
+      ]
+    },
+    "rules": {
+      "per_label": {
+        "financial": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 1,
+          "tn": 18,
+          "precision": 1.0,
+          "recall": 0.875,
+          "f1": 0.9333333333333333,
+          "f2": 0.8974358974358975
+        },
+        "passport": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0
+        },
+        "credentials": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0
+        }
+      },
+      "any_sensitive": {
+        "tp": 19,
+        "fp": 0,
+        "fn": 1,
+        "tn": 6,
+        "precision": 1.0,
+        "recall": 0.95,
+        "f1": 0.9743589743589743,
+        "f2": 0.9595959595959596
+      },
+      "normal_count": 6,
+      "normal_false_alarms": 0,
+      "exact_match_count": 25,
+      "count": 26,
+      "median_ms": 0.07632900008047727,
+      "max_ms": 0.5432299999483803,
+      "errors": [
+        {
+          "id": "financial-017",
+          "expected": [
+            "financial"
+          ],
+          "predicted": []
+        }
+      ]
+    },
+    "hybrid": {
+      "per_label": {
+        "financial": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 0,
+          "tn": 18,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0
+        },
+        "passport": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0
+        },
+        "credentials": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0
+        }
+      },
+      "any_sensitive": {
+        "tp": 20,
+        "fp": 0,
+        "fn": 0,
+        "tn": 6,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "f2": 1.0
+      },
+      "normal_count": 6,
+      "normal_false_alarms": 0,
+      "exact_match_count": 26,
+      "count": 26,
+      "median_ms": 0.16150200002584825,
+      "max_ms": 0.3701010000440874,
+      "errors": []
+    }
+  }
+}

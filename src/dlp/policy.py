@@ -46,7 +46,12 @@ def load_policy(path: str | Path) -> dict:
             raise PolicyError("Policy exceeds 256 KiB")
         p = yaml.load(Path(path).read_text(encoding="utf-8"), Loader=StrictLoader)
         required = ("version", "thresholds", "weights", "limits", "on_error", "rules")
-        keys(p, required + (("file_types",) if isinstance(p, dict) and "file_types" in p else ()))
+        keys(p, required + tuple(k for k in ("file_types", "sensitive_alerts") if isinstance(p, dict) and k in p))
+        if "sensitive_alerts" in p:
+            cfg = p["sensitive_alerts"]
+            keys(cfg, ("enabled", "mode", "action"))
+            if type(cfg["enabled"]) is not bool or cfg["mode"] != "rules" or cfg["action"] != "WARN":
+                raise PolicyError("sensitive_alerts supports boolean enabled, mode rules, action WARN only")
         if "file_types" in p:
             file_types = p["file_types"]
             keys(file_types, ("allow", "deny"))

@@ -1,0 +1,398 @@
+[
+  {
+    "id": "contrast-01-positive",
+    "group_id": "contrast-01",
+    "split": "train",
+    "text": "Паспортные данные: серия 00 51 номер 384726.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-01-negative",
+    "group_id": "contrast-01",
+    "split": "train",
+    "text": "Паспортные данные в этом сообщении не указаны.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-02-positive",
+    "group_id": "contrast-02",
+    "split": "train",
+    "text": "В анкете указан паспорт 0052 273615.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-02-negative",
+    "group_id": "contrast-02",
+    "split": "train",
+    "text": "В анкете попросили указать паспорт, но поле пока пустое.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-03-positive",
+    "group_id": "contrast-03",
+    "split": "train",
+    "text": "Для поездки записан загранпаспорт 00 № 9182736.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-03-negative",
+    "group_id": "contrast-03",
+    "split": "train",
+    "text": "Для поездки потребуется действующий загранпаспорт.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-04-positive",
+    "group_id": "contrast-04",
+    "split": "train",
+    "text": "Серия паспорта 00 53, номер 162504.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-04-negative",
+    "group_id": "contrast-04",
+    "split": "train",
+    "text": "Серия паспорта скрыта, номер документа удалён.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-05-positive",
+    "group_id": "contrast-05",
+    "split": "train",
+    "text": "В заявлении паспорт 0054 № 051493.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-05-negative",
+    "group_id": "contrast-05",
+    "split": "train",
+    "text": "Заявление объясняет, какие сведения есть в паспорте.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-06-positive",
+    "group_id": "contrast-06",
+    "split": "train",
+    "text": "Паспорт посетителя: 00 55 940382.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-06-negative",
+    "group_id": "contrast-06",
+    "split": "train",
+    "text": "Посетитель забыл паспорт дома.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-07-positive",
+    "group_id": "contrast-07",
+    "split": "train",
+    "text": "Пароль кабинета: W8q!3nR6vK.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-07-negative",
+    "group_id": "contrast-07",
+    "split": "train",
+    "text": "Пароль кабинета нужно заменить.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-08-positive",
+    "group_id": "contrast-08",
+    "split": "train",
+    "text": "DB_PASSWORD=C6r!9wN2qT",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-08-negative",
+    "group_id": "contrast-08",
+    "split": "train",
+    "text": "DB_PASSWORD=<removed>",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-09-positive",
+    "group_id": "contrast-09",
+    "split": "train",
+    "text": "Вставь ключ API: n7Q3rW8tM2kV6pL9.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-09-negative",
+    "group_id": "contrast-09",
+    "split": "train",
+    "text": "Вставь ключ API из защищённого хранилища.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-10-positive",
+    "group_id": "contrast-10",
+    "split": "train",
+    "text": "Имя lab_writer, пароль H9w#2qN5rT.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-10-negative",
+    "group_id": "contrast-10",
+    "split": "train",
+    "text": "Имя lab_writer, пароль не передаю.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-11-positive",
+    "group_id": "contrast-11",
+    "split": "train",
+    "text": "Для входа используй одноразовый код 009731.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-11-negative",
+    "group_id": "contrast-11",
+    "split": "train",
+    "text": "Для входа запроси одноразовый код.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-12-positive",
+    "group_id": "contrast-12",
+    "split": "train",
+    "text": "Пароль лабораторного архива — timbervioletcloud.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-12-negative",
+    "group_id": "contrast-12",
+    "split": "train",
+    "text": "Пароль лабораторного архива здесь не указан.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-13-positive",
+    "group_id": "contrast-13",
+    "split": "train",
+    "text": "Оклад сотрудника К-85 составляет 98300 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-13-negative",
+    "group_id": "contrast-13",
+    "split": "train",
+    "text": "В публичной вакансии указан оклад 98300 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-14-positive",
+    "group_id": "contrast-14",
+    "split": "train",
+    "text": "В личной выписке остаток на счёте 31700 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-14-negative",
+    "group_id": "contrast-14",
+    "split": "train",
+    "text": "В учебнике объясняется, что такое остаток на счёте.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-15-positive",
+    "group_id": "contrast-15",
+    "split": "train",
+    "text": "Реквизиты карты: 0000 3748 1926 5061.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-15-negative",
+    "group_id": "contrast-15",
+    "split": "train",
+    "text": "Реквизиты карты в отчёте полностью скрыты.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-16-positive",
+    "group_id": "contrast-16",
+    "split": "train",
+    "text": "Долг заявителя по договору 182600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-16-negative",
+    "group_id": "contrast-16",
+    "split": "train",
+    "text": "Обсудим правила погашения долга по договору.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-17-positive",
+    "group_id": "contrast-17",
+    "split": "train",
+    "text": "Для финансового отдела: наша себестоимость заказа 41600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-17-negative",
+    "group_id": "contrast-17",
+    "split": "train",
+    "text": "На витрине указана цена заказа 41600 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-18-positive",
+    "group_id": "contrast-18",
+    "split": "train",
+    "text": "Карта сотрудника: 0000837162495061.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  },
+  {
+    "id": "contrast-18-negative",
+    "group_id": "contrast-18",
+    "split": "train",
+    "text": "Карта сотрудника нужна для входа в офис, банковских данных на ней нет.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "annotation_status": "provisional",
+    "rationale": "Контраст между передачей конкретного значения и обсуждением темы/маской/публичной ценой."
+  }
+]

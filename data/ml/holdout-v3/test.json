@@ -1,0 +1,1142 @@
+[
+  {
+    "id": "holdout-financial-001",
+    "text": "По сотруднику К-704: заработная плата за сентябрь 118430 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-001"
+  },
+  {
+    "id": "holdout-financial-002",
+    "text": "Мой ежемесячный доход составляет 67300 руб., задолженность по кредиту 184900 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-002"
+  },
+  {
+    "id": "holdout-financial-003",
+    "text": "Возврат прошу направить на банковскую карту 0000 2648 1937 5062.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-003"
+  },
+  {
+    "id": "holdout-financial-004",
+    "text": "Получатель Примеров Даниил, расчётный счёт 00000374829165028473, банк учебный.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-004"
+  },
+  {
+    "id": "holdout-financial-005",
+    "text": "Из ведомости: работник № 62, начислено 48570 руб., удержано 6240 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-005"
+  },
+  {
+    "id": "holdout-financial-006",
+    "text": "Просроченный долг клиента Л-83 — 238600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-006"
+  },
+  {
+    "id": "holdout-financial-007",
+    "text": "Сотруднице Макетовой перечислена премия в размере 36400 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-007"
+  },
+  {
+    "id": "holdout-financial-008",
+    "text": "Личная выписка: баланс счёта 157820 руб., операция списания 3280 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-008"
+  },
+  {
+    "id": "holdout-financial-009",
+    "text": "Закрытая смета для директора: расходы отдела 913000 руб.; до публикации не распространять.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-009"
+  },
+  {
+    "id": "holdout-financial-010",
+    "text": "Financial profile for client Z-23: monthly salary RUB 82300; personal debt RUB 196000.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-010"
+  },
+  {
+    "id": "holdout-financial-011",
+    "text": "Платёжные данные: БИК 000000007, счёт получателя 00000817263549018273.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-011"
+  },
+  {
+    "id": "holdout-financial-012",
+    "text": "Карта для перечисления: 0000384716295061.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-012"
+  },
+  {
+    "id": "holdout-financial-013",
+    "text": "По делу заёмщика: остаток кредита 389450 руб., платёж 19620 руб. ежемесячно.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-013"
+  },
+  {
+    "id": "holdout-financial-014",
+    "text": "Внутренний финансовый отчёт: прибыль 1640000 рублей, затраты 837000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-014"
+  },
+  {
+    "id": "holdout-financial-015",
+    "text": "Табельный номер 109; отпускные 59820 рублей, к выплате 52044 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-015"
+  },
+  {
+    "id": "holdout-financial-016",
+    "text": "Справка: гражданину Учебнову назначено пособие 19470 рублей в месяц.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-016"
+  },
+  {
+    "id": "holdout-financial-017",
+    "text": "Реквизиты: личный банковский счёт 00000263948517026394.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-017"
+  },
+  {
+    "id": "holdout-financial-018",
+    "text": "Непубличная себестоимость партии — 271000 рублей, маржа по закрытому контракту — 19%.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-018"
+  },
+  {
+    "id": "holdout-financial-019",
+    "text": "Клиенту Примеровой одобрен кредит 731000 рублей. Её официальный доход — 92400 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-019"
+  },
+  {
+    "id": "holdout-financial-020",
+    "text": "Мой оклад — 105000 рублей, премия — 16000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-020"
+  },
+  {
+    "id": "holdout-financial-021",
+    "text": "Сводка взысканий: должник Макетов, задолженность 74900 руб., просрочка 28 дней.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-021"
+  },
+  {
+    "id": "holdout-financial-022",
+    "text": "Платёж работнику С-17: компенсация лечения 23500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-022"
+  },
+  {
+    "id": "holdout-financial-023",
+    "text": "Возвращать на карту: 0000-9274-1638-5026, получатель Учебнова.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-023"
+  },
+  {
+    "id": "holdout-financial-024",
+    "text": "Внутренний реестр содержит сумму гонорара исполнителя 143800 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-024"
+  },
+  {
+    "id": "holdout-financial-025",
+    "text": "Bank account for the recipient: 00000928174635091827.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-025"
+  },
+  {
+    "id": "holdout-financial-026",
+    "text": "Зарплатная ведомость\nПримеров\nНачислено: 112600 руб.\nУдержано: 14638 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-026"
+  },
+  {
+    "id": "holdout-financial-027",
+    "text": "Счёт клиента по данным банка: остаток 69100 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-027"
+  },
+  {
+    "id": "holdout-financial-028",
+    "text": "Номер карты работника записан так: 0000  1836  4927  5061.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-028"
+  },
+  {
+    "id": "holdout-financial-029",
+    "text": "Для финансового отдела: неопубликованная выручка за неделю 873000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-029"
+  },
+  {
+    "id": "holdout-financial-030",
+    "text": "По его договору займа осталось выплатить 45300 рублей; сведения из личного дела.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-financial-030"
+  },
+  {
+    "id": "holdout-passport-001",
+    "text": "У посетителя Макетова паспорт серии 00 61 номер 728194.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-001"
+  },
+  {
+    "id": "holdout-passport-002",
+    "text": "Паспортные реквизиты: 0062 617283.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-002"
+  },
+  {
+    "id": "holdout-passport-003",
+    "text": "Документ заявителя — паспорт; серия: 00 63; номер: 506172.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-003"
+  },
+  {
+    "id": "holdout-passport-004",
+    "text": "В карточке работника указан паспорт 00-64 № 495061.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-004"
+  },
+  {
+    "id": "holdout-passport-005",
+    "text": "Доверитель Примерова, паспорт Российской Федерации 0065 № 384950.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-005"
+  },
+  {
+    "id": "holdout-passport-006",
+    "text": "Данные удостоверения личности: паспорт, 00 66 273849.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-006"
+  },
+  {
+    "id": "holdout-passport-007",
+    "text": "Заграничный паспорт пассажира: 00 № 1827364.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-007"
+  },
+  {
+    "id": "holdout-passport-008",
+    "text": "Скан переписан: ПАСПОРТ ГРАЖДАНИНА РФ\nСЕРИЯ 00 67\nНОМЕР 162738.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-008"
+  },
+  {
+    "id": "holdout-passport-009",
+    "text": "Анкета туриста: загранпаспорт 001927364.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-009"
+  },
+  {
+    "id": "holdout-passport-010",
+    "text": "Passport details: series 00, number 2837465, holder SAMPLE CITIZEN.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-010"
+  },
+  {
+    "id": "holdout-passport-011",
+    "text": "Для оформления доверенности серия паспорта 0068, номер 051627.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-011"
+  },
+  {
+    "id": "holdout-passport-012",
+    "text": "У Примерова паспорт 00 69 940516, выдан учебным органом.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-012"
+  },
+  {
+    "id": "holdout-passport-013",
+    "text": "Подписант договора предъявил паспорт № 0060837264.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-013"
+  },
+  {
+    "id": "holdout-passport-014",
+    "text": "Паспорт: серия — 00 70; номер — 839405.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-014"
+  },
+  {
+    "id": "holdout-passport-015",
+    "text": "Билет оформлен на документ «паспорт РФ», номер 0071728394.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-015"
+  },
+  {
+    "id": "holdout-passport-016",
+    "text": "Строка из реестра гостей: паспорт 00 72 № 617283.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-016"
+  },
+  {
+    "id": "holdout-passport-017",
+    "text": "Паспортные данные клиента: 0073 / 506172.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-017"
+  },
+  {
+    "id": "holdout-passport-018",
+    "text": "Удостоверяющий документ в заявлении: паспорт, серия 00 74, № 495061.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-018"
+  },
+  {
+    "id": "holdout-passport-019",
+    "text": "Кадры просят сверить паспорт работника: 0075 384950.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-019"
+  },
+  {
+    "id": "holdout-passport-020",
+    "text": "Для договора страхования передаю паспорт 00 76 № 273849.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-020"
+  },
+  {
+    "id": "holdout-passport-021",
+    "text": "Загранпаспорт доверителя: серия 00 номер 3748291.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-021"
+  },
+  {
+    "id": "holdout-passport-022",
+    "text": "Анкета содержит паспортные реквизиты: серия 0077, номер 162738.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-022"
+  },
+  {
+    "id": "holdout-passport-023",
+    "text": "Паспорт Макетовой: 00 78 051627; дата выдачи 18 марта 2020 года.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-023"
+  },
+  {
+    "id": "holdout-passport-024",
+    "text": "В заявлении значится паспорт 0079-940516.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-024"
+  },
+  {
+    "id": "holdout-passport-025",
+    "text": "Паспорт гражданина России, серия 00 80, шестизначный номер 839405.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-025"
+  },
+  {
+    "id": "holdout-passport-026",
+    "text": "Регистрационная запись: тип документа PASSPORT; serial 00; number 4859372.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-026"
+  },
+  {
+    "id": "holdout-passport-027",
+    "text": "Из разворота паспорта переписаны 0081 и 728394 — серия и номер соответственно.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-027"
+  },
+  {
+    "id": "holdout-passport-028",
+    "text": "Для нотариуса: паспорт Учебновой 00 82 № 617283.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-028"
+  },
+  {
+    "id": "holdout-passport-029",
+    "text": "Реквизиты паспорта руководителя организации: 0083 506172.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-029"
+  },
+  {
+    "id": "holdout-passport-030",
+    "text": "В листе согласования есть паспорт подписанта: серия 00 84 номер 495061.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-passport-030"
+  },
+  {
+    "id": "holdout-credentials-001",
+    "text": "Пароль от тестового портала: L7w!2qR9vM.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-001"
+  },
+  {
+    "id": "holdout-credentials-002",
+    "text": "Логин lab_shift, пароль D8n#3rK6tP.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-002"
+  },
+  {
+    "id": "holdout-credentials-003",
+    "text": "В файле настроек API_KEY = \"y6R2kN9wQ4mT8pV3\".",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-003"
+  },
+  {
+    "id": "holdout-credentials-004",
+    "text": "AUTH_TOKEN=q4N8wR2kM6vT9pL3",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-004"
+  },
+  {
+    "id": "holdout-credentials-005",
+    "text": "Для учебной БД установлены user=lab_db и password=W3q!9rN6vK.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-005"
+  },
+  {
+    "id": "holdout-credentials-006",
+    "text": "Секрет входа в лабораторный сервис — E7m#4pT2wQ.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-006"
+  },
+  {
+    "id": "holdout-credentials-007",
+    "text": "Открой архив с паролем C9r!6vK3mN.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-007"
+  },
+  {
+    "id": "holdout-credentials-008",
+    "text": "Код входа в учебный аккаунт: 008419.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-008"
+  },
+  {
+    "id": "holdout-credentials-009",
+    "text": "В резерве остался код восстановления 0000-6382-1947.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-009"
+  },
+  {
+    "id": "holdout-credentials-010",
+    "text": "Bearer token for mock service: z8Q3nR6wT2kM9vL4.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-010"
+  },
+  {
+    "id": "holdout-credentials-011",
+    "text": "Значение client_secret: a4W9rN2qT6vK8mP3.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-011"
+  },
+  {
+    "id": "holdout-credentials-012",
+    "text": "Пароль служебного Wi-Fi — P6t!3nL9wR.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-012"
+  },
+  {
+    "id": "holdout-credentials-013",
+    "text": "Учебный кабинет открывается с логином sample_gate и паролем R2k#8mV5qN.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-013"
+  },
+  {
+    "id": "holdout-credentials-014",
+    "text": "Строка подключения: mysql://lab:X7p!4nR2qM@db.example.invalid/demo",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-014"
+  },
+  {
+    "id": "holdout-credentials-015",
+    "text": "SMTP_PASSWORD=\"K5w!9qN3rT\"",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-015"
+  },
+  {
+    "id": "holdout-credentials-016",
+    "text": "В поле пароля впиши amberriverstone.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-016"
+  },
+  {
+    "id": "holdout-credentials-017",
+    "text": "Пароль к макету: 48192637.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-017"
+  },
+  {
+    "id": "holdout-credentials-018",
+    "text": "bot_token: example_only_328471_labtoken",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-018"
+  },
+  {
+    "id": "holdout-credentials-019",
+    "text": "Подпись запросов на стенде выполняется ключом signing_secret=n8R3wQ6kT2vM9pL4.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-019"
+  },
+  {
+    "id": "holdout-credentials-020",
+    "text": "Учётка для демонстрации: login=lab_observer; passphrase=F4m!7qR2vN.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-020"
+  },
+  {
+    "id": "holdout-credentials-021",
+    "text": "One-time login code: 005739.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-021"
+  },
+  {
+    "id": "holdout-credentials-022",
+    "text": "Для тестового сервера пароль равен H2v#8kM4rQ.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-022"
+  },
+  {
+    "id": "holdout-credentials-023",
+    "text": "В настройках есть refresh_token: b7N2wR9qT4mK6vP3.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-023"
+  },
+  {
+    "id": "holdout-credentials-024",
+    "text": "Авторизация стенда: Authorization: Bearer c8R3wQ6nT2kM9vL4.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-024"
+  },
+  {
+    "id": "holdout-credentials-025",
+    "text": "Пользователь lab_report; секрет для входа записан как V9q!2mR7nK.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-025"
+  },
+  {
+    "id": "holdout-credentials-026",
+    "text": "Пароль в учебном примере приложения установлен в G6r#3wN8qT.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-026"
+  },
+  {
+    "id": "holdout-credentials-027",
+    "text": "Передаю резервный код входа: 0000  4718  2936.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-027"
+  },
+  {
+    "id": "holdout-credentials-028",
+    "text": "Ключ доступа к API макета: d9W4rN7qT2vK6mP3.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-028"
+  },
+  {
+    "id": "holdout-credentials-029",
+    "text": "В конфиге сохранено DB_PASSWORD = S3n!8wR6qK.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-029"
+  },
+  {
+    "id": "holdout-credentials-030",
+    "text": "Для аккаунта lab_case назначена секретная фраза \"violet timber meadow\".",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-credentials-030"
+  },
+  {
+    "id": "holdout-normal-001",
+    "text": "Обнови пароль перед выходом из отпуска.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-001"
+  },
+  {
+    "id": "holdout-normal-002",
+    "text": "Паспорт потребуется при заселении; номер сообщать в чате не нужно.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-002"
+  },
+  {
+    "id": "holdout-normal-003",
+    "text": "За чашку кофе просят 260 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-003"
+  },
+  {
+    "id": "holdout-normal-004",
+    "text": "Логин сотрудника lab_shift. Пароль здесь не указан.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-004"
+  },
+  {
+    "id": "holdout-normal-005",
+    "text": "Ключ API истёк, выпусти новый через настройки.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-005"
+  },
+  {
+    "id": "holdout-normal-006",
+    "text": "Инвентарный номер прибора 0062617283.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-006"
+  },
+  {
+    "id": "holdout-normal-007",
+    "text": "Стоимость билета 1850 руб., опубликована на сайте.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-007"
+  },
+  {
+    "id": "holdout-normal-008",
+    "text": "Нужна консультация по вопросу банковской задолженности.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-008"
+  },
+  {
+    "id": "holdout-normal-009",
+    "text": "PASSWORD=[REDACTED]; LOGIN=lab_case.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-009"
+  },
+  {
+    "id": "holdout-normal-010",
+    "text": "Статья рассказывает о защите паспортных данных.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-010"
+  },
+  {
+    "id": "holdout-normal-011",
+    "text": "В магазине скидка 15%, цена после скидки 3400 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-011"
+  },
+  {
+    "id": "holdout-normal-012",
+    "text": "Please reset the account password. No credential is attached.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-012"
+  },
+  {
+    "id": "holdout-normal-013",
+    "text": "Форма заявления: паспорт серия __ __, номер ______.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-013"
+  },
+  {
+    "id": "holdout-normal-014",
+    "text": "Номер заказа 483726; доставить к 18 часам.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-014"
+  },
+  {
+    "id": "holdout-normal-015",
+    "text": "В 2024 году опубликована выручка компании 18 млн рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-015"
+  },
+  {
+    "id": "holdout-normal-016",
+    "text": "API_KEY=${LAB_API_KEY}; подставьте значение из защищённого окружения.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-016"
+  },
+  {
+    "id": "holdout-normal-017",
+    "text": "Удали пароль из журнала и повтори проверку.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-017"
+  },
+  {
+    "id": "holdout-normal-018",
+    "text": "На стенде ошибка 401: требуется токен доступа.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-018"
+  },
+  {
+    "id": "holdout-normal-019",
+    "text": "Серия учебного пособия 0063, тираж 506172 экземпляра.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-019"
+  },
+  {
+    "id": "holdout-normal-020",
+    "text": "Пароль скрыт символами ********, восстановить его из сообщения нельзя.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-020"
+  },
+  {
+    "id": "holdout-normal-021",
+    "text": "Таблица умножения распечатана на 30 листах; стоимость печати 180 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-021"
+  },
+  {
+    "id": "holdout-normal-022",
+    "text": "Bank card details must never be shared publicly.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-022"
+  },
+  {
+    "id": "holdout-normal-023",
+    "text": "Для заявления запишите только слово «паспорт», остальные поля оставьте пустыми.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-023"
+  },
+  {
+    "id": "holdout-normal-024",
+    "text": "Согласуем график выплат зарплаты на следующую неделю.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-024"
+  },
+  {
+    "id": "holdout-normal-025",
+    "text": "Токен удалён. Старое значение не сохранено.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-025"
+  },
+  {
+    "id": "holdout-normal-026",
+    "text": "Публичная вакансия: зарплата от 120000 рублей в месяц.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-026"
+  },
+  {
+    "id": "holdout-normal-027",
+    "text": "Программа курса включает финансовый анализ и расчёт прибыли предприятия.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-027"
+  },
+  {
+    "id": "holdout-normal-028",
+    "text": "DB_PASSWORD=<hidden>; DB_USER=lab_db.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-028"
+  },
+  {
+    "id": "holdout-normal-029",
+    "text": "Заряд аккумулятора 84 процента; время работы 6 часов.",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-029"
+  },
+  {
+    "id": "holdout-normal-030",
+    "text": "Как заменить паспорт в 45 лет и сколько стоит госпошлина?",
+    "labels": [],
+    "source": "handwritten_synthetic",
+    "split": "holdout",
+    "group_id": "holdout-normal-030"
+  }
+]
