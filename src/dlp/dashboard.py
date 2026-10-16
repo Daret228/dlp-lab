@@ -1,7 +1,8 @@
-"""Read-only loopback dashboard over a bounded projection of user journald."""
+"""Loopback dashboard over a bounded projection of user journald."""
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import re
 from pathlib import Path
 import secrets
 import subprocess
@@ -10,10 +11,13 @@ import threading
 import time
 from urllib.parse import urlsplit, parse_qs
 from .service import UNITS
+from .policy_store import PolicyStore, Conflict
+from .policy import PolicyError
+from .dashboard_control import MonitorControl, ControlError
 
 ASSETS=Path(__file__).with_name('dashboard_assets')
 MAX_OUTPUT=8*1024*1024
-EVENTS={'analysis','draft_analysis','file_access_attempt','notification_delivery',
+EVENTS={'policy_loaded','analysis','draft_analysis','file_access_attempt','notification_delivery',
         'local_draft_analysis','local_draft_analysis_error','local_check_finished',
         'text_monitor_started','text_monitor_stopped','monitor_started','queue_overflow',
         'export_message_analysis','export_analysis_summary','local_locations_inspection',
@@ -34,6 +38,21 @@ def short(value,limit=120):
     return value[:limit] if isinstance(value,str) else None
 
 
+def hex_id(value,length):
+    return value if isinstance(value,str) and re.fullmatch('[0-9a-f]{'+str(length)+'}',value) else None
+
+
+def attach_policy_versions(modules,events,disk_version):
+    for module in modules:
+        version=None
+        if module['active'] in ('active','activating') and module.get('invocation'):
+            version=next((e['policy_version'] for e in events
+                          if e['event']=='policy_loaded' and e.get('unit')==module['unit']
+                          and e.get('invocation')==module['invocation'] and e.get('policy_version')),None)
+        module['policy_version']=version
+        module['policy_matches_disk']=(version==disk_version) if version and disk_version else None
+
+
 def project(entry):
     """Allowlist projection: never return raw MESSAGE, paths or message text."""
     if not isinstance(entry,dict):return None
@@ -50,6 +69,8 @@ def project(entry):
     metadata=r.get('metadata',{})
     if not isinstance(metadata,dict):metadata={}
     result={
+        'invocation':hex_id(entry.get('_SYSTEMD_INVOCATION_ID'),32),
+        'policy_version':hex_id(e.get('policy_version'),64),
         'timestamp':short(e.get('timestamp'),40), 'event':e['event'],
         'unit':short(entry.get('_SYSTEMD_USER_UNIT'),80),
         'decision':r.get('decision',e.get('decision')),
@@ -96,14 +117,17 @@ class JournalSource:
                 result['errors'].append('Журнал недоступен. Запустите панель из пользовательского сеанса Linux.')
             try:
                 raw=command(['systemctl','--user','show',*UNITS.values(),
-                             '-p','Id','-p','ActiveState','-p','SubState','-p','Result'])
+                             '-p','Id','-p','ActiveState','-p','SubState','-p','Result','-p','InvocationID'])
                 for block in raw.strip().split('\n\n'):
                     fields=dict(line.split('=',1) for line in block.splitlines() if '=' in line)
                     if fields.get('Id') in UNITS.values():
-                        result['modules'].append({'unit':fields['Id'],'active':fields.get('ActiveState','unknown'),
+                        result['modules'].append({'invocation':hex_id(fields.get('InvocationID'),32),'unit':fields['Id'],'active':fields.get('ActiveState','unknown'),
                                                   'sub':fields.get('SubState','unknown'),'result':fields.get('Result','unknown')})
             except (OSError,ValueError,subprocess.TimeoutExpired):
                 result['errors'].append('Состояние модулей недоступно.')
+            try:disk_version=PolicyStore().get()['version']
+            except (OSError,ValueError):disk_version=None
+            attach_policy_versions(result['modules'],result['events'],disk_version)
             self.cache[days]=(now,result)
             return result
 
@@ -113,6 +137,8 @@ class DashboardServer(ThreadingHTTPServer):
     def __init__(self,port=8765,source=None):
         self.token=secrets.token_urlsafe(32)
         self.source=source or JournalSource()
+        self.policy_store=PolicyStore()
+        self.control=MonitorControl(self.policy_store)
         super().__init__(('127.0.0.1',port),Handler)
 
 
@@ -141,23 +167,58 @@ class Handler(BaseHTTPRequestHandler):
         assets={'/':('index.html','text/html; charset=utf-8'),'/app.js':('app.js','text/javascript; charset=utf-8'),'/style.css':('style.css','text/css; charset=utf-8')}
         if url.path in assets:
             name,mime=assets[url.path];return self.respond(200,(ASSETS/name).read_bytes(),mime)
-        if url.path!='/api/snapshot':return self.respond(404,{'error':'not_found'})
+        if url.path not in ('/api/snapshot','/api/policy'):return self.respond(404,{'error':'not_found'})
         supplied=self.headers.get('Authorization','')
         if not secrets.compare_digest(supplied.encode('utf-8'),('Bearer '+self.server.token).encode('utf-8')):
             return self.respond(401,{'error':'unauthorized'})
+        if url.path=='/api/policy':
+            if url.query:return self.respond(400,{'error':'invalid_query'})
+            try:return self.respond(200,self.server.policy_store.get())
+            except (OSError,ValueError):return self.respond(503,{'error':'policy_unavailable'})
         query=parse_qs(url.query)
         if set(query)-{'days'} or len(query.get('days',['7']))!=1:return self.respond(400,{'error':'invalid_query'})
         value=query.get('days',['7'])[0]
         if value not in ('1','7','30'):return self.respond(400,{'error':'invalid_days'})
         return self.respond(200,self.server.source.snapshot(int(value)))
 
-    def do_POST(self):self.respond(405,{'error':'read_only'})
+    def do_POST(self):
+        if self.path not in ('/api/policy','/api/policy/preview','/api/control'):
+            return self.respond(404,{'error':'not_found'})
+        host=self.headers.get('Host','')
+        if host not in (f'127.0.0.1:{self.server.server_port}',f'localhost:{self.server.server_port}') or self.headers.get('Origin')!=f'http://{host}':
+            return self.respond(403,{'error':'invalid_origin'})
+        if not secrets.compare_digest(self.headers.get('Authorization','').encode(),('Bearer '+self.server.token).encode()):
+            return self.respond(401,{'error':'unauthorized'})
+        try:
+            if self.headers.get('Content-Type')!='application/json' or self.headers.get('Transfer-Encoding'):
+                raise ValueError()
+            lengths=self.headers.get_all('Content-Length',[])
+            if len(lengths)!=1 or not 0<int(lengths[0])<=8192:raise ValueError()
+            self.connection.settimeout(5)
+            def pairs(items):
+                obj={}
+                for key,value in items:
+                    if key in obj:raise ValueError()
+                    obj[key]=value
+                return obj
+            def invalid_constant(value):raise ValueError()
+            request=json.loads(self.rfile.read(int(lengths[0])),object_pairs_hook=pairs,parse_constant=invalid_constant)
+            if self.path=='/api/control':
+                result=self.server.control.execute(request)
+                with self.server.source.lock:self.server.source.cache.clear()
+            else:
+                result=self.server.policy_store.update(request,preview=self.path.endswith('/preview'))
+            return self.respond(200,result)
+        except ControlError as error:return self.respond(409,{'error':'control_failed','message':str(error)})
+        except Conflict:return self.respond(409,{'error':'policy_changed'})
+        except (ValueError,TypeError,OverflowError):return self.respond(400,{'error':'invalid_policy'})
+        except OSError:return self.respond(503,{'error':'policy_write_failed'})
 
 
 def run(port=8765):
     if not 1024<=port<=65535:raise ValueError('Порт должен быть от 1024 до 65535')
     server=DashboardServer(port)
     print(f'Панель: http://127.0.0.1:{port}/#token={server.token}',flush=True)
-    print('Только просмотр. Ctrl+C останавливает панель; агент управляется отдельно.',flush=True)
+    print('События, политика и управление. Ctrl+C останавливает только панель.',flush=True)
     try:server.serve_forever(poll_interval=0.3)
     finally:server.server_close()

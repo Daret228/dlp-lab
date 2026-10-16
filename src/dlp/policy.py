@@ -1,3 +1,4 @@
+import hashlib
 import math
 import re
 from pathlib import Path
@@ -41,10 +42,21 @@ def number(value, minimum=0, maximum=float("inf")):
 
 
 def load_policy(path: str | Path) -> dict:
+    return load_policy_snapshot(path)[0]
+
+
+def load_policy_snapshot(path: str | Path):
+    # Parse and hash the very same bounded read, even if the path is replaced later.
+    with Path(path).open('rb') as stream:
+        raw = stream.read(262145)
+    if len(raw) > 262144:
+        raise PolicyError("Policy exceeds 256 KiB")
+    return parse_policy(raw), hashlib.sha256(raw).hexdigest()
+
+
+def parse_policy(raw):
     try:
-        if Path(path).stat().st_size > 262144:
-            raise PolicyError("Policy exceeds 256 KiB")
-        p = yaml.load(Path(path).read_text(encoding="utf-8"), Loader=StrictLoader)
+        p = yaml.load(raw.decode('utf-8'), Loader=StrictLoader)
         required = ("version", "thresholds", "weights", "limits", "on_error", "rules")
         keys(p, required + tuple(k for k in ("file_types", "sensitive_alerts") if isinstance(p, dict) and k in p))
         if "sensitive_alerts" in p:

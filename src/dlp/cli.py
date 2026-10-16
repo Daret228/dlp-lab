@@ -6,7 +6,7 @@ import sys
 from .analysis import ContentAnalyzer
 from .audit import JsonAudit
 from .models import TextContent, FileContent
-from .policy import load_policy, PolicyError
+from .policy import load_policy, load_policy_snapshot, PolicyError
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     export = sub.add_parser("analyze-export", help="Audit text in a single Telegram JSON chat export")
     export.add_argument("--file", type=Path, required=True)
     sub.add_parser("monitor", help="Internal: launch through fanotify-launcher")
-    dashboard = sub.add_parser("dashboard", help="Локальная веб-панель событий, только просмотр")
+    dashboard = sub.add_parser("dashboard", help="Локальная панель событий, политики и управления")
     dashboard.add_argument("--port", type=int, default=8765)
     processes = sub.add_parser("processes", help="List configured messenger processes of current user")
     processes.add_argument("--config", default="config/processes.yaml")
@@ -92,8 +92,11 @@ def main():
         if args.command == "local-check":
             from .local_job import run_local
             return run_local(args, JsonAudit(sys.stdout))
-        analyzer = ContentAnalyzer(load_policy(args.policy))
+        policy, policy_version = load_policy_snapshot(args.policy)
+        analyzer = ContentAnalyzer(policy)
         audit = JsonAudit(sys.stdout)
+        if args.command in ('text-monitor', 'monitor'):
+            audit.emit({'event': 'policy_loaded', 'policy_version': policy_version})
         if args.command == "notification-test-worker":
             from .notifications import report_warning
             result = analyzer.analyze(TextContent("DLP_TEST коммерческая тайна", source="synthetic_notification_test"))

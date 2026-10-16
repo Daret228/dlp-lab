@@ -49,10 +49,10 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(self.request('/../../config/policy.yaml')[0],404)
         self.assertEqual(self.request('/api/start')[0],404)
 
-    def test_assets_and_no_mutation_route(self):
+    def test_assets_and_unknown_mutation_route(self):
         self.assertEqual(self.request('/',auth='')[0],200)
-        h=object.__new__(Handler);out=[];h.respond=lambda *a:out.append(a)
-        h.do_POST();self.assertEqual(out[0][0],405)
+        h=object.__new__(Handler);h.path='/api/start';out=[];h.respond=lambda *a:out.append(a)
+        h.do_POST();self.assertEqual(out[0][0],404)
 
     def test_journal_source_cache_whitelist_and_status(self):
         log=json.dumps(entry({'event':'draft_analysis','result':{'decision':'WARN'}}))

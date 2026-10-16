@@ -1,12 +1,31 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DLP Lab · События</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
-<body><div class="layout"><aside><a class="brand" href="#">DLP<span>LAB</span></a><p class="tagline">Контроль чувствительных данных</p><div class="nav active">◉ <span>Обзор событий</span></div><div class="aside-bottom"><span class="dot"></span> Локальная панель<br><small>Только просмотр · Linux</small></div></aside>
+<body><div class="layout"><aside><a class="brand" href="#">DLP<span>LAB</span></a><p class="tagline">Контроль чувствительных данных</p><div class="nav active">◉ <span>Обзор событий</span></div><div class="aside-bottom"><span class="dot"></span> Локальная панель<br><small>События и политика · Linux</small></div></aside>
 <main><header><div><p class="eyebrow">РАБОЧЕЕ МЕСТО АНАЛИТИКА</p><h1>События защиты</h1><p class="subtitle">Что обнаружил агент и какое действие применено</p></div><button id="refresh">Обновить ↻</button></header>
 <div id="notice" role="status" hidden></div>
 <section class="modules" id="modules" aria-label="Состояние модулей"></section>
+<section class="journal policy"><h2>Управление модулями</h2>
+<p>Файлы: только /var/lib/dlp-lab/watch, открытия файлов поддерживаемыми мессенджерами. BLOCK может запретить открытие файла.</p>
+<p>Текст: только видимое тестовое поле Telegram с маркером DLP_TEST, на 120 секунд. Наблюдение и предупреждения, без запрета отправки.</p>
+<div class="filters"><label for="control-component">Модуль<select id="control-component"><option value="files">Файлы</option><option value="text">Тестовое поле Telegram</option></select></label>
+<label for="control-action">Действие<select id="control-action"><option value="start">Запустить</option><option value="stop">Остановить</option></select></label></div>
+<button id="control-review">Подготовить действие</button> <button id="control-apply" disabled>Выполнить действие</button>
+<p id="control-review-text"></p><p id="control-status" role="status"></p>
+<p>Остановка снимает контроль выбранного модуля. Закрытие панели не останавливает агент. Локальное хранилище и экспорт запускаются через CLI с отдельными параметрами.</p></section>
 <section class="stats" aria-label="Сводка выборки"><article><span>Событий в выборке</span><strong id="count">—</strong></article><article><span>Анализов с WARN</span><strong class="amber" id="warn">—</strong></article><article><span>Анализов с BLOCK</span><strong class="red" id="block">—</strong></article><article><span>Отказов открытия DENY</span><strong id="deny">—</strong></article></section>
 <section class="journal"><div class="section-heading"><div><h2>Журнал агента</h2><p id="updated">Загрузка…</p></div><span class="pill">Обновление каждые 10 секунд</span></div>
 <div class="filters"><label>Период<select id="days"><option value="1">За сутки</option><option value="7" selected>За 7 дней</option><option value="30">За 30 дней</option></select></label><label>Категория<select id="category"><option value="">Все категории</option><option value="credentials">Данные доступа</option><option value="passport">Паспортные данные</option><option value="financial">Финансовые данные</option><option value="confidential">Конфиденциальные</option><option value="personal">Персональные</option><option value="internal">Внутренние</option></select></label><label>Решение<select id="decision"><option value="">Все решения</option><option>ALLOW</option><option>WARN</option><option>BLOCK</option></select></label><label>Источник<select id="source"><option value="">Все источники</option><option value="file_access_attempt">Файлы</option><option value="draft_analysis">Поле ввода</option><option value="local_draft_analysis">Локальное хранилище</option><option value="notification_delivery">Уведомления</option><option value="export_message_analysis">Экспорт сообщений</option></select></label></div>
 <div class="table-wrap"><table><thead><tr><th>Время</th><th>Событие</th><th>Категории</th><th>Решение</th><th>Действие / доставка</th><th>Проверка</th></tr></thead><tbody id="rows"></tbody></table></div><p id="empty" hidden>В этой выборке событий нет. Измените фильтры или выполните тест агента.</p><footer><span id="shown"></span><span>Последние 1000 записей журнала за выбранный период</span></footer></section>
 <p class="explanation">BLOCK — решение анализа. DENY — отказ открытия файла. Эти события не подтверждают отправку сообщения. Содержимое переписки и документов здесь не отображается.</p><p class="explanation">Статус процесса не доказывает готовность контроля. Учитываются модули, запущенные через <code>agent</code>; ручные процессы не включены.</p>
+<section class="journal policy"><h2>Политика анализа</h2>
+<p>Настройки файла config/policy.yaml. Работающие модули читают политику при запуске: после сохранения их нужно перезапустить отдельно. Новые категории дают только WARN.</p>
+<button id="policy-load">Загрузить настройки</button>
+<div id="policy-form" hidden><div class="filters">
+<label for="policy-warn">Порог WARN<input id="policy-warn" type="number" min="0" step="any"></label>
+<label for="policy-block">Порог BLOCK<input id="policy-block" type="number" min="0" step="any"></label>
+<label for="policy-error">При ошибке анализа<select id="policy-error"><option>BLOCK</option><option>WARN</option><option>ALLOW</option></select></label>
+<label for="policy-sensitive">Паспорт, финансы и данные доступа<select id="policy-sensitive"><option value="true">Проверять · WARN</option><option value="false">Не проверять</option></select></label>
+</div><p>Пороги: 0 ≤ WARN &lt; BLOCK. ALLOW при ошибке разрешает обработку непроверенного содержимого. Отключение новых категорий уменьшает покрытие контроля.</p>
+<button id="policy-preview">Проверить изменения</button> <button id="policy-save" disabled>Сохранить политику</button>
+<pre id="policy-diff"></pre></div><p id="policy-status" role="status"></p></section>
 </main></div></body></html>
