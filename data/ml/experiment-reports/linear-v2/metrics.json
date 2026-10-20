@@ -1,0 +1,369 @@
+{
+  "model_sha256": "fb359e4b592167fd6684f2de7f1d4095f6885db4b790c7479eee21a162fb42e9",
+  "training_seconds": 23.82302247199914,
+  "dev": {
+    "count": 66,
+    "per_label": {
+      "financial": {
+        "tp": 16,
+        "fp": 2,
+        "fn": 0,
+        "tn": 48,
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1": 0.9411764705882353,
+        "f2": 0.975609756097561
+      },
+      "passport": {
+        "tp": 15,
+        "fp": 1,
+        "fn": 0,
+        "tn": 50,
+        "precision": 0.9375,
+        "recall": 1.0,
+        "f1": 0.967741935483871,
+        "f2": 0.9868421052631579
+      },
+      "credentials": {
+        "tp": 15,
+        "fp": 2,
+        "fn": 0,
+        "tn": 49,
+        "precision": 0.8823529411764706,
+        "recall": 1.0,
+        "f1": 0.9375,
+        "f2": 0.974025974025974
+      }
+    },
+    "macro_f1": 0.9488061353573688,
+    "normal_count": 22,
+    "normal_false_alarms": 5,
+    "exact_match_count": 61,
+    "errors": [
+      {
+        "id": "normal-017",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "v2-dev-normal-0",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "v2-dev-normal-4",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "v2-dev-normal-8",
+        "expected": [],
+        "predicted": [
+          "credentials"
+        ]
+      },
+      {
+        "id": "v2-dev-normal-11",
+        "expected": [],
+        "predicted": [
+          "credentials"
+        ]
+      }
+    ]
+  },
+  "ml": {
+    "count": 60,
+    "per_label": {
+      "financial": {
+        "tp": 12,
+        "fp": 3,
+        "fn": 0,
+        "tn": 45,
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.8888888888888888,
+        "f2": 0.9523809523809523
+      },
+      "passport": {
+        "tp": 12,
+        "fp": 4,
+        "fn": 0,
+        "tn": 44,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "f2": 0.9375
+      },
+      "credentials": {
+        "tp": 11,
+        "fp": 0,
+        "fn": 1,
+        "tn": 48,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348,
+        "f2": 0.9322033898305084
+      }
+    },
+    "macro_f1": 0.9008511617207269,
+    "normal_count": 24,
+    "normal_false_alarms": 7,
+    "exact_match_count": 52,
+    "errors": [
+      {
+        "id": "linear2-test-credentials-02",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-normal-01",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-02",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-04",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-05",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-13",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-17",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-20",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      }
+    ]
+  },
+  "rules": {
+    "count": 60,
+    "per_label": {
+      "financial": {
+        "tp": 11,
+        "fp": 1,
+        "fn": 1,
+        "tn": 47,
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1": 0.9166666666666666,
+        "f2": 0.9166666666666666
+      },
+      "passport": {
+        "tp": 12,
+        "fp": 1,
+        "fn": 0,
+        "tn": 47,
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1": 0.96,
+        "f2": 0.9836065573770492
+      },
+      "credentials": {
+        "tp": 8,
+        "fp": 0,
+        "fn": 4,
+        "tn": 48,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "f2": 0.7142857142857143
+      }
+    },
+    "macro_f1": 0.8922222222222222,
+    "normal_count": 24,
+    "normal_false_alarms": 2,
+    "exact_match_count": 53,
+    "errors": [
+      {
+        "id": "linear2-test-financial-09",
+        "expected": [
+          "financial"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-credentials-02",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-credentials-03",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-credentials-05",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-credentials-10",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-normal-02",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-05",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      }
+    ]
+  },
+  "combined": {
+    "count": 60,
+    "per_label": {
+      "financial": {
+        "tp": 12,
+        "fp": 3,
+        "fn": 0,
+        "tn": 45,
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.8888888888888888,
+        "f2": 0.9523809523809523
+      },
+      "passport": {
+        "tp": 12,
+        "fp": 4,
+        "fn": 0,
+        "tn": 44,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571,
+        "f2": 0.9375
+      },
+      "credentials": {
+        "tp": 11,
+        "fp": 0,
+        "fn": 1,
+        "tn": 48,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348,
+        "f2": 0.9322033898305084
+      }
+    },
+    "macro_f1": 0.9008511617207269,
+    "normal_count": 24,
+    "normal_false_alarms": 7,
+    "exact_match_count": 52,
+    "errors": [
+      {
+        "id": "linear2-test-credentials-02",
+        "expected": [
+          "credentials"
+        ],
+        "predicted": []
+      },
+      {
+        "id": "linear2-test-normal-01",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-02",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-04",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-05",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-13",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-17",
+        "expected": [],
+        "predicted": [
+          "financial"
+        ]
+      },
+      {
+        "id": "linear2-test-normal-20",
+        "expected": [],
+        "predicted": [
+          "passport"
+        ]
+      }
+    ]
+  },
+  "inference_ms": {
+    "median": 0.10459799887030385,
+    "max": 0.233583999943221,
+    "scope": "short synthetic texts, warm model, no extraction"
+  }
+}

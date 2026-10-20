@@ -58,7 +58,14 @@ def parse_policy(raw):
     try:
         p = yaml.load(raw.decode('utf-8'), Loader=StrictLoader)
         required = ("version", "thresholds", "weights", "limits", "on_error", "rules")
-        keys(p, required + tuple(k for k in ("file_types", "sensitive_alerts") if isinstance(p, dict) and k in p))
+        keys(p, required + tuple(k for k in ("file_types", "sensitive_alerts", "ml_alerts") if isinstance(p, dict) and k in p))
+        if "ml_alerts" in p:
+            cfg = p["ml_alerts"]
+            keys(cfg, ("enabled", "action", "model_sha256"))
+            if (type(cfg["enabled"]) is not bool or cfg["action"] != "WARN"
+                    or not isinstance(cfg["model_sha256"], str)
+                    or not re.fullmatch(r"[0-9a-f]{64}", cfg["model_sha256"])):
+                raise PolicyError("ML requires boolean enabled, WARN and model SHA256")
         if "sensitive_alerts" in p:
             cfg = p["sensitive_alerts"]
             keys(cfg, ("enabled", "mode", "action"))

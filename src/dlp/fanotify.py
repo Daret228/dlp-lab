@@ -26,7 +26,7 @@ def events(data):
         offset += length
 
 
-def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None, correlator=None, warnings=None):
+def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None, correlator=None, warnings=None, responder=None):
     if fd < 0:
         if mask & OVERFLOW:
             audit.emit({"event": "queue_overflow", "coverage": "lost"})
@@ -61,7 +61,12 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
     finally:
         try:
             if mask & OPEN_PERM:
-                if os.write(group_fd, RESPONSE.pack(fd, response)) != RESPONSE.size:
+                if responder is not None:
+                    actual = responder(fd, response)
+                    if actual != response:
+                        record['enforcement_reason'] = 'broker_deadline_or_overload'
+                    record['enforcement'] = 'DENY' if actual == DENY else 'ALLOW'
+                elif os.write(group_fd, RESPONSE.pack(fd, response)) != RESPONSE.size:
                     raise OSError("Short fanotify response")
         finally:
             os.close(fd)
@@ -73,6 +78,9 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
 
 
 def run(group_fd, analyzer, audit, process_filter=None):
+    if os.environ.get("DLP_FAN_SCOPE") == "local_filesystems":
+        from .filesystem_scope import run_filesystems
+        return run_filesystems(group_fd, analyzer, audit, process_filter, events, RESPONSE, process_event)
     from .file_notifications import FileWarnings
     warnings = FileWarnings(audit)
     correlator = AccessCorrelator()

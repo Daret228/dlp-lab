@@ -37,7 +37,8 @@ class PolicyStore:
     @staticmethod
     def view(raw, policy):
         return dict(version=hashlib.sha256(raw).hexdigest(), thresholds=policy['thresholds'],
-                    on_error=policy['on_error'], sensitive_enabled=policy.get('sensitive_alerts', {}).get('enabled', False))
+                    on_error=policy['on_error'], sensitive_enabled=policy.get('sensitive_alerts', {}).get('enabled', False),
+                    ml_enabled=policy.get('ml_alerts', {}).get('enabled', False))
 
     def get(self):
         with self.lock:
@@ -45,23 +46,27 @@ class PolicyStore:
 
     def update(self, request, preview=False):
         with self.lock:
-            keys(request, ('expected_version', 'thresholds', 'on_error', 'sensitive_enabled'))
+            keys(request, ('expected_version', 'thresholds', 'on_error', 'sensitive_enabled', 'ml_enabled'))
             keys(request['thresholds'], ('warn', 'block'))
             warn = number(request['thresholds']['warn'])
             block = number(request['thresholds']['block'])
-            if warn >= block or request['on_error'] not in ('ALLOW', 'WARN', 'BLOCK') or type(request['sensitive_enabled']) is not bool:
+            if warn >= block or request['on_error'] not in ('ALLOW', 'WARN', 'BLOCK') or type(request['sensitive_enabled']) is not bool or type(request['ml_enabled']) is not bool:
                 raise PolicyError('Invalid settings')
             raw, policy = self.read()
             before = self.view(raw, policy)
             if request['expected_version'] != before['version']:
                 raise Conflict('Policy changed')
             changes = {k: {'before': before[k], 'after': request[k]} for k in
-                       ('thresholds', 'on_error', 'sensitive_enabled') if before[k] != request[k]}
+                       ('thresholds', 'on_error', 'sensitive_enabled', 'ml_enabled') if before[k] != request[k]}
             if not changes or preview:
                 return dict(policy=before, changes=changes, saved=False)
             policy['thresholds'] = request['thresholds']
             policy['on_error'] = request['on_error']
             policy['sensitive_alerts'] = dict(enabled=request['sensitive_enabled'], mode='rules', action='WARN')
+            if 'ml_alerts' in policy:
+                policy['ml_alerts']['enabled'] = request['ml_enabled']
+            elif request['ml_enabled']:
+                raise PolicyError('ML model is not configured')
             data = yaml.safe_dump(policy, allow_unicode=True, sort_keys=False).encode()
             temporary = None
             try:

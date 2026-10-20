@@ -42,12 +42,12 @@ done
 stage=$(mktemp -d /var/lib/dlp-fanotify-install.XXXXXXXX)
 trap 'rm -rf -- "$stage"' EXIT
 # Build from a snapshot; nothing in the workspace will execute as root at runtime.
-install -m 0600 /home/roman/dlp-lab/native/fanotify_launcher.c "$stage/launcher.c"
+install -m 0600 /home/roman/dlp-lab/native/filesystem_launcher.c "$stage/launcher.c"
 /usr/bin/env -i PATH=/usr/bin:/bin /usr/bin/cc -std=c11 -Wall -Wextra -Werror -O2 \
     -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fPIE -pie -Wl,-z,relro,-z,now \
-    -DDLP_INSTALLED_GATEWAY "$stage/launcher.c" -o "$stage/fanotify-gateway"
+    "$stage/launcher.c" -o "$stage/fanotify-gateway"
 cat > "$stage/sudoers" <<'RULE'
-# No arguments allowed. Python and project code run only after dropping to roman.
+# No arguments allowed. Only the fixed native broker runs as root; Python runs as roman.
 roman ALL=(root) NOPASSWD: NOSETENV: /usr/local/libexec/dlp-lab/fanotify-gateway ""
 RULE
 /usr/sbin/visudo -cf "$stage/sudoers"
@@ -61,5 +61,5 @@ if ! /usr/sbin/visudo -c; then
     echo 'Sudo configuration check failed; new authorization removed.' >&2
     exit 1
 fi
-printf '%s\n' 'Installed: limited fanotify access for roman, only /var/lib/dlp-lab/watch.'
+printf '%s\n' 'Installed: Telegram file control across supported local filesystems.'
 printf '%s\n' 'Next: cd /home/roman/dlp-lab && make privileged-test'

@@ -19,7 +19,7 @@ ASSETS=Path(__file__).with_name('dashboard_assets')
 MAX_OUTPUT=8*1024*1024
 EVENTS={'policy_loaded','analysis','draft_analysis','file_access_attempt','notification_delivery',
         'local_draft_analysis','local_draft_analysis_error','local_check_finished',
-        'text_monitor_started','text_monitor_stopped','monitor_started','queue_overflow',
+        'text_monitor_started','text_monitor_stopped','monitor_started','queue_overflow','filesystem_coverage',
         'export_message_analysis','export_analysis_summary','local_locations_inspection',
         'notification_test_analysis'}
 
@@ -68,9 +68,15 @@ def project(entry):
                        if isinstance(f,dict) and isinstance(f.get('category'),str)}) if isinstance(findings,list) else []
     metadata=r.get('metadata',{})
     if not isinstance(metadata,dict):metadata={}
+    ml = metadata.get('ml')
+    if not isinstance(ml, dict): ml = {}
     result={
         'invocation':hex_id(entry.get('_SYSTEMD_INVOCATION_ID'),32),
         'policy_version':hex_id(e.get('policy_version'),64),
+        'ml_complete': ml.get('complete') if type(ml.get('complete')) is bool else None,
+        'ml_model_sha256': hex_id(ml.get('model_sha256'),64),
+        'ml_categories': [label for label in ('financial','passport','credentials')
+                          if isinstance(ml.get('categories'),list) and label in ml['categories']],
         'timestamp':short(e.get('timestamp'),40), 'event':e['event'],
         'unit':short(entry.get('_SYSTEMD_USER_UNIT'),80),
         'decision':r.get('decision',e.get('decision')),
@@ -80,7 +86,7 @@ def project(entry):
         'status':short(e.get('status'),40),
         'source':short(e.get('source',e.get('messenger')),60),
         'file_type':short(metadata.get('file_type'),16),
-        'scope':short(metadata.get('scope'),60),
+        'scope':short(e.get('scope',metadata.get('scope')),60),
         'send_confirmed':e.get('send_confirmed') is True,
         'send_blocked':e.get('send_blocked') is True,
     }

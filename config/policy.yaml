@@ -19,6 +19,10 @@ sensitive_alerts:
   enabled: true
   mode: rules
   action: WARN
+ml_alerts:
+  enabled: false
+  action: WARN
+  model_sha256: 83b9c89e16e2b76f1ef65a367b32b51b11f4d7dd4a675543544d113667201414
 rules:
   - id: secret_keywords
     type: dictionary

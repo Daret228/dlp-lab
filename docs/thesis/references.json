@@ -18,7 +18,7 @@
   "Telegram. Chat Export Tool, Better Notifications and More. 27.08.2018. URL: https://telegram.org/blog/export-and-more (дата обращения: 06.10.2026).",
   "Telegram Desktop. export_output_json.cpp: исходный код, тег v7.2.8. URL: https://github.com/telegramdesktop/tdesktop/blob/v7.2.8/Telegram/SourceFiles/export/output/export_output_json.cpp (дата обращения: 06.10.2026).",
   "Python Software Foundation. json: JSON encoder and decoder. URL: https://docs.python.org/3/library/json.html (дата обращения: 06.10.2026).",
-  "DLP Lab. Исходный код и материалы исследования прототипа: локальный программный проект. Состояние на 11.10.2026. Каталоги src/dlp, tests, docs/research; сводка docs/PROJECT_CONTEXT.md. Неопубликованный электронный материал.",
+  "DLP Lab. Исходный код и материалы исследования прототипа. Состояние на 16.10.2026, коммит 66d0ca5. Каталоги src/dlp, tests, docs/research; сводка docs/PROJECT_CONTEXT.md. Репозиторий: https://github.com/Daret228/dlp-lab (доступ ограничен).",
   "DLP Lab. Синтетический функциональный эксперимент и измерение времени анализа. 06.10.2026. Скрипт docs/thesis/measure_synthetic.py; данные docs/research/thesis_synthetic_experiment_2026-10-06.json. Неопубликованный электронный материал.",
   "Telegram Desktop. storage_account.cpp: исходный код, тег v7.2.9. URL: https://github.com/telegramdesktop/tdesktop/blob/v7.2.9/Telegram/SourceFiles/storage/storage_account.cpp (дата обращения: 11.10.2026).",
   "Telegram Desktop. history_widget.cpp: исходный код, тег v7.2.9. URL: https://github.com/telegramdesktop/tdesktop/blob/v7.2.9/Telegram/SourceFiles/history/history_widget.cpp (дата обращения: 11.10.2026).",

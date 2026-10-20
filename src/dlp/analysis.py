@@ -66,6 +66,15 @@ class ContentAnalyzer:
         self.engine = PolicyEngine(policy)
         kinds = {"dictionary": DictionaryAnalyzer, "regex": RegexAnalyzer, "context": ContextAnalyzer}
         self.analyzers = [kinds[r["type"]](r) for r in policy["rules"]]
+        self.ml_model = None
+        self.ml_error = None
+        if policy.get("ml_alerts", {}).get("enabled", False):
+            from .ml_classifier import load_model
+            try:
+                self.ml_model = load_model(policy["ml_alerts"]["model_sha256"])
+            except (OSError, ValueError, RecursionError):
+                self.ml_error = "ml_model_unavailable_or_invalid"
+
 
     def failure(self, reason):
         return AnalysisResult([], 0, Decision(self.policy["on_error"]), False, reason)
@@ -135,6 +144,36 @@ class ContentAnalyzer:
                         if decision == Decision.ALLOW:
                             decision = Decision.WARN
                     metadata["sensitive_alerts"] = status
+                if self.policy.get("ml_alerts", {}).get("enabled", False):
+                    from .ml_classifier import probabilities
+                    cfg = self.policy["ml_alerts"]
+                    status = {"mode": "ml", "action": "WARN", "complete": True,
+                              "model_sha256": cfg["model_sha256"]}
+                    try:
+                        if self.ml_error:
+                            raise ValueError(self.ml_error)
+                        values = probabilities(self.ml_model, text)
+                        labels = [label for label, value in values.items()
+                                  if value >= self.ml_model["models"][label]["threshold"]]
+                        status["categories"] = labels
+                        for label in labels:
+                            findings.append(Finding("ml", "ml_" + label, label,
+                                values[label], 0.0, (0, len(text)),
+                                {"location_scope": "whole_extracted_text", "action": "WARN",
+                                 "model_sha256": cfg["model_sha256"],
+                                 "threshold": self.ml_model["models"][label]["threshold"],
+                                 "confidence_semantics": "uncalibrated_sigmoid_not_risk_probability"}))
+                        if labels and decision == Decision.ALLOW:
+                            decision = Decision.WARN
+                    except (ValueError, AnalysisTimeout):
+                        status.update(complete=False, reason=self.ml_error or "ml_limit_or_timeout")
+                        extraction_complete = False
+                        extraction_reason = extraction_reason or "ml_analysis_incomplete"
+                        if "file_type" in metadata:
+                            metadata["content_checked"] = False
+                        if decision == Decision.ALLOW:
+                            decision = Decision.WARN
+                    metadata["ml"] = status
                 return AnalysisResult(findings, score, decision, extraction_complete,
                                       extraction_reason, metadata)
         except (OSError, UnicodeError, ValueError, AnalysisTimeout) as exc:

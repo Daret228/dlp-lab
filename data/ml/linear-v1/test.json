@@ -1,0 +1,554 @@
+[
+  {
+    "id": "linear-test-financial-01",
+    "group_id": "new-financial-01",
+    "split": "test",
+    "text": "Начисления конкретному сотруднику за июнь: 87340 руб., из них премиальная часть 19400 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-02",
+    "group_id": "new-financial-02",
+    "split": "test",
+    "text": "По кредитному договору Учебнова осталось погасить 318450 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-03",
+    "group_id": "new-financial-03",
+    "split": "test",
+    "text": "Личный депозит Макетовой на сегодня составляет 724600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-04",
+    "group_id": "new-financial-04",
+    "split": "test",
+    "text": "За прошлый месяц мой доход после налогов составил 68500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-05",
+    "group_id": "new-financial-05",
+    "split": "test",
+    "text": "В закрытом бюджете подразделения на следующий квартал заложены убытки 8,2 млн рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-06",
+    "group_id": "new-financial-06",
+    "split": "test",
+    "text": "Внутренняя таблица: прибыль филиала 410000 рублей; наружу эти показатели не публикуем.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-07",
+    "group_id": "new-financial-07",
+    "split": "test",
+    "text": "Моя банковская карта: 4000 1234 5678 9001.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-08",
+    "group_id": "new-financial-08",
+    "split": "test",
+    "text": "Выписка по счёту Макетова: остаток 53780 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-09",
+    "group_id": "new-financial-09",
+    "split": "test",
+    "text": "Сотруднице Учебновой перечислен аванс в размере 31200 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-10",
+    "group_id": "new-financial-10",
+    "split": "test",
+    "text": "Расчётный лист: зарплата 92100 рублей, удержание 11973 рубля.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-11",
+    "group_id": "new-financial-11",
+    "split": "test",
+    "text": "Личный долг по ипотеке составляет 2460000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-financial-12",
+    "group_id": "new-financial-12",
+    "split": "test",
+    "text": "Для перевода: номер банковского счёта 40817810000012345678.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-01",
+    "group_id": "new-passport-01",
+    "split": "test",
+    "text": "В заявлении указан паспорт: 00 62 741852, выдан учебным отделением.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-02",
+    "group_id": "new-passport-02",
+    "split": "test",
+    "text": "Документ гражданина РФ, паспорт серия 0052, номер 619283.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-03",
+    "group_id": "new-passport-03",
+    "split": "test",
+    "text": "Паспортные сведения сотрудника: серия 00 31, номер 567890.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-04",
+    "group_id": "new-passport-04",
+    "split": "test",
+    "text": "Из анкеты: паспорт 0041 951753, фамилия Учебнова.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-05",
+    "group_id": "new-passport-05",
+    "split": "test",
+    "text": "Реквизиты паспорта для договора — 00 29 753159.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-06",
+    "group_id": "new-passport-06",
+    "split": "test",
+    "text": "Мой паспорт РФ: серия 0072; номер 826491.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-07",
+    "group_id": "new-passport-07",
+    "split": "test",
+    "text": "Копия формы: паспорт серия 00 36, номер 135792, дата выдачи 12.04.2020.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-08",
+    "group_id": "new-passport-08",
+    "split": "test",
+    "text": "Переписал паспорт клиента: 0081 246813.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-09",
+    "group_id": "new-passport-09",
+    "split": "test",
+    "text": "Для проверки личности прикладываю реквизиты: паспорт 00 44 579135.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-10",
+    "group_id": "new-passport-10",
+    "split": "test",
+    "text": "Данные документа:\nПаспорт гражданина РФ\nСерия: 0063\nНомер: 728194.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-11",
+    "group_id": "new-passport-11",
+    "split": "test",
+    "text": "Внутренняя карточка Макетовой содержит паспорт 0092 863197.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-passport-12",
+    "group_id": "new-passport-12",
+    "split": "test",
+    "text": "Паспортные реквизиты представителя: 00 53 741963.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-01",
+    "group_id": "new-credentials-01",
+    "split": "test",
+    "text": "Учётная запись тестового сервиса: логин sample_user, пароль Lipa!7429.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-02",
+    "group_id": "new-credentials-02",
+    "split": "test",
+    "text": "Для входа в кабинет используй пароль: солнечная_роща.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-03",
+    "group_id": "new-credentials-03",
+    "split": "test",
+    "text": "Одноразовый код подтверждения входа: 582741.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-04",
+    "group_id": "new-credentials-04",
+    "split": "test",
+    "text": "Пароль к архиву — макетныйлес.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-05",
+    "group_id": "new-credentials-05",
+    "split": "test",
+    "text": "Строка подключения: postgres://demo:TrainingOnly82@localhost/example.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-06",
+    "group_id": "new-credentials-06",
+    "split": "test",
+    "text": "Секрет приложения: client_secret=fictional_demo_AZ73.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-07",
+    "group_id": "new-credentials-07",
+    "split": "test",
+    "text": "API token: demo_token_7391_xxyy.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-08",
+    "group_id": "new-credentials-08",
+    "split": "test",
+    "text": "Код доступа к тестовой системе равен 482917.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-09",
+    "group_id": "new-credentials-09",
+    "split": "test",
+    "text": "Для тестового аккаунта установлен пароль «ЛиповаяАллея».",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-10",
+    "group_id": "new-credentials-10",
+    "split": "test",
+    "text": "В конфигурации записано password = Sample!31415.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-11",
+    "group_id": "new-credentials-11",
+    "split": "test",
+    "text": "Ключ API для учебной интеграции: mock_key_9172.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-credentials-12",
+    "group_id": "new-credentials-12",
+    "split": "test",
+    "text": "Секретная фраза для входа: северная звезда.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-01",
+    "group_id": "new-normal-01",
+    "split": "test",
+    "text": "Напомни коллеге сменить пароль после первого входа.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-02",
+    "group_id": "new-normal-02",
+    "split": "test",
+    "text": "Номер паспорта в этом письме не приводится.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-03",
+    "group_id": "new-normal-03",
+    "split": "test",
+    "text": "Вебинар о зарплатах начинается в 14:30.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-04",
+    "group_id": "new-normal-04",
+    "split": "test",
+    "text": "На сайте магазина цена ноутбука 87340 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-05",
+    "group_id": "new-normal-05",
+    "split": "test",
+    "text": "Публичная вакансия: оклад от 95000 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-06",
+    "group_id": "new-normal-06",
+    "split": "test",
+    "text": "Введите серию и номер паспорта в защищённой форме.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-07",
+    "group_id": "new-normal-07",
+    "split": "test",
+    "text": "В форме password стоит значение [REDACTED].",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-08",
+    "group_id": "new-normal-08",
+    "split": "test",
+    "text": "Поле API token оставлено пустым.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-09",
+    "group_id": "new-normal-09",
+    "split": "test",
+    "text": "Банковская карта потеряна, её номер я не помню.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-10",
+    "group_id": "new-normal-10",
+    "split": "test",
+    "text": "Заказ 0052 619283 готов к выдаче.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-11",
+    "group_id": "new-normal-11",
+    "split": "test",
+    "text": "Паспорт станка: модель 741852, инвентарный номер 0062.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-12",
+    "group_id": "new-normal-12",
+    "split": "test",
+    "text": "Обсудим бюджет завтра, цифры пока не согласованы.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-13",
+    "group_id": "new-normal-13",
+    "split": "test",
+    "text": "Мы не передаём логины и пароли в общем чате.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-14",
+    "group_id": "new-normal-14",
+    "split": "test",
+    "text": "Код товара 582741, доступен на открытом сайте.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-15",
+    "group_id": "new-normal-15",
+    "split": "test",
+    "text": "Секрет приложения удалён; здесь только инструкция установки.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-16",
+    "group_id": "new-normal-16",
+    "split": "test",
+    "text": "Серия учебника 00 44, тираж 579135 экземпляров.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-17",
+    "group_id": "new-normal-17",
+    "split": "test",
+    "text": "На открытой странице банка опубликована ставка 12 процентов.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-18",
+    "group_id": "new-normal-18",
+    "split": "test",
+    "text": "Поздравляю с повышением! Желаю успехов.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-19",
+    "group_id": "new-normal-19",
+    "split": "test",
+    "text": "Платёжные реквизиты будут предоставлены через защищённый канал.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-20",
+    "group_id": "new-normal-20",
+    "split": "test",
+    "text": "Форма клиента: паспорт не указан, телефон 89123456789.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-21",
+    "group_id": "new-normal-21",
+    "split": "test",
+    "text": "Пример переменной: client_secret=${SECRET}.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-22",
+    "group_id": "new-normal-22",
+    "split": "test",
+    "text": "Сколько символов должно быть в пароле?",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-23",
+    "group_id": "new-normal-23",
+    "split": "test",
+    "text": "Публичный прайс: консультация бухгалтера стоит 3000 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear-test-normal-24",
+    "group_id": "new-normal-24",
+    "split": "test",
+    "text": "Пароль: ********. Действительное значение скрыто.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  }
+]

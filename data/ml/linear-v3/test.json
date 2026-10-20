@@ -1,0 +1,402 @@
+[
+  {
+    "id": "v3-test-000",
+    "group_id": "v3-test-0",
+    "text": "На ценнике в магазине написано: ноутбук — 68490 рублей.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-001",
+    "group_id": "v3-test-1",
+    "text": "Компания разместила вакансию с зарплатой от 72000 рублей.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-002",
+    "group_id": "v3-test-2",
+    "text": "Прайс на сайте: покраска двери обойдётся в 12500 рублей.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-003",
+    "group_id": "v3-test-3",
+    "text": "Стоимость кресла в общедоступном каталоге — 18200 рублей.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-004",
+    "group_id": "v3-test-4",
+    "text": "Цена экскурсии опубликована: 4300 рублей с человека.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-005",
+    "group_id": "v3-test-5",
+    "text": "Рекламный баннер предлагает ремонт за 8700 рублей.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-006",
+    "group_id": "v3-test-6",
+    "text": "Насос имеет паспорт оборудования 6219 308457.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-007",
+    "group_id": "v3-test-7",
+    "text": "На коробке артикул 8932 704618, проверь совместимость.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-008",
+    "group_id": "v3-test-8",
+    "text": "Для заказа 4281 693057 пришло уведомление о доставке.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-009",
+    "group_id": "v3-test-9",
+    "text": "Технический паспорт изделия 3107 584296 лежит в коробке.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-010",
+    "group_id": "v3-test-10",
+    "text": "Заводской номер станка 7514 962083 указан в его паспорте.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-011",
+    "group_id": "v3-test-11",
+    "text": "Как выбрать пароль, который трудно подобрать?",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-012",
+    "group_id": "v3-test-12",
+    "text": "Нужно сменить пароль после увольнения администратора.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-013",
+    "group_id": "v3-test-13",
+    "text": "Сотрудники должны хранить коды восстановления в безопасном месте.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-014",
+    "group_id": "v3-test-14",
+    "text": "При входе появится запрос одноразового кода.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-015",
+    "group_id": "v3-test-15",
+    "text": "Уточните, когда будет готова справка о доходах.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-016",
+    "group_id": "v3-test-16",
+    "text": "Паспорт потребуется при получении пропуска, номер не пишите.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-017",
+    "group_id": "v3-test-17",
+    "text": "Обсудим бюджет на встрече, пока нет утверждённых цифр.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-018",
+    "group_id": "v3-test-18",
+    "text": "Завтра отправлю презентацию и расписание занятий.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-019",
+    "group_id": "v3-test-19",
+    "text": "В образце анкеты поле серии паспорта осталось пустым.",
+    "labels": [],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-020",
+    "group_id": "v3-test-20",
+    "text": "В моей выписке остаток по счёту 264800 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-021",
+    "group_id": "v3-test-21",
+    "text": "За сентябрь мне начислили зарплату 117300 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-022",
+    "group_id": "v3-test-22",
+    "text": "Личная задолженность по кредиту составляет 384200 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-023",
+    "group_id": "v3-test-23",
+    "text": "Мой расчётный листок: премия 27400 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-024",
+    "group_id": "v3-test-24",
+    "text": "Внутренний финансовый отчёт: чистая прибыль 619000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-025",
+    "group_id": "v3-test-25",
+    "text": "Персональная ведомость: Петрову к выплате 82500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-026",
+    "group_id": "v3-test-26",
+    "text": "Мой месячный оклад равен 104600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-027",
+    "group_id": "v3-test-27",
+    "text": "По моему вкладу на счёте лежит 573000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-028",
+    "group_id": "v3-test-28",
+    "text": "Мой паспорт имеет серию 4618 и номер 392570.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-029",
+    "group_id": "v3-test-29",
+    "text": "Паспорт сотрудника: 5802 641937.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-030",
+    "group_id": "v3-test-30",
+    "text": "Прикладываю паспортные данные: 7283 510964.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-031",
+    "group_id": "v3-test-31",
+    "text": "В личной анкете указан паспорт 1395 862047.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-032",
+    "group_id": "v3-test-32",
+    "text": "Документ гражданина: паспорт 6047 285193.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-033",
+    "group_id": "v3-test-33",
+    "text": "Мои серия и номер паспорта — 3519 740628.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-034",
+    "group_id": "v3-test-34",
+    "text": "Для регистрации передаю свой паспорт: 9274 163850.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-035",
+    "group_id": "v3-test-35",
+    "text": "Паспорт получателя 8163 429075 выдан районным отделением.",
+    "labels": [
+      "passport"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-036",
+    "group_id": "v3-test-36",
+    "text": "Вход в кабинет подтвердите кодом 491820.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-037",
+    "group_id": "v3-test-37",
+    "text": "Вот одноразовый код авторизации: 670315.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-038",
+    "group_id": "v3-test-38",
+    "text": "SMS для входа: код 824197, никому не сообщайте.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-039",
+    "group_id": "v3-test-39",
+    "text": "Пароль от рабочего ящика: Sosna!4972.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-040",
+    "group_id": "v3-test-40",
+    "text": "Для подключения используй пароль Zakat#853.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-041",
+    "group_id": "v3-test-41",
+    "text": "Мой код подтверждения входа 163094.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-042",
+    "group_id": "v3-test-42",
+    "text": "Логин test_worker, пароль Most!6248.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  },
+  {
+    "id": "v3-test-043",
+    "group_id": "v3-test-43",
+    "text": "Одноразовый пароль на эту сессию — 905731.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "test",
+    "source": "synthetic-context-contrast-2026-10-19"
+  }
+]

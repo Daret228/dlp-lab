@@ -1,0 +1,16 @@
+{
+  "data_sha256": {
+    "train": "4320b74157e1946fb575c0bcc73ca9a4e88c5c8e3bb800ba0ea8928d8edc5e1f",
+    "dev": "a89e82c6e9944e85fda39eefaecf8b679f1b502372367f2aea5087408ec5de3e",
+    "test": "4e084bf43ae11e1fa0c7e487509b5937f8d99265d6b5007ca4aad2ba6af71fff"
+  },
+  "code_sha256": {
+    "scripts/train-ml-linear.py": "02b1e7066782f81353bae012519d1c2e4c7e9fd32fc8ef3763ddb6234dc800a8",
+    "src/dlp/ml_training.py": "24a1f5ea0a609db4243683d70c47067315c906dccd1a31077c29958ff7fa89aa",
+    "src/dlp/ml_classifier.py": "615d0c3af6b849a5b3f0c37b22da20042976e4c82d2cd6f3e1de26ba53882d08"
+  },
+  "selection": "dev macro F1; fixed regularization grid; 250 epochs",
+  "threshold_strategy": "dev F0.5 with recall >= 0.85; fallback maximum recall; grid 0.01..0.99",
+  "test_is_disclosed": true,
+  "limitations": "Handwritten synthetic test by same author; not an independent external evaluation. Earlier holdouts are now training data."
+}

@@ -6,6 +6,7 @@ import select
 import subprocess
 import unittest
 import uuid
+import tempfile
 
 
 @unittest.skipUnless(os.environ.get('DLP_RUN_GATEWAY') == '1',
@@ -20,6 +21,7 @@ class InstalledGatewayTest(unittest.TestCase):
         cases = [('allow', 'public', 0), ('warn', 'test@example.org', 0), ('block', 'top secret', 1)]
         paths = []
         worker = None
+        outside = tempfile.TemporaryDirectory(prefix='dlp-gateway-outside-')
         try:
             for name, text, _ in cases:
                 path = watch / (prefix + '-' + name)
@@ -27,19 +29,33 @@ class InstalledGatewayTest(unittest.TestCase):
                 paths.append(path)
             worker = subprocess.Popen(['/usr/bin/sudo', '-n', str(gateway)],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                      text=True)
+                                      bufsize=0)
             def event():
                 ready, _, _ = select.select([worker.stdout], [], [], 5)
                 self.assertTrue(ready, 'No event within 5 seconds')
                 line = worker.stdout.readline()
                 if not line:
-                    self.fail('Gateway failed: ' + worker.stderr.read())
+                    self.fail('Gateway failed: ' + worker.stderr.read().decode())
                 return json.loads(line)
             started = event()
+            if started['event'] == 'policy_loaded':
+                started = event()
             self.assertEqual(started['event'], 'monitor_started')
             self.assertEqual(started['uid'], 1000)
             # Worker PID is used only to stop our own unprivileged process.
             worker_pid = started['pid']
+            broad = started.get('scope') == 'local_filesystems'
+            if broad:
+                # In the new architecture the privileged group FD never reaches Python.
+                links = [os.readlink(fd) for fd in Path(f'/proc/{worker_pid}/fd').iterdir()]
+                self.assertFalse(any('fanotify' in link for link in links))
+                self.assertTrue(started['filesystem_roots'])
+                for name, text, _ in cases:
+                    nested = Path(outside.name)/'nested'/(name+'.txt')
+                    nested.parent.mkdir(exist_ok=True)
+                    nested.write_text(text)
+                    probe = subprocess.run(['/usr/bin/cat',str(nested)], capture_output=True, timeout=5)
+                    self.assertEqual(probe.returncode, 0, 'Unrelated cat must not be blocked')
             try:
                 status = Path(f'/proc/{worker_pid}/status').read_text()
                 values = dict(line.split(':', 1) for line in status.splitlines() if ':' in line)
@@ -50,6 +66,8 @@ class InstalledGatewayTest(unittest.TestCase):
                         expected = 0  # /usr/bin/cat is deliberately not a messenger.
                     probe = subprocess.run(['/usr/bin/cat', str(path)], capture_output=True, timeout=5)
                     self.assertEqual(probe.returncode, expected, probe.stderr.decode())
+                    if broad:
+                        continue  # Unrelated processes are filtered in the native broker.
                     record = event()
                     self.assertEqual(record['enforcement'], 'DENY' if expected else 'ALLOW')
                     if started.get('filter_mode') == 'messengers':
@@ -68,3 +86,4 @@ class InstalledGatewayTest(unittest.TestCase):
                     stream.close()
             for path in paths:
                 path.unlink(missing_ok=True)
+            outside.cleanup()

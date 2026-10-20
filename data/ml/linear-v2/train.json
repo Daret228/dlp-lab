@@ -1,0 +1,4346 @@
+[
+  {
+    "id": "financial-001",
+    "group_id": "financial-scenario-001",
+    "text": "Ведомость за апрель: сотруднику Учебнову начислено 84200 рублей, удержано 10946, к выплате 73254.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-002",
+    "group_id": "financial-scenario-002",
+    "text": "Переведите оплату на карту 0000 1234 5678 9012, получатель — Примерова Анна.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-003",
+    "group_id": "financial-scenario-003",
+    "text": "Для перечисления аванса: расчётный счёт 00000123456789012345, БИК 000000001, получатель ООО «Учебный пример».",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-004",
+    "group_id": "financial-scenario-004",
+    "text": "Внутренний отчёт: выручка отдела за квартал 4,8 млн, убыток 630 тысяч. Данные ещё не опубликованы.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-005",
+    "group_id": "financial-scenario-005",
+    "text": "Выгрузка выплат: табельный номер 17 — премия 28000; табельный номер 23 — премия 46000.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-006",
+    "group_id": "financial-scenario-006",
+    "text": "Возврат клиенту оформляем по реквизитам: номер карты 0000-4321-8765-2109, срок 12/30.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-007",
+    "group_id": "financial-scenario-007",
+    "text": "Платёжное поручение № 418: контрагент ООО «Макет», счёт 00000987654321098765, сумма 182450 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-008",
+    "group_id": "financial-scenario-008",
+    "text": "Индивидуальные условия договора: скидка покупателю 37%, наша себестоимость 12400 руб.; только для финансового отдела.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-009",
+    "group_id": "financial-scenario-009",
+    "text": "Сверка задолженности: клиент Тестов должен 153800 руб., просрочка 46 дней, договор Ф-18.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-010",
+    "group_id": "financial-scenario-010",
+    "text": "Внутренняя таблица расходов на персонал: инженер — оклад 96000, руководитель — 175000, значения по сотрудникам приложены ниже.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-011",
+    "group_id": "financial-scenario-011",
+    "text": "Банковская выписка Примеровой: остаток 214508 руб., списание 9800 руб. в пользу ООО «Макет».",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-012",
+    "group_id": "financial-scenario-012",
+    "text": "Список компенсаций: сотрудник № 301 получил 18400 рублей за лечение; сотрудник № 302 — 7600.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-013",
+    "group_id": "financial-scenario-013",
+    "text": "Номер корпоративной карты: 0000111122223333. Используйте для оплаты по этой заявке.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-014",
+    "group_id": "financial-scenario-014",
+    "text": "Для бухгалтерии: чистая прибыль неопубликованного месяца 780000 руб., операционные затраты 1920000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-015",
+    "group_id": "financial-scenario-015",
+    "text": "Условия персонального кредита Учебнова: долг 480000 рублей, ежемесячный взнос 17300, просрочено два платежа.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "financial-016",
+    "group_id": "financial-scenario-016",
+    "text": "Payroll export: employee U-42, gross 72000 RUB, bonus 12500 RUB. Internal record.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-001",
+    "group_id": "passport-scenario-001",
+    "text": "Паспорт Учебнова Петра: серия 00 01, номер 234567, выдан учебным подразделением 12.04.2020.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-002",
+    "group_id": "passport-scenario-002",
+    "text": "Для оформления пропуска отправляю паспортные реквизиты: 00 02 № 345678.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-003",
+    "group_id": "passport-scenario-003",
+    "text": "Анкета: Примерова Анна, документ — паспорт РФ, 0003 456789; дата выдачи 03.08.2019.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-004",
+    "group_id": "passport-scenario-004",
+    "text": "В таблице посетителей у Макетова указан паспорт 00-04 567890 и дата рождения 14.02.1990.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-005",
+    "group_id": "passport-scenario-005",
+    "text": "Серия документа 00 05, номер 678901. Это паспорт заявителя по обращению № 12.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-006",
+    "group_id": "passport-scenario-006",
+    "text": "Карточка гостя: вид удостоверения — паспорт; серия 0006; номер 789012; гражданство РФ.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-007",
+    "group_id": "passport-scenario-007",
+    "text": "Прикладываю текст со страницы удостоверения личности: паспорт 00 07 890123, владелец Тестова Елена.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-008",
+    "group_id": "passport-scenario-008",
+    "text": "Данные для договора: Учебнов Илья, паспорт серии 00 08 номер 901234, код подразделения 000-001.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-009",
+    "group_id": "passport-scenario-009",
+    "text": "Загранпаспорт заявителя: серия 00, номер 1234567, действителен до 18.06.2030.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-010",
+    "group_id": "passport-scenario-010",
+    "text": "Паспортные сведения пассажира: документ 0009 № 012345, фамилия Примеров.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-011",
+    "group_id": "passport-scenario-011",
+    "text": "Выгрузка анкет: клиент А — паспорт 0010 123450; клиент Б — паспорт 0011 234560.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-012",
+    "group_id": "passport-scenario-012",
+    "text": "Проверьте реквизиты доверителя: паспорт серии 00 12 № 345670, дата выдачи 21.11.2021.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-013",
+    "group_id": "passport-scenario-013",
+    "text": "Из скана: ПАСПОРТ / СЕРИЯ 00 13 / НОМЕР 456780 / ФАМИЛИЯ МАКЕТОВ.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-014",
+    "group_id": "passport-scenario-014",
+    "text": "Заполняю заявление за Примерову: российский паспорт, серия: 0014, номер: 567890.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-015",
+    "group_id": "passport-scenario-015",
+    "text": "Сведения удостоверяющего документа: тип «паспорт», 00 15 678900, место рождения — Учебный город.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "passport-016",
+    "group_id": "passport-scenario-016",
+    "text": "Identity record: passport number 0016123456, holder Example Person, issued 2020-05-01.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-001",
+    "group_id": "credentials-scenario-001",
+    "text": "Для входа в учебный кабинет логин lab_user, пароль Example!River42.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-002",
+    "group_id": "credentials-scenario-002",
+    "text": "Пароль от служебной почты: Demo-Cloud-582! Передай новому сотруднику.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-003",
+    "group_id": "credentials-scenario-003",
+    "text": "API_TOKEN=example_only_token_7xQ9m2L4r8V6; вставь значение в заголовок запроса.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-004",
+    "group_id": "credentials-scenario-004",
+    "text": "Подключение к тестовой БД: user=sample_db; password=NotARealSecret_71.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-005",
+    "group_id": "credentials-scenario-005",
+    "text": "В конфигурации сохранено: DB_PASSWORD: Example-Pine-604.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-006",
+    "group_id": "credentials-scenario-006",
+    "text": "Учётка администратора макета: username demo_admin, password Sample!Stone29.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-007",
+    "group_id": "credentials-scenario-007",
+    "text": "Authorization: Bearer example_only_Ab3Cd5Ef7Gh9Ij2Kl4Mn6Op8",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-008",
+    "group_id": "credentials-scenario-008",
+    "text": "Секрет клиента OAuth: client_secret=example_only_client_5n8q2r6t.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-009",
+    "group_id": "credentials-scenario-009",
+    "text": "Пользователь сервиса — sample_bot. Его ключ доступа — example_only_access_912abc.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-010",
+    "group_id": "credentials-scenario-010",
+    "text": "Строка подключения: postgres://demo:ExampleOnly56@db.example.invalid/lab",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-011",
+    "group_id": "credentials-scenario-011",
+    "text": "Временный пароль для пользователя student_demo установлен в Example-Snow-832.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-012",
+    "group_id": "credentials-scenario-012",
+    "text": "Скопировал из настроек: SMTP_USER=mail_demo; SMTP_PASSWORD=Example!Mail274.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-013",
+    "group_id": "credentials-scenario-013",
+    "text": "Для демонстрационного VPN: имя sample_vpn, секрет Example-Vpn-904.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-014",
+    "group_id": "credentials-scenario-014",
+    "text": "Вот значение refresh_token: example_only_refresh_f82k19m45v76.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-015",
+    "group_id": "credentials-scenario-015",
+    "text": "Восстановление аккаунта: резервный код входа 0000-1122-3344. Не публикуйте его.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "credentials-016",
+    "group_id": "credentials-scenario-016",
+    "text": "Test service login: demo_operator. Password: ExampleOnly!68. Use both fields to sign in.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-001",
+    "group_id": "normal-scenario-001",
+    "text": "Привет, встречаемся завтра у входа в офис.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-002",
+    "group_id": "normal-scenario-002",
+    "text": "Как поменять пароль в настройках приложения?",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-003",
+    "group_id": "normal-scenario-003",
+    "text": "Для посещения офиса возьмите паспорт с собой.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-004",
+    "group_id": "normal-scenario-004",
+    "text": "Обед стоит 450 рублей, доставка включена.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-005",
+    "group_id": "normal-scenario-005",
+    "text": "Наш публичный тариф — 990 рублей в месяц.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-006",
+    "group_id": "normal-scenario-006",
+    "text": "Логин demo_user можно увидеть в справочнике сотрудников; пароль здесь не указан.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-007",
+    "group_id": "normal-scenario-007",
+    "text": "Не отправляйте номера банковских карт в общий чат.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-008",
+    "group_id": "normal-scenario-008",
+    "text": "На сайте опубликован годовой отчёт: выручка компании 12 млн рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-009",
+    "group_id": "normal-scenario-009",
+    "text": "В шаблоне заявления оставлены пустые поля «серия паспорта» и «номер паспорта».",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-010",
+    "group_id": "normal-scenario-010",
+    "text": "API_TOKEN=${TOKEN_FROM_ENV}; реальное значение подставляется из окружения.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-011",
+    "group_id": "normal-scenario-011",
+    "text": "Приложение сообщает «неверный пароль», войти не получилось.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-012",
+    "group_id": "normal-scenario-012",
+    "text": "Завтра обсудим порядок начисления зарплаты, персональных сумм в повестке нет.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-013",
+    "group_id": "normal-scenario-013",
+    "text": "Номер заказа 123456, серия изделия 0021, отправка в четверг.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-014",
+    "group_id": "normal-scenario-014",
+    "text": "В учебной инструкции пример логина — sample_user; никаких данных для входа не приводится.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-015",
+    "group_id": "normal-scenario-015",
+    "text": "Контакт поддержки: help@example.invalid. Напишите о проблеме с оплатой.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "normal-016",
+    "group_id": "normal-scenario-016",
+    "text": "Password field is empty. Please request a reset link from the administrator.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-001",
+    "group_id": "v2-financial-scenario-001",
+    "text": "В реестре сотрудник Р-91: оклад 113700, надбавка 8100, выплачено 104500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-002",
+    "group_id": "v2-financial-scenario-002",
+    "text": "Личный долг заявителя перед банком 318200 рублей; очередной платёж 16480 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-003",
+    "group_id": "v2-financial-scenario-003",
+    "text": "На оплату поставки направляю номер счёта получателя: 00000718394620581734.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-004",
+    "group_id": "v2-financial-scenario-004",
+    "text": "При проверке кассы обнаружено внутреннее расхождение 47350 рублей. Документ для службы финансов.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-005",
+    "group_id": "v2-financial-scenario-005",
+    "text": "Расшифровка поступлений клиента К-48 за июнь: 51600, 24900 и 87300 руб. Это его банковские операции.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-006",
+    "group_id": "v2-financial-scenario-006",
+    "text": "Реквизиты карты для возврата 0000 7183 9462 0581. Держатель — Макетов Юрий.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-007",
+    "group_id": "v2-financial-scenario-007",
+    "text": "Закрытый расчёт тендера: нижняя граница нашей цены 817000 рублей, резерв скидки 64000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-financial-008",
+    "group_id": "v2-financial-scenario-008",
+    "text": "Сотруднику с табельным номером 91 перечислены отпускные 63180 рублей и компенсация 7450 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-001",
+    "group_id": "v2-passport-scenario-001",
+    "text": "Разворот документа перепечатан: паспорт гражданина РФ, серия 00 31, номер 718394.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-002",
+    "group_id": "v2-passport-scenario-002",
+    "text": "В заявке посетителя документ обозначен как паспорт с реквизитами 0032 629183.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-003",
+    "group_id": "v2-passport-scenario-003",
+    "text": "Для удостоверения личности Макетовой предъявлен паспорт 00 33 № 517293.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-004",
+    "group_id": "v2-passport-scenario-004",
+    "text": "Регистрация договора: сведения о паспорте подписанта — серия 0034, номер 406182.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-005",
+    "group_id": "v2-passport-scenario-005",
+    "text": "В форме страхования заполнены поля: тип документа паспорт; серия 00 35; номер 395071.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-006",
+    "group_id": "v2-passport-scenario-006",
+    "text": "Копия анкеты: Учебнова Вера, паспорт гражданина России 0036 № 284960.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-007",
+    "group_id": "v2-passport-scenario-007",
+    "text": "У доверенного лица паспорт 00 37 173859, код выдавшего подразделения 000-003.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-passport-008",
+    "group_id": "v2-passport-scenario-008",
+    "text": "В бронировании указан заграничный паспорт путешественника: серия 00, номер 6291834.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-001",
+    "group_id": "v2-credentials-scenario-001",
+    "text": "У сервиса резервного копирования пароль учебного аккаунта заменён на Qr7!mV2zL9.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-002",
+    "group_id": "v2-credentials-scenario-002",
+    "text": "Доступ к стенду: пользователь lab_writer, секрет для входа N8v#4pT6wQ.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-003",
+    "group_id": "v2-credentials-scenario-003",
+    "text": "В конфигурации агента AUTH_SECRET=\"r7N2wQ5pL8zV4mK9\".",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-004",
+    "group_id": "v2-credentials-scenario-004",
+    "text": "Передаю ключ для API макета: t6R9pW3mN7qL2vX8.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-005",
+    "group_id": "v2-credentials-scenario-005",
+    "text": "Для подключения к учебному серверу Redis используй пароль H4q!8mR2vZ.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-006",
+    "group_id": "v2-credentials-scenario-006",
+    "text": "Резервный код аутентификации для учебной учётки: 0000-7183-9462.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-007",
+    "group_id": "v2-credentials-scenario-007",
+    "text": "Пароль файла отчёта — J6s#2tW8kP. Введи его при открытии архива.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-credentials-008",
+    "group_id": "v2-credentials-scenario-008",
+    "text": "Открой стенд под оператором lab_ops, значение поля password: F9n!3rV5xQ.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-001",
+    "group_id": "v2-normal-scenario-001",
+    "text": "Логин lab_writer указан в списке дежурных; секрет входа в этом сообщении отсутствует.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-002",
+    "group_id": "v2-normal-scenario-002",
+    "text": "Необходимо отозвать токен старого приложения. Сам токен в письме не приводится.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-003",
+    "group_id": "v2-normal-scenario-003",
+    "text": "Проверьте срок действия паспорта перед поездкой.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-004",
+    "group_id": "v2-normal-scenario-004",
+    "text": "Пачка бумаги в магазине стоит 380 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-005",
+    "group_id": "v2-normal-scenario-005",
+    "text": "В открытом прайс-листе аренда зала указана как 3200 рублей в час.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-006",
+    "group_id": "v2-normal-scenario-006",
+    "text": "Форма просит ввести банковские реквизиты, но мы её ещё не заполняли.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-007",
+    "group_id": "v2-normal-scenario-007",
+    "text": "Строка конфигурации PASSWORD=<удалено>; публикация секрета отключена.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-normal-008",
+    "group_id": "v2-normal-scenario-008",
+    "text": "Как убрать отображение зарплаты из общего отчёта?",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-001",
+    "group_id": "v2-mixed-scenario-001",
+    "text": "В карточке работника: паспорт 00 41 № 739182; оклад 81240 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-002",
+    "group_id": "v2-mixed-scenario-002",
+    "text": "Получатель перевода — Макетов, карта 0000 6218 3947 0516; пароль платёжного стенда T8v!2mL4qR.",
+    "labels": [
+      "financial",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-003",
+    "group_id": "v2-mixed-scenario-003",
+    "text": "Запись заявки: паспорт 0042 628173. Пароль личного кабинета лаборатории P3k#7rN9vW.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-004",
+    "group_id": "v2-mixed-scenario-004",
+    "text": "В анкете заёмщика паспорт 00 43 № 517264, остаток кредита 267300 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-005",
+    "group_id": "v2-mixed-scenario-005",
+    "text": "Отчёт по выплатам: сотрудник 14 — 73400 руб.; пароль архива отчёта S6w!3nQ8rK.",
+    "labels": [
+      "financial",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-006",
+    "group_id": "v2-mixed-scenario-006",
+    "text": "Паспорт заявителя 0044 406355, код входа в его учебную анкету 005218.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-007",
+    "group_id": "v2-mixed-scenario-007",
+    "text": "Договор с Учебновым: паспорт 00 45 № 395446, ежемесячное вознаграждение 97200 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "v2-mixed-008",
+    "group_id": "v2-mixed-scenario-008",
+    "text": "Для проверки доступа используй token=m8V2rQ7nL4wT9kP6; в записи клиента указан паспорт 0046 284537.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/train"
+  },
+  {
+    "id": "contrast-01-positive",
+    "group_id": "contrast-01",
+    "text": "Паспортные данные: серия 00 51 номер 384726.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-01-negative",
+    "group_id": "contrast-01",
+    "text": "Паспортные данные в этом сообщении не указаны.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-02-positive",
+    "group_id": "contrast-02",
+    "text": "В анкете указан паспорт 0052 273615.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-02-negative",
+    "group_id": "contrast-02",
+    "text": "В анкете попросили указать паспорт, но поле пока пустое.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-03-positive",
+    "group_id": "contrast-03",
+    "text": "Для поездки записан загранпаспорт 00 № 9182736.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-03-negative",
+    "group_id": "contrast-03",
+    "text": "Для поездки потребуется действующий загранпаспорт.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-04-positive",
+    "group_id": "contrast-04",
+    "text": "Серия паспорта 00 53, номер 162504.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-04-negative",
+    "group_id": "contrast-04",
+    "text": "Серия паспорта скрыта, номер документа удалён.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-05-positive",
+    "group_id": "contrast-05",
+    "text": "В заявлении паспорт 0054 № 051493.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-05-negative",
+    "group_id": "contrast-05",
+    "text": "Заявление объясняет, какие сведения есть в паспорте.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-06-positive",
+    "group_id": "contrast-06",
+    "text": "Паспорт посетителя: 00 55 940382.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-06-negative",
+    "group_id": "contrast-06",
+    "text": "Посетитель забыл паспорт дома.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-07-positive",
+    "group_id": "contrast-07",
+    "text": "Пароль кабинета: W8q!3nR6vK.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-07-negative",
+    "group_id": "contrast-07",
+    "text": "Пароль кабинета нужно заменить.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-08-positive",
+    "group_id": "contrast-08",
+    "text": "DB_PASSWORD=C6r!9wN2qT",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-08-negative",
+    "group_id": "contrast-08",
+    "text": "DB_PASSWORD=<removed>",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-09-positive",
+    "group_id": "contrast-09",
+    "text": "Вставь ключ API: n7Q3rW8tM2kV6pL9.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-09-negative",
+    "group_id": "contrast-09",
+    "text": "Вставь ключ API из защищённого хранилища.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-10-positive",
+    "group_id": "contrast-10",
+    "text": "Имя lab_writer, пароль H9w#2qN5rT.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-10-negative",
+    "group_id": "contrast-10",
+    "text": "Имя lab_writer, пароль не передаю.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-11-positive",
+    "group_id": "contrast-11",
+    "text": "Для входа используй одноразовый код 009731.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-11-negative",
+    "group_id": "contrast-11",
+    "text": "Для входа запроси одноразовый код.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-12-positive",
+    "group_id": "contrast-12",
+    "text": "Пароль лабораторного архива — timbervioletcloud.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-12-negative",
+    "group_id": "contrast-12",
+    "text": "Пароль лабораторного архива здесь не указан.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-13-positive",
+    "group_id": "contrast-13",
+    "text": "Оклад сотрудника К-85 составляет 98300 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-13-negative",
+    "group_id": "contrast-13",
+    "text": "В публичной вакансии указан оклад 98300 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-14-positive",
+    "group_id": "contrast-14",
+    "text": "В личной выписке остаток на счёте 31700 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-14-negative",
+    "group_id": "contrast-14",
+    "text": "В учебнике объясняется, что такое остаток на счёте.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-15-positive",
+    "group_id": "contrast-15",
+    "text": "Реквизиты карты: 0000 3748 1926 5061.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-15-negative",
+    "group_id": "contrast-15",
+    "text": "Реквизиты карты в отчёте полностью скрыты.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-16-positive",
+    "group_id": "contrast-16",
+    "text": "Долг заявителя по договору 182600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-16-negative",
+    "group_id": "contrast-16",
+    "text": "Обсудим правила погашения долга по договору.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-17-positive",
+    "group_id": "contrast-17",
+    "text": "Для финансового отдела: наша себестоимость заказа 41600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-17-negative",
+    "group_id": "contrast-17",
+    "text": "На витрине указана цена заказа 41600 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-18-positive",
+    "group_id": "contrast-18",
+    "text": "Карта сотрудника: 0000837162495061.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "contrast-18-negative",
+    "group_id": "contrast-18",
+    "text": "Карта сотрудника нужна для входа в офис, банковских данных на ней нет.",
+    "labels": [],
+    "split": "train",
+    "source": "contrast-v3/train"
+  },
+  {
+    "id": "financial-021",
+    "group_id": "financial-scenario-021",
+    "text": "Из реестра пособий: личное дело 58, получатель Макетова, сумма ежемесячного перечисления 21600 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "financial-022",
+    "group_id": "financial-scenario-022",
+    "text": "Прошу использовать эти данные для перевода: 0000 9988 7766 5544, держатель Пётр Учебнов.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "financial-023",
+    "group_id": "financial-scenario-023",
+    "text": "Оборотно-сальдовая ведомость внутреннего проекта: поступило 7350000 руб., дебиторская задолженность 1190000 руб. Отчёт не публичный.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "financial-024",
+    "group_id": "financial-scenario-024",
+    "text": "Client financial profile: Example Person, monthly income RUB 91400, outstanding loan RUB 356000.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "passport-021",
+    "group_id": "passport-scenario-021",
+    "text": "Регистрационная карточка содержит ФИО Тестов Семён и паспортные данные 00 21 № 123400.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "passport-022",
+    "group_id": "passport-scenario-022",
+    "text": "Из заявления на выдачу доверенности: удостоверяющий документ — заграничный паспорт, 00 № 7654321.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "passport-023",
+    "group_id": "passport-scenario-023",
+    "text": "Booking record: travel document type PASSPORT; series 00; number 2345678; surname EXAMPLE.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "passport-024",
+    "group_id": "passport-scenario-024",
+    "text": "Переписала данные разворота для юриста: вид документа паспорт, серия 0022, номер 234500, выдан 19 сентября 2018 года.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "credentials-021",
+    "group_id": "credentials-scenario-021",
+    "text": "Пароль к архиву с рабочими документами — Example-Archive-407.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "credentials-022",
+    "group_id": "credentials-scenario-022",
+    "text": "После сброса вход выполняется так: идентификатор sample_account, кодовое слово Example!Maple86.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "credentials-023",
+    "group_id": "credentials-scenario-023",
+    "text": "В параметре bot_token записано example_only_bot_58290_xyza; это значение даёт доступ к учебному боту.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "credentials-024",
+    "group_id": "credentials-scenario-024",
+    "text": "Credentials for the mock dashboard: account sample_viewer; passphrase Example-Forest-195.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "normal-021",
+    "group_id": "normal-scenario-021",
+    "text": "Планируем созвон по финансовой грамотности. Обсудим, чем вклад отличается от кредита.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "normal-022",
+    "group_id": "normal-scenario-022",
+    "text": "Серийный номер прибора 0019234500; это маркировка оборудования на складе.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "normal-023",
+    "group_id": "normal-scenario-023",
+    "text": "The API key has expired. Generate a replacement in the settings; no key is included here.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "normal-024",
+    "group_id": "normal-scenario-024",
+    "text": "Памятка: паспортные сведения и коды доступа относятся к данным, которые нельзя публиковать.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-financial-011",
+    "group_id": "v2-financial-scenario-011",
+    "text": "Платёжный документ на возврат содержит БИК 000000003 и счёт 00000629183740516293.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-financial-012",
+    "group_id": "v2-financial-scenario-012",
+    "text": "Внутренние сведения по договору: покупатель погасил 98200 рублей, остаток задолженности 71300 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-passport-011",
+    "group_id": "v2-passport-scenario-011",
+    "text": "В нотариальном заявлении реквизиты паспорта записаны через пробелы: 00 39 951637.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-passport-012",
+    "group_id": "v2-passport-scenario-012",
+    "text": "Данные разворота для оформления страховки: паспорт серии 0040 с номером 840526.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-credentials-011",
+    "group_id": "v2-credentials-scenario-011",
+    "text": "Из файла параметров: signing_secret = b8H3nM6rT2vQ9wK4.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-credentials-012",
+    "group_id": "v2-credentials-scenario-012",
+    "text": "Вход в лабораторный Wi-Fi по паролю R5m!9kL2sV.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-normal-011",
+    "group_id": "v2-normal-scenario-011",
+    "text": "Пароль архиву не задан, доступ к файлу ограничен правами каталога.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-normal-012",
+    "group_id": "v2-normal-scenario-012",
+    "text": "На сайте банка опубликованы общие условия кредита: ставка от 15 процентов годовых.",
+    "labels": [],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-mixed-011",
+    "group_id": "v2-mixed-scenario-011",
+    "text": "К анкете приложены паспорт 0048 062719 и сумма персонального долга 194800 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "v2-mixed-012",
+    "group_id": "v2-mixed-scenario-012",
+    "text": "Для лабораторного клиента сохранены паспорт 00 49 № 951800 и secret_key=n4W8rT2qL6vP9kM3.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "synthetic-v2/test"
+  },
+  {
+    "id": "holdout-financial-001",
+    "group_id": "holdout-financial-001",
+    "text": "По сотруднику К-704: заработная плата за сентябрь 118430 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-002",
+    "group_id": "holdout-financial-002",
+    "text": "Мой ежемесячный доход составляет 67300 руб., задолженность по кредиту 184900 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-003",
+    "group_id": "holdout-financial-003",
+    "text": "Возврат прошу направить на банковскую карту 0000 2648 1937 5062.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-004",
+    "group_id": "holdout-financial-004",
+    "text": "Получатель Примеров Даниил, расчётный счёт 00000374829165028473, банк учебный.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-005",
+    "group_id": "holdout-financial-005",
+    "text": "Из ведомости: работник № 62, начислено 48570 руб., удержано 6240 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-006",
+    "group_id": "holdout-financial-006",
+    "text": "Просроченный долг клиента Л-83 — 238600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-007",
+    "group_id": "holdout-financial-007",
+    "text": "Сотруднице Макетовой перечислена премия в размере 36400 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-008",
+    "group_id": "holdout-financial-008",
+    "text": "Личная выписка: баланс счёта 157820 руб., операция списания 3280 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-009",
+    "group_id": "holdout-financial-009",
+    "text": "Закрытая смета для директора: расходы отдела 913000 руб.; до публикации не распространять.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-010",
+    "group_id": "holdout-financial-010",
+    "text": "Financial profile for client Z-23: monthly salary RUB 82300; personal debt RUB 196000.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-011",
+    "group_id": "holdout-financial-011",
+    "text": "Платёжные данные: БИК 000000007, счёт получателя 00000817263549018273.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-012",
+    "group_id": "holdout-financial-012",
+    "text": "Карта для перечисления: 0000384716295061.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-013",
+    "group_id": "holdout-financial-013",
+    "text": "По делу заёмщика: остаток кредита 389450 руб., платёж 19620 руб. ежемесячно.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-014",
+    "group_id": "holdout-financial-014",
+    "text": "Внутренний финансовый отчёт: прибыль 1640000 рублей, затраты 837000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-015",
+    "group_id": "holdout-financial-015",
+    "text": "Табельный номер 109; отпускные 59820 рублей, к выплате 52044 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-016",
+    "group_id": "holdout-financial-016",
+    "text": "Справка: гражданину Учебнову назначено пособие 19470 рублей в месяц.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-017",
+    "group_id": "holdout-financial-017",
+    "text": "Реквизиты: личный банковский счёт 00000263948517026394.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-018",
+    "group_id": "holdout-financial-018",
+    "text": "Непубличная себестоимость партии — 271000 рублей, маржа по закрытому контракту — 19%.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-019",
+    "group_id": "holdout-financial-019",
+    "text": "Клиенту Примеровой одобрен кредит 731000 рублей. Её официальный доход — 92400 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-020",
+    "group_id": "holdout-financial-020",
+    "text": "Мой оклад — 105000 рублей, премия — 16000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-021",
+    "group_id": "holdout-financial-021",
+    "text": "Сводка взысканий: должник Макетов, задолженность 74900 руб., просрочка 28 дней.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-022",
+    "group_id": "holdout-financial-022",
+    "text": "Платёж работнику С-17: компенсация лечения 23500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-023",
+    "group_id": "holdout-financial-023",
+    "text": "Возвращать на карту: 0000-9274-1638-5026, получатель Учебнова.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-024",
+    "group_id": "holdout-financial-024",
+    "text": "Внутренний реестр содержит сумму гонорара исполнителя 143800 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-025",
+    "group_id": "holdout-financial-025",
+    "text": "Bank account for the recipient: 00000928174635091827.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-026",
+    "group_id": "holdout-financial-026",
+    "text": "Зарплатная ведомость\nПримеров\nНачислено: 112600 руб.\nУдержано: 14638 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-027",
+    "group_id": "holdout-financial-027",
+    "text": "Счёт клиента по данным банка: остаток 69100 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-028",
+    "group_id": "holdout-financial-028",
+    "text": "Номер карты работника записан так: 0000  1836  4927  5061.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-029",
+    "group_id": "holdout-financial-029",
+    "text": "Для финансового отдела: неопубликованная выручка за неделю 873000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-financial-030",
+    "group_id": "holdout-financial-030",
+    "text": "По его договору займа осталось выплатить 45300 рублей; сведения из личного дела.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-001",
+    "group_id": "holdout-passport-001",
+    "text": "У посетителя Макетова паспорт серии 00 61 номер 728194.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-002",
+    "group_id": "holdout-passport-002",
+    "text": "Паспортные реквизиты: 0062 617283.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-003",
+    "group_id": "holdout-passport-003",
+    "text": "Документ заявителя — паспорт; серия: 00 63; номер: 506172.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-004",
+    "group_id": "holdout-passport-004",
+    "text": "В карточке работника указан паспорт 00-64 № 495061.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-005",
+    "group_id": "holdout-passport-005",
+    "text": "Доверитель Примерова, паспорт Российской Федерации 0065 № 384950.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-006",
+    "group_id": "holdout-passport-006",
+    "text": "Данные удостоверения личности: паспорт, 00 66 273849.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-007",
+    "group_id": "holdout-passport-007",
+    "text": "Заграничный паспорт пассажира: 00 № 1827364.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-008",
+    "group_id": "holdout-passport-008",
+    "text": "Скан переписан: ПАСПОРТ ГРАЖДАНИНА РФ\nСЕРИЯ 00 67\nНОМЕР 162738.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-009",
+    "group_id": "holdout-passport-009",
+    "text": "Анкета туриста: загранпаспорт 001927364.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-010",
+    "group_id": "holdout-passport-010",
+    "text": "Passport details: series 00, number 2837465, holder SAMPLE CITIZEN.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-011",
+    "group_id": "holdout-passport-011",
+    "text": "Для оформления доверенности серия паспорта 0068, номер 051627.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-012",
+    "group_id": "holdout-passport-012",
+    "text": "У Примерова паспорт 00 69 940516, выдан учебным органом.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-013",
+    "group_id": "holdout-passport-013",
+    "text": "Подписант договора предъявил паспорт № 0060837264.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-014",
+    "group_id": "holdout-passport-014",
+    "text": "Паспорт: серия — 00 70; номер — 839405.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-015",
+    "group_id": "holdout-passport-015",
+    "text": "Билет оформлен на документ «паспорт РФ», номер 0071728394.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-016",
+    "group_id": "holdout-passport-016",
+    "text": "Строка из реестра гостей: паспорт 00 72 № 617283.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-017",
+    "group_id": "holdout-passport-017",
+    "text": "Паспортные данные клиента: 0073 / 506172.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-018",
+    "group_id": "holdout-passport-018",
+    "text": "Удостоверяющий документ в заявлении: паспорт, серия 00 74, № 495061.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-019",
+    "group_id": "holdout-passport-019",
+    "text": "Кадры просят сверить паспорт работника: 0075 384950.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-020",
+    "group_id": "holdout-passport-020",
+    "text": "Для договора страхования передаю паспорт 00 76 № 273849.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-021",
+    "group_id": "holdout-passport-021",
+    "text": "Загранпаспорт доверителя: серия 00 номер 3748291.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-022",
+    "group_id": "holdout-passport-022",
+    "text": "Анкета содержит паспортные реквизиты: серия 0077, номер 162738.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-023",
+    "group_id": "holdout-passport-023",
+    "text": "Паспорт Макетовой: 00 78 051627; дата выдачи 18 марта 2020 года.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-024",
+    "group_id": "holdout-passport-024",
+    "text": "В заявлении значится паспорт 0079-940516.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-025",
+    "group_id": "holdout-passport-025",
+    "text": "Паспорт гражданина России, серия 00 80, шестизначный номер 839405.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-026",
+    "group_id": "holdout-passport-026",
+    "text": "Регистрационная запись: тип документа PASSPORT; serial 00; number 4859372.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-027",
+    "group_id": "holdout-passport-027",
+    "text": "Из разворота паспорта переписаны 0081 и 728394 — серия и номер соответственно.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-028",
+    "group_id": "holdout-passport-028",
+    "text": "Для нотариуса: паспорт Учебновой 00 82 № 617283.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-029",
+    "group_id": "holdout-passport-029",
+    "text": "Реквизиты паспорта руководителя организации: 0083 506172.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-passport-030",
+    "group_id": "holdout-passport-030",
+    "text": "В листе согласования есть паспорт подписанта: серия 00 84 номер 495061.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-001",
+    "group_id": "holdout-credentials-001",
+    "text": "Пароль от тестового портала: L7w!2qR9vM.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-002",
+    "group_id": "holdout-credentials-002",
+    "text": "Логин lab_shift, пароль D8n#3rK6tP.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-003",
+    "group_id": "holdout-credentials-003",
+    "text": "В файле настроек API_KEY = \"y6R2kN9wQ4mT8pV3\".",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-004",
+    "group_id": "holdout-credentials-004",
+    "text": "AUTH_TOKEN=q4N8wR2kM6vT9pL3",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-005",
+    "group_id": "holdout-credentials-005",
+    "text": "Для учебной БД установлены user=lab_db и password=W3q!9rN6vK.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-006",
+    "group_id": "holdout-credentials-006",
+    "text": "Секрет входа в лабораторный сервис — E7m#4pT2wQ.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-007",
+    "group_id": "holdout-credentials-007",
+    "text": "Открой архив с паролем C9r!6vK3mN.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-008",
+    "group_id": "holdout-credentials-008",
+    "text": "Код входа в учебный аккаунт: 008419.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-009",
+    "group_id": "holdout-credentials-009",
+    "text": "В резерве остался код восстановления 0000-6382-1947.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-010",
+    "group_id": "holdout-credentials-010",
+    "text": "Bearer token for mock service: z8Q3nR6wT2kM9vL4.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-011",
+    "group_id": "holdout-credentials-011",
+    "text": "Значение client_secret: a4W9rN2qT6vK8mP3.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-012",
+    "group_id": "holdout-credentials-012",
+    "text": "Пароль служебного Wi-Fi — P6t!3nL9wR.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-013",
+    "group_id": "holdout-credentials-013",
+    "text": "Учебный кабинет открывается с логином sample_gate и паролем R2k#8mV5qN.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-014",
+    "group_id": "holdout-credentials-014",
+    "text": "Строка подключения: mysql://lab:X7p!4nR2qM@db.example.invalid/demo",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-015",
+    "group_id": "holdout-credentials-015",
+    "text": "SMTP_PASSWORD=\"K5w!9qN3rT\"",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-016",
+    "group_id": "holdout-credentials-016",
+    "text": "В поле пароля впиши amberriverstone.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-017",
+    "group_id": "holdout-credentials-017",
+    "text": "Пароль к макету: 48192637.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-018",
+    "group_id": "holdout-credentials-018",
+    "text": "bot_token: example_only_328471_labtoken",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-019",
+    "group_id": "holdout-credentials-019",
+    "text": "Подпись запросов на стенде выполняется ключом signing_secret=n8R3wQ6kT2vM9pL4.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-020",
+    "group_id": "holdout-credentials-020",
+    "text": "Учётка для демонстрации: login=lab_observer; passphrase=F4m!7qR2vN.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-021",
+    "group_id": "holdout-credentials-021",
+    "text": "One-time login code: 005739.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-022",
+    "group_id": "holdout-credentials-022",
+    "text": "Для тестового сервера пароль равен H2v#8kM4rQ.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-023",
+    "group_id": "holdout-credentials-023",
+    "text": "В настройках есть refresh_token: b7N2wR9qT4mK6vP3.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-024",
+    "group_id": "holdout-credentials-024",
+    "text": "Авторизация стенда: Authorization: Bearer c8R3wQ6nT2kM9vL4.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-025",
+    "group_id": "holdout-credentials-025",
+    "text": "Пользователь lab_report; секрет для входа записан как V9q!2mR7nK.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-026",
+    "group_id": "holdout-credentials-026",
+    "text": "Пароль в учебном примере приложения установлен в G6r#3wN8qT.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-027",
+    "group_id": "holdout-credentials-027",
+    "text": "Передаю резервный код входа: 0000  4718  2936.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-028",
+    "group_id": "holdout-credentials-028",
+    "text": "Ключ доступа к API макета: d9W4rN7qT2vK6mP3.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-029",
+    "group_id": "holdout-credentials-029",
+    "text": "В конфиге сохранено DB_PASSWORD = S3n!8wR6qK.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-credentials-030",
+    "group_id": "holdout-credentials-030",
+    "text": "Для аккаунта lab_case назначена секретная фраза \"violet timber meadow\".",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-001",
+    "group_id": "holdout-normal-001",
+    "text": "Обнови пароль перед выходом из отпуска.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-002",
+    "group_id": "holdout-normal-002",
+    "text": "Паспорт потребуется при заселении; номер сообщать в чате не нужно.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-003",
+    "group_id": "holdout-normal-003",
+    "text": "За чашку кофе просят 260 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-004",
+    "group_id": "holdout-normal-004",
+    "text": "Логин сотрудника lab_shift. Пароль здесь не указан.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-005",
+    "group_id": "holdout-normal-005",
+    "text": "Ключ API истёк, выпусти новый через настройки.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-006",
+    "group_id": "holdout-normal-006",
+    "text": "Инвентарный номер прибора 0062617283.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-007",
+    "group_id": "holdout-normal-007",
+    "text": "Стоимость билета 1850 руб., опубликована на сайте.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-008",
+    "group_id": "holdout-normal-008",
+    "text": "Нужна консультация по вопросу банковской задолженности.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-009",
+    "group_id": "holdout-normal-009",
+    "text": "PASSWORD=[REDACTED]; LOGIN=lab_case.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-010",
+    "group_id": "holdout-normal-010",
+    "text": "Статья рассказывает о защите паспортных данных.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-011",
+    "group_id": "holdout-normal-011",
+    "text": "В магазине скидка 15%, цена после скидки 3400 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-012",
+    "group_id": "holdout-normal-012",
+    "text": "Please reset the account password. No credential is attached.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-013",
+    "group_id": "holdout-normal-013",
+    "text": "Форма заявления: паспорт серия __ __, номер ______.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-014",
+    "group_id": "holdout-normal-014",
+    "text": "Номер заказа 483726; доставить к 18 часам.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-015",
+    "group_id": "holdout-normal-015",
+    "text": "В 2024 году опубликована выручка компании 18 млн рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-016",
+    "group_id": "holdout-normal-016",
+    "text": "API_KEY=${LAB_API_KEY}; подставьте значение из защищённого окружения.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-017",
+    "group_id": "holdout-normal-017",
+    "text": "Удали пароль из журнала и повтори проверку.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-018",
+    "group_id": "holdout-normal-018",
+    "text": "На стенде ошибка 401: требуется токен доступа.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-019",
+    "group_id": "holdout-normal-019",
+    "text": "Серия учебного пособия 0063, тираж 506172 экземпляра.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-020",
+    "group_id": "holdout-normal-020",
+    "text": "Пароль скрыт символами ********, восстановить его из сообщения нельзя.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-021",
+    "group_id": "holdout-normal-021",
+    "text": "Таблица умножения распечатана на 30 листах; стоимость печати 180 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-022",
+    "group_id": "holdout-normal-022",
+    "text": "Bank card details must never be shared publicly.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-023",
+    "group_id": "holdout-normal-023",
+    "text": "Для заявления запишите только слово «паспорт», остальные поля оставьте пустыми.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-024",
+    "group_id": "holdout-normal-024",
+    "text": "Согласуем график выплат зарплаты на следующую неделю.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-025",
+    "group_id": "holdout-normal-025",
+    "text": "Токен удалён. Старое значение не сохранено.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-026",
+    "group_id": "holdout-normal-026",
+    "text": "Публичная вакансия: зарплата от 120000 рублей в месяц.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-027",
+    "group_id": "holdout-normal-027",
+    "text": "Программа курса включает финансовый анализ и расчёт прибыли предприятия.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-028",
+    "group_id": "holdout-normal-028",
+    "text": "DB_PASSWORD=<hidden>; DB_USER=lab_db.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-029",
+    "group_id": "holdout-normal-029",
+    "text": "Заряд аккумулятора 84 процента; время работы 6 часов.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "holdout-normal-030",
+    "group_id": "holdout-normal-030",
+    "text": "Как заменить паспорт в 45 лет и сколько стоит госпошлина?",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v3/test"
+  },
+  {
+    "id": "v4-financial-01",
+    "group_id": "v4-financial-01",
+    "text": "По индивидуальному расчёту Макетовой выплачено 64720 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-02",
+    "group_id": "v4-financial-02",
+    "text": "Личный банковский счёт получателя: 00000471628395047162.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-03",
+    "group_id": "v4-financial-03",
+    "text": "За работником У-26 числится долг 37840 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-04",
+    "group_id": "v4-financial-04",
+    "text": "Начислено сотруднику 93710 руб.; удержано 12182 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-05",
+    "group_id": "v4-financial-05",
+    "text": "Моя зарплата за август составила 87460 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-06",
+    "group_id": "v4-financial-06",
+    "text": "Учебнов получил компенсацию лечения 17480 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-07",
+    "group_id": "v4-financial-07",
+    "text": "Для возврата указываю карту 0000 5629 1847 3061.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-08",
+    "group_id": "v4-financial-08",
+    "text": "Неопубликованная прибыль фирмы за месяц 2380000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-09",
+    "group_id": "v4-financial-09",
+    "text": "Внутренние расходы проекта на подрядчиков — 764000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-10",
+    "group_id": "v4-financial-10",
+    "text": "Bank statement: personal balance RUB 52380; monthly loan payment RUB 12800.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-11",
+    "group_id": "v4-financial-11",
+    "text": "Сведения о доходах заявителя: 106700 рублей в месяц.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-financial-12",
+    "group_id": "v4-financial-12",
+    "text": "Данные заёмщика: задолженность 268700 руб., просрочка 34 дня.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-01",
+    "group_id": "v4-passport-01",
+    "text": "Доверенность оформлена на паспорт 0085 384716.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-02",
+    "group_id": "v4-passport-02",
+    "text": "Паспортные реквизиты: серия 00 86, номер 273605.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-03",
+    "group_id": "v4-passport-03",
+    "text": "Регистрация гостя: паспорт РФ 0087 № 162594.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-04",
+    "group_id": "v4-passport-04",
+    "text": "Анкета: паспорт гражданина России, серия 0088, номер 051483.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-05",
+    "group_id": "v4-passport-05",
+    "text": "ПАСПОРТ\nСЕРИЯ 00 89\nНОМЕР 940372",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-06",
+    "group_id": "v4-passport-06",
+    "text": "Для страховки указан загранпаспорт 00 № 8273645.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-07",
+    "group_id": "v4-passport-07",
+    "text": "Сведения из документа: паспорт серии 0090 с номером 839261.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-08",
+    "group_id": "v4-passport-08",
+    "text": "Документ посетителя — паспорт 00 91 728150.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-09",
+    "group_id": "v4-passport-09",
+    "text": "Для доверителя записаны реквизиты паспорта 0092/617049.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-10",
+    "group_id": "v4-passport-10",
+    "text": "Passport: series 00, number 7162534.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-11",
+    "group_id": "v4-passport-11",
+    "text": "Кадровая анкета содержит паспорт 00 93 № 506938.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-passport-12",
+    "group_id": "v4-passport-12",
+    "text": "Паспорт исполнителя: 0094 495827.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-01",
+    "group_id": "v4-credentials-01",
+    "text": "Для лабораторного портала пароль: сосновыйлес.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-02",
+    "group_id": "v4-credentials-02",
+    "text": "Пароль учебного кабинета = туман.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-03",
+    "group_id": "v4-credentials-03",
+    "text": "Для макета password: oak.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-04",
+    "group_id": "v4-credentials-04",
+    "text": "В конфиге LAB_TOKEN=F6n3R9w2T8q4K7m1.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-05",
+    "group_id": "v4-credentials-05",
+    "text": "Секретная фраза аккаунта: «зимний лес у реки».",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-06",
+    "group_id": "v4-credentials-06",
+    "text": "Для входа в учебный кабинет код 006285.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-07",
+    "group_id": "v4-credentials-07",
+    "text": "Ключ доступа к макету API: M4r8W2q7N6t3P9v1.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-08",
+    "group_id": "v4-credentials-08",
+    "text": "Пароль к архиву: 729461.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-09",
+    "group_id": "v4-credentials-09",
+    "text": "Учебный access_key = r6T2wN8qK4mV9pL3.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-10",
+    "group_id": "v4-credentials-10",
+    "text": "Authorization: Bearer j5R9wQ2nT8kM4vL6.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-11",
+    "group_id": "v4-credentials-11",
+    "text": "В учебной базе password=Z8q!3nW6rK.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-credentials-12",
+    "group_id": "v4-credentials-12",
+    "text": "Строка для стенда: postgres://lab_user:X5r!8qN2mV@lab.example.invalid/db",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-01",
+    "group_id": "v4-normal-01",
+    "text": "Обновите пароль до 2028 года.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-02",
+    "group_id": "v4-normal-02",
+    "text": "Номер паспорта удалён. Заказ 0085384716 уже доставлен.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-03",
+    "group_id": "v4-normal-03",
+    "text": "Логин lab_helper опубликован в справочнике.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-04",
+    "group_id": "v4-normal-04",
+    "text": "Пароль не указан; номер обращения 762819.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-05",
+    "group_id": "v4-normal-05",
+    "text": "PASSWORD=<hidden>; статус проверки success.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-06",
+    "group_id": "v4-normal-06",
+    "text": "Публичная вакансия: оклад 97000 рублей, полная занятость.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-07",
+    "group_id": "v4-normal-07",
+    "text": "В публичном отчёте указана прибыль 7 млн рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-08",
+    "group_id": "v4-normal-08",
+    "text": "Паспорт нужен на проходной, телефон для связи 0018273645.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-09",
+    "group_id": "v4-normal-09",
+    "text": "Пароль должен содержать не менее 12 символов.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-10",
+    "group_id": "v4-normal-10",
+    "text": "Ключ API хранится в защищённом хранилище, здесь его нет.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-11",
+    "group_id": "v4-normal-11",
+    "text": "На выставке вход стоит 760 рублей.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-normal-12",
+    "group_id": "v4-normal-12",
+    "text": "DB_PASSWORD=${SECRET_FROM_STORE}; DB_USER=lab_helper.",
+    "labels": [],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-01",
+    "group_id": "v4-mixed-01",
+    "text": "Паспорт 0095 384716; мой оклад 118700 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-02",
+    "group_id": "v4-mixed-02",
+    "text": "Пароль: берёзка; карта для возврата 0000 4918 2736 5061.",
+    "labels": [
+      "credentials",
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-03",
+    "group_id": "v4-mixed-03",
+    "text": "Паспорт 00 96 № 273605; пароль анкеты: Q2w!7nR5mV.",
+    "labels": [
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-04",
+    "group_id": "v4-mixed-04",
+    "text": "Начислено работнику 72180 руб.; паспорт 0097 162594; API_KEY=h7R2nW9qT4mK6vP3.",
+    "labels": [
+      "financial",
+      "passport",
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-05",
+    "group_id": "v4-mixed-05",
+    "text": "Публичный тариф — 420 рублей; моя зарплата — 91400 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-06",
+    "group_id": "v4-mixed-06",
+    "text": "Номер заказа 628194; паспорт посетителя 0098 051483.",
+    "labels": [
+      "passport"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-07",
+    "group_id": "v4-mixed-07",
+    "text": "Пароль не указан; новый пароль: лунныйсвет.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-08",
+    "group_id": "v4-mixed-08",
+    "text": "PASSWORD=[REDACTED]; access_token=t8Q3rN6wK2mV9pL4.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-09",
+    "group_id": "v4-mixed-09",
+    "text": "Логин lab_clerk; паспорт 00 99 940372; долг заявителя 18270 рублей.",
+    "labels": [
+      "passport",
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-10",
+    "group_id": "v4-mixed-10",
+    "text": "На сайте цена 1200 рублей; API_KEY=a9W4nR7qT2mK6vP3.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-11",
+    "group_id": "v4-mixed-11",
+    "text": "Паспорт понадобится завтра; пароль стенда: 937162.",
+    "labels": [
+      "credentials"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "v4-mixed-12",
+    "group_id": "v4-mixed-12",
+    "text": "Мой доход 136200 рублей; пароль в этом письме отсутствует.",
+    "labels": [
+      "financial"
+    ],
+    "split": "train",
+    "source": "holdout-v4/test"
+  },
+  {
+    "id": "linear-test-financial-01",
+    "group_id": "new-financial-01",
+    "split": "train",
+    "text": "Начисления конкретному сотруднику за июнь: 87340 руб., из них премиальная часть 19400 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-02",
+    "group_id": "new-financial-02",
+    "split": "train",
+    "text": "По кредитному договору Учебнова осталось погасить 318450 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-03",
+    "group_id": "new-financial-03",
+    "split": "train",
+    "text": "Личный депозит Макетовой на сегодня составляет 724600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-04",
+    "group_id": "new-financial-04",
+    "split": "train",
+    "text": "За прошлый месяц мой доход после налогов составил 68500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-05",
+    "group_id": "new-financial-05",
+    "split": "train",
+    "text": "В закрытом бюджете подразделения на следующий квартал заложены убытки 8,2 млн рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-06",
+    "group_id": "new-financial-06",
+    "split": "train",
+    "text": "Внутренняя таблица: прибыль филиала 410000 рублей; наружу эти показатели не публикуем.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-07",
+    "group_id": "new-financial-07",
+    "split": "train",
+    "text": "Моя банковская карта: 4000 1234 5678 9001.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-08",
+    "group_id": "new-financial-08",
+    "split": "train",
+    "text": "Выписка по счёту Макетова: остаток 53780 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-09",
+    "group_id": "new-financial-09",
+    "split": "train",
+    "text": "Сотруднице Учебновой перечислен аванс в размере 31200 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-10",
+    "group_id": "new-financial-10",
+    "split": "train",
+    "text": "Расчётный лист: зарплата 92100 рублей, удержание 11973 рубля.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-11",
+    "group_id": "new-financial-11",
+    "split": "train",
+    "text": "Личный долг по ипотеке составляет 2460000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-financial-12",
+    "group_id": "new-financial-12",
+    "split": "train",
+    "text": "Для перевода: номер банковского счёта 40817810000012345678.",
+    "labels": [
+      "financial"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-01",
+    "group_id": "new-passport-01",
+    "split": "train",
+    "text": "В заявлении указан паспорт: 00 62 741852, выдан учебным отделением.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-02",
+    "group_id": "new-passport-02",
+    "split": "train",
+    "text": "Документ гражданина РФ, паспорт серия 0052, номер 619283.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-03",
+    "group_id": "new-passport-03",
+    "split": "train",
+    "text": "Паспортные сведения сотрудника: серия 00 31, номер 567890.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-04",
+    "group_id": "new-passport-04",
+    "split": "train",
+    "text": "Из анкеты: паспорт 0041 951753, фамилия Учебнова.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-05",
+    "group_id": "new-passport-05",
+    "split": "train",
+    "text": "Реквизиты паспорта для договора — 00 29 753159.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-06",
+    "group_id": "new-passport-06",
+    "split": "train",
+    "text": "Мой паспорт РФ: серия 0072; номер 826491.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-07",
+    "group_id": "new-passport-07",
+    "split": "train",
+    "text": "Копия формы: паспорт серия 00 36, номер 135792, дата выдачи 12.04.2020.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-08",
+    "group_id": "new-passport-08",
+    "split": "train",
+    "text": "Переписал паспорт клиента: 0081 246813.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-09",
+    "group_id": "new-passport-09",
+    "split": "train",
+    "text": "Для проверки личности прикладываю реквизиты: паспорт 00 44 579135.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-10",
+    "group_id": "new-passport-10",
+    "split": "train",
+    "text": "Данные документа:\nПаспорт гражданина РФ\nСерия: 0063\nНомер: 728194.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-11",
+    "group_id": "new-passport-11",
+    "split": "train",
+    "text": "Внутренняя карточка Макетовой содержит паспорт 0092 863197.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-passport-12",
+    "group_id": "new-passport-12",
+    "split": "train",
+    "text": "Паспортные реквизиты представителя: 00 53 741963.",
+    "labels": [
+      "passport"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-01",
+    "group_id": "new-credentials-01",
+    "split": "train",
+    "text": "Учётная запись тестового сервиса: логин sample_user, пароль Lipa!7429.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-02",
+    "group_id": "new-credentials-02",
+    "split": "train",
+    "text": "Для входа в кабинет используй пароль: солнечная_роща.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-03",
+    "group_id": "new-credentials-03",
+    "split": "train",
+    "text": "Одноразовый код подтверждения входа: 582741.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-04",
+    "group_id": "new-credentials-04",
+    "split": "train",
+    "text": "Пароль к архиву — макетныйлес.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-05",
+    "group_id": "new-credentials-05",
+    "split": "train",
+    "text": "Строка подключения: postgres://demo:TrainingOnly82@localhost/example.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-06",
+    "group_id": "new-credentials-06",
+    "split": "train",
+    "text": "Секрет приложения: client_secret=fictional_demo_AZ73.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-07",
+    "group_id": "new-credentials-07",
+    "split": "train",
+    "text": "API token: demo_token_7391_xxyy.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-08",
+    "group_id": "new-credentials-08",
+    "split": "train",
+    "text": "Код доступа к тестовой системе равен 482917.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-09",
+    "group_id": "new-credentials-09",
+    "split": "train",
+    "text": "Для тестового аккаунта установлен пароль «ЛиповаяАллея».",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-10",
+    "group_id": "new-credentials-10",
+    "split": "train",
+    "text": "В конфигурации записано password = Sample!31415.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-11",
+    "group_id": "new-credentials-11",
+    "split": "train",
+    "text": "Ключ API для учебной интеграции: mock_key_9172.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-credentials-12",
+    "group_id": "new-credentials-12",
+    "split": "train",
+    "text": "Секретная фраза для входа: северная звезда.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-01",
+    "group_id": "new-normal-01",
+    "split": "train",
+    "text": "Напомни коллеге сменить пароль после первого входа.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-02",
+    "group_id": "new-normal-02",
+    "split": "train",
+    "text": "Номер паспорта в этом письме не приводится.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-03",
+    "group_id": "new-normal-03",
+    "split": "train",
+    "text": "Вебинар о зарплатах начинается в 14:30.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-04",
+    "group_id": "new-normal-04",
+    "split": "train",
+    "text": "На сайте магазина цена ноутбука 87340 рублей.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-05",
+    "group_id": "new-normal-05",
+    "split": "train",
+    "text": "Публичная вакансия: оклад от 95000 рублей.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-06",
+    "group_id": "new-normal-06",
+    "split": "train",
+    "text": "Введите серию и номер паспорта в защищённой форме.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-07",
+    "group_id": "new-normal-07",
+    "split": "train",
+    "text": "В форме password стоит значение [REDACTED].",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-08",
+    "group_id": "new-normal-08",
+    "split": "train",
+    "text": "Поле API token оставлено пустым.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-09",
+    "group_id": "new-normal-09",
+    "split": "train",
+    "text": "Банковская карта потеряна, её номер я не помню.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-10",
+    "group_id": "new-normal-10",
+    "split": "train",
+    "text": "Заказ 0052 619283 готов к выдаче.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-11",
+    "group_id": "new-normal-11",
+    "split": "train",
+    "text": "Паспорт станка: модель 741852, инвентарный номер 0062.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-12",
+    "group_id": "new-normal-12",
+    "split": "train",
+    "text": "Обсудим бюджет завтра, цифры пока не согласованы.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-13",
+    "group_id": "new-normal-13",
+    "split": "train",
+    "text": "Мы не передаём логины и пароли в общем чате.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-14",
+    "group_id": "new-normal-14",
+    "split": "train",
+    "text": "Код товара 582741, доступен на открытом сайте.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-15",
+    "group_id": "new-normal-15",
+    "split": "train",
+    "text": "Секрет приложения удалён; здесь только инструкция установки.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-16",
+    "group_id": "new-normal-16",
+    "split": "train",
+    "text": "Серия учебника 00 44, тираж 579135 экземпляров.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-17",
+    "group_id": "new-normal-17",
+    "split": "train",
+    "text": "На открытой странице банка опубликована ставка 12 процентов.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-18",
+    "group_id": "new-normal-18",
+    "split": "train",
+    "text": "Поздравляю с повышением! Желаю успехов.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-19",
+    "group_id": "new-normal-19",
+    "split": "train",
+    "text": "Платёжные реквизиты будут предоставлены через защищённый канал.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-20",
+    "group_id": "new-normal-20",
+    "split": "train",
+    "text": "Форма клиента: паспорт не указан, телефон 89123456789.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-21",
+    "group_id": "new-normal-21",
+    "split": "train",
+    "text": "Пример переменной: client_secret=${SECRET}.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-22",
+    "group_id": "new-normal-22",
+    "split": "train",
+    "text": "Сколько символов должно быть в пароле?",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-23",
+    "group_id": "new-normal-23",
+    "split": "train",
+    "text": "Публичный прайс: консультация бухгалтера стоит 3000 рублей.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "linear-test-normal-24",
+    "group_id": "new-normal-24",
+    "split": "train",
+    "text": "Пароль: ********. Действительное значение скрыто.",
+    "labels": [],
+    "source": "disclosed_linear_v1_test"
+  },
+  {
+    "id": "v2-contrast-0",
+    "group_id": "v2-1afeb8c5a51c",
+    "split": "train",
+    "text": "На открытом сайте указана цена 0051 382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-1",
+    "group_id": "v2-1afeb8c5a51c",
+    "split": "train",
+    "text": "На открытом сайте указана цена 95600 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-2",
+    "group_id": "v2-1afeb8c5a51c",
+    "split": "train",
+    "text": "На открытом сайте указана цена 0052382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-3",
+    "group_id": "v2-1afeb8c5a51c",
+    "split": "train",
+    "text": "На открытом сайте указана цена 748291 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-4",
+    "group_id": "v2-95b758272561",
+    "split": "train",
+    "text": "В публичной вакансии зарплата 0051 382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-5",
+    "group_id": "v2-95b758272561",
+    "split": "train",
+    "text": "В публичной вакансии зарплата 95600 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-6",
+    "group_id": "v2-95b758272561",
+    "split": "train",
+    "text": "В публичной вакансии зарплата 0052382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-7",
+    "group_id": "v2-95b758272561",
+    "split": "train",
+    "text": "В публичной вакансии зарплата 748291 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-8",
+    "group_id": "v2-4059e4e554d2",
+    "split": "train",
+    "text": "Стоимость товара в каталоге 0051 382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-9",
+    "group_id": "v2-4059e4e554d2",
+    "split": "train",
+    "text": "Стоимость товара в каталоге 95600 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-10",
+    "group_id": "v2-4059e4e554d2",
+    "split": "train",
+    "text": "Стоимость товара в каталоге 0052382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-11",
+    "group_id": "v2-4059e4e554d2",
+    "split": "train",
+    "text": "Стоимость товара в каталоге 748291 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-12",
+    "group_id": "v2-5244c876dd8a",
+    "split": "train",
+    "text": "Паспорт оборудования: серийный номер 0051 382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-13",
+    "group_id": "v2-5244c876dd8a",
+    "split": "train",
+    "text": "Паспорт оборудования: серийный номер 95600.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-14",
+    "group_id": "v2-5244c876dd8a",
+    "split": "train",
+    "text": "Паспорт оборудования: серийный номер 0052382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-15",
+    "group_id": "v2-5244c876dd8a",
+    "split": "train",
+    "text": "Паспорт оборудования: серийный номер 748291.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-16",
+    "group_id": "v2-4ea079c0d204",
+    "split": "train",
+    "text": "Заказ 0051 382916 оплачен.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-17",
+    "group_id": "v2-4ea079c0d204",
+    "split": "train",
+    "text": "Заказ 95600 оплачен.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-18",
+    "group_id": "v2-4ea079c0d204",
+    "split": "train",
+    "text": "Заказ 0052382916 оплачен.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-19",
+    "group_id": "v2-4ea079c0d204",
+    "split": "train",
+    "text": "Заказ 748291 оплачен.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-20",
+    "group_id": "v2-449f80116f57",
+    "split": "train",
+    "text": "Код товара: 0051 382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-21",
+    "group_id": "v2-449f80116f57",
+    "split": "train",
+    "text": "Код товара: 95600.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-22",
+    "group_id": "v2-449f80116f57",
+    "split": "train",
+    "text": "Код товара: 0052382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-23",
+    "group_id": "v2-449f80116f57",
+    "split": "train",
+    "text": "Код товара: 748291.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-24",
+    "group_id": "v2-149371be7958",
+    "split": "train",
+    "text": "Номер паспорта не указан; сумма заказа 0051 382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-25",
+    "group_id": "v2-149371be7958",
+    "split": "train",
+    "text": "Номер паспорта не указан; сумма заказа 95600 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-26",
+    "group_id": "v2-149371be7958",
+    "split": "train",
+    "text": "Номер паспорта не указан; сумма заказа 0052382916 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-27",
+    "group_id": "v2-149371be7958",
+    "split": "train",
+    "text": "Номер паспорта не указан; сумма заказа 748291 рублей.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-28",
+    "group_id": "v2-637be9525e5b",
+    "split": "train",
+    "text": "Банковская карта недоступна; тикет 0051 382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-29",
+    "group_id": "v2-637be9525e5b",
+    "split": "train",
+    "text": "Банковская карта недоступна; тикет 95600.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-30",
+    "group_id": "v2-637be9525e5b",
+    "split": "train",
+    "text": "Банковская карта недоступна; тикет 0052382916.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-31",
+    "group_id": "v2-637be9525e5b",
+    "split": "train",
+    "text": "Банковская карта недоступна; тикет 748291.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-32",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль не передаётся в этом сообщении.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-33",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль скрыт маской ********.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-34",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль заменён на [REDACTED].",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-35",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль нужно сменить.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-36",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль не указан.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-37",
+    "group_id": "v2-fab0befb2ea1",
+    "split": "train",
+    "text": "Пароль хранится в защищённом хранилище.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-38",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API не передаётся в этом сообщении.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-39",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API скрыт маской ********.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-40",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API заменён на [REDACTED].",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-41",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API нужно сменить.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-42",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API не указан.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-43",
+    "group_id": "v2-ab2e60c5b014",
+    "split": "train",
+    "text": "Ключ API хранится в защищённом хранилище.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-44",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения не передаётся в этом сообщении.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-45",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения скрыт маской ********.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-46",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения заменён на [REDACTED].",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-47",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения нужно сменить.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-48",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения не указан.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-49",
+    "group_id": "v2-22549234ffb8",
+    "split": "train",
+    "text": "Секрет приложения хранится в защищённом хранилище.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-50",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа не передаётся в этом сообщении.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-51",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа скрыт маской ********.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-52",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа заменён на [REDACTED].",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-53",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа нужно сменить.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-54",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа не указан.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-55",
+    "group_id": "v2-9b415305a993",
+    "split": "train",
+    "text": "Токен доступа хранится в защищённом хранилище.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-56",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа не передаётся в этом сообщении.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-57",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа скрыт маской ********.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-58",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа заменён на [REDACTED].",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-59",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа нужно сменить.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-60",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа не указан.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  },
+  {
+    "id": "v2-contrast-61",
+    "group_id": "v2-f9d6f4fa8275",
+    "split": "train",
+    "text": "Код входа хранится в защищённом хранилище.",
+    "labels": [],
+    "source": "synthetic_contrast_template"
+  }
+]

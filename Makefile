@@ -4,6 +4,7 @@ export PYTHONPATH := src:.deps
 build:
 	mkdir -p build
 	$(CC) -std=c11 -Wall -Wextra -Werror -O2 native/fanotify_launcher.c -o build/fanotify-launcher
+	$(CC) -std=c11 -Wall -Wextra -Werror -O2 native/filesystem_launcher.c -o build/filesystem-gateway
 test:
 	$(PYTHON) -m unittest discover -s tests -v
 demo:

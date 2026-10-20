@@ -14,4 +14,4 @@ dlp-agent = "dlp.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-dlp = ["dashboard_assets/*.html", "dashboard_assets/*.css", "dashboard_assets/*.js"]
+dlp = ["dashboard_assets/*.html", "dashboard_assets/*.css", "dashboard_assets/*.js", "ml_assets/*.json"]

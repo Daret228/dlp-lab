@@ -1,0 +1,554 @@
+[
+  {
+    "id": "linear2-test-financial-01",
+    "group_id": "linear2-test-financial-01",
+    "split": "test",
+    "text": "Личная зарплата за май: 76340 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-02",
+    "group_id": "linear2-test-financial-02",
+    "split": "test",
+    "text": "В закрытой ведомости Учебновой указана премия 25600 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-03",
+    "group_id": "linear2-test-financial-03",
+    "split": "test",
+    "text": "По личному кредиту Макетова задолженность 782300 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-04",
+    "group_id": "linear2-test-financial-04",
+    "split": "test",
+    "text": "Остаток моего банковского вклада 618700 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-05",
+    "group_id": "linear2-test-financial-05",
+    "split": "test",
+    "text": "Непубличный бюджет отдела на ноябрь составляет 940000 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-06",
+    "group_id": "linear2-test-financial-06",
+    "split": "test",
+    "text": "Мой банковский счёт для зачисления: 40817810000045678901.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-07",
+    "group_id": "linear2-test-financial-07",
+    "split": "test",
+    "text": "Персональная выписка: на карте осталось 19540 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-08",
+    "group_id": "linear2-test-financial-08",
+    "split": "test",
+    "text": "Мои реквизиты банковской карты: 4000 0200 0300 0400.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-09",
+    "group_id": "linear2-test-financial-09",
+    "split": "test",
+    "text": "Финансовый отчёт внутренний: убыток подразделения 2700000 руб.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-10",
+    "group_id": "linear2-test-financial-10",
+    "split": "test",
+    "text": "Индивидуальное начисление Учебнову: аванс 21300 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-11",
+    "group_id": "linear2-test-financial-11",
+    "split": "test",
+    "text": "Наша непубличная маржа по этому договору — 184500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-financial-12",
+    "group_id": "linear2-test-financial-12",
+    "split": "test",
+    "text": "Кредитная задолженность сотрудника: 92500 рублей.",
+    "labels": [
+      "financial"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-01",
+    "group_id": "linear2-test-passport-01",
+    "split": "test",
+    "text": "Сотрудница передала паспорт: 00 47 593817.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-02",
+    "group_id": "linear2-test-passport-02",
+    "split": "test",
+    "text": "В анкете мой паспорт РФ 0068 914725.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-03",
+    "group_id": "linear2-test-passport-03",
+    "split": "test",
+    "text": "Документ клиента: паспорт серия 0094, номер 281736.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-04",
+    "group_id": "linear2-test-passport-04",
+    "split": "test",
+    "text": "Паспортные реквизиты Макетова: 00 58 739162.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-05",
+    "group_id": "linear2-test-passport-05",
+    "split": "test",
+    "text": "Серия и номер паспорта гражданина: 0083 461927.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-06",
+    "group_id": "linear2-test-passport-06",
+    "split": "test",
+    "text": "Паспорт РФ: серия 00 26; номер 815397.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-07",
+    "group_id": "linear2-test-passport-07",
+    "split": "test",
+    "text": "Для договора записан паспорт 0074 638291.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-08",
+    "group_id": "linear2-test-passport-08",
+    "split": "test",
+    "text": "Из личного дела: паспорт 00 69 173852.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-09",
+    "group_id": "linear2-test-passport-09",
+    "split": "test",
+    "text": "Паспорт Учебновой\nСерия 0038\nНомер 527194.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-10",
+    "group_id": "linear2-test-passport-10",
+    "split": "test",
+    "text": "Реквизиты моего паспорта — 0091 642873.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-11",
+    "group_id": "linear2-test-passport-11",
+    "split": "test",
+    "text": "Паспортные данные представителя: 00 76 391825.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-passport-12",
+    "group_id": "linear2-test-passport-12",
+    "split": "test",
+    "text": "Документ для идентификации — паспорт 0048 725139.",
+    "labels": [
+      "passport"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-01",
+    "group_id": "linear2-test-credentials-01",
+    "split": "test",
+    "text": "Пароль для рабочего тестового аккаунта: Reka!6831.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-02",
+    "group_id": "linear2-test-credentials-02",
+    "split": "test",
+    "text": "Войдите с кодом подтверждения 735192.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-03",
+    "group_id": "linear2-test-credentials-03",
+    "split": "test",
+    "text": "Токен API: demo_8193_access_token.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-04",
+    "group_id": "linear2-test-credentials-04",
+    "split": "test",
+    "text": "Секретный ключ приложения: lab_mock_7821.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-05",
+    "group_id": "linear2-test-credentials-05",
+    "split": "test",
+    "text": "Для архива задан пароль «КедровыйБерег».",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-06",
+    "group_id": "linear2-test-credentials-06",
+    "split": "test",
+    "text": "Параметры подключения: mysql://tester:TestOnly93@localhost/lab.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-07",
+    "group_id": "linear2-test-credentials-07",
+    "split": "test",
+    "text": "password=Training!7392",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-08",
+    "group_id": "linear2-test-credentials-08",
+    "split": "test",
+    "text": "Одноразовый код входа — 193857.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-09",
+    "group_id": "linear2-test-credentials-09",
+    "split": "test",
+    "text": "Логин пользователя учебный, пароль: липоваяроща.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-10",
+    "group_id": "linear2-test-credentials-10",
+    "split": "test",
+    "text": "Ключ API равен demo_secret_4281.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-11",
+    "group_id": "linear2-test-credentials-11",
+    "split": "test",
+    "text": "Секретная фраза входа: вечерняя река.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-credentials-12",
+    "group_id": "linear2-test-credentials-12",
+    "split": "test",
+    "text": "В конфиге client_secret: training_dummy_297.",
+    "labels": [
+      "credentials"
+    ],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-01",
+    "group_id": "linear2-test-normal-01",
+    "split": "test",
+    "text": "Открытый каталог: кресло стоит 76340 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-02",
+    "group_id": "linear2-test-normal-02",
+    "split": "test",
+    "text": "В объявлении о найме зарплата от 110000 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-03",
+    "group_id": "linear2-test-normal-03",
+    "split": "test",
+    "text": "Остаток на банковской карте я здесь не указываю.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-04",
+    "group_id": "linear2-test-normal-04",
+    "split": "test",
+    "text": "Мой паспорт потерян, реквизиты не помню.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-05",
+    "group_id": "linear2-test-normal-05",
+    "split": "test",
+    "text": "Паспорт оборудования: 00 47 593817.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-06",
+    "group_id": "linear2-test-normal-06",
+    "split": "test",
+    "text": "Номер заказа 0068 914725 напечатан на чеке.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-07",
+    "group_id": "linear2-test-normal-07",
+    "split": "test",
+    "text": "Учебный пример: password=[HIDDEN].",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-08",
+    "group_id": "linear2-test-normal-08",
+    "split": "test",
+    "text": "Токен API не задан, это пустое поле.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-09",
+    "group_id": "linear2-test-normal-09",
+    "split": "test",
+    "text": "Вспомни инструкцию по смене пароля.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-10",
+    "group_id": "linear2-test-normal-10",
+    "split": "test",
+    "text": "Код товара на витрине — 735192.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-11",
+    "group_id": "linear2-test-normal-11",
+    "split": "test",
+    "text": "Личная зарплата обсуждается только с бухгалтером; суммы в письме нет.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-12",
+    "group_id": "linear2-test-normal-12",
+    "split": "test",
+    "text": "Банк опубликовал общие условия вкладов.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-13",
+    "group_id": "linear2-test-normal-13",
+    "split": "test",
+    "text": "Номер паспорта скрыт: ** ** ******.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-14",
+    "group_id": "linear2-test-normal-14",
+    "split": "test",
+    "text": "На вебинаре обсудим контроль финансовых данных.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-15",
+    "group_id": "linear2-test-normal-15",
+    "split": "test",
+    "text": "Паспорт: не указан. Контактный телефон 89012345678.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-16",
+    "group_id": "linear2-test-normal-16",
+    "split": "test",
+    "text": "Пароль ******** заменён маской.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-17",
+    "group_id": "linear2-test-normal-17",
+    "split": "test",
+    "text": "Официальный прайс: ремонт 19540 рублей.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-18",
+    "group_id": "linear2-test-normal-18",
+    "split": "test",
+    "text": "Нужно проверить поле client_secret, значение не передавай.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-19",
+    "group_id": "linear2-test-normal-19",
+    "split": "test",
+    "text": "До встречи на следующей неделе.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-20",
+    "group_id": "linear2-test-normal-20",
+    "split": "test",
+    "text": "Сколько стоит оформить загранпаспорт?",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-21",
+    "group_id": "linear2-test-normal-21",
+    "split": "test",
+    "text": "В базе должны быть поля series и number, без заполненных значений.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-22",
+    "group_id": "linear2-test-normal-22",
+    "split": "test",
+    "text": "В инструкции указан шаблон API key=${TOKEN}.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-23",
+    "group_id": "linear2-test-normal-23",
+    "split": "test",
+    "text": "Кредитный договор подготовим позже, суммы пока неизвестны.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  },
+  {
+    "id": "linear2-test-normal-24",
+    "group_id": "linear2-test-normal-24",
+    "split": "test",
+    "text": "Обсудим безопасность учётных записей на семинаре.",
+    "labels": [],
+    "source": "handwritten_synthetic_2026-10-18"
+  }
+]
