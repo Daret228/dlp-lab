@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export SOURCE_DATE_EPOCH := $(shell dpkg-parsechangelog -STimestamp)
+include /usr/share/dpkg/buildflags.mk
+
+.PHONY: build build-arch build-indep binary binary-arch binary-indep clean
+build: build-arch
+build-arch:
+	mkdir -p build/debian
+	$(CC) $(CPPFLAGS) $(CFLAGS) -std=c11 -Wall -Wextra -Werror -DDLP_SYSTEM_PACKAGE native/filesystem_launcher.c $(LDFLAGS) -o build/debian/fanotify-gateway
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	$(MAKE) test
+endif
+build-indep:
+binary: binary-arch
+binary-arch: build-arch
+	python3 packaging/stage.py
+	dpkg-deb --root-owner-group --build build/debian/dlp-lab ..
+binary-indep:
+clean:
+	rm -rf build/debian
+	rm -f debian/substvars debian/files

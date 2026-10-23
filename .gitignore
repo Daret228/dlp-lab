@@ -24,3 +24,12 @@ private-exports/
 *.pem
 *.key
 /tdata/
+
+# Debian build products
+/debian/files
+/debian/substvars
+/*.deb
+/*.buildinfo
+/*.changes
+/*.tar.xz
+/*.dsc

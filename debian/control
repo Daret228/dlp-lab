@@ -1,0 +1,19 @@
+Source: dlp-lab
+Section: admin
+Priority: optional
+Maintainer: DLP Lab contributors <noreply@invalid.example>
+Build-Depends: dpkg-dev, gcc, make, python3, python3-yaml, poppler-utils
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Homepage: https://github.com/Daret228/dlp-lab
+
+Package: dlp-lab
+Architecture: linux-any
+Depends: ${shlibs:Depends}, debconf (>= 0.5) | debconf-2.0, python3 (>= 3.11), python3-yaml, poppler-utils, init-system-helpers (>= 1.54~)
+Recommends: libnotify-bin, python3-gi, gir1.2-atspi-2.0
+Suggests: python3-pycryptodome
+Description: experimental Linux endpoint data loss prevention agent
+ Controls file opens by an administrator-selected Telegram executable using
+ fanotify, an unprivileged content analyzer, and a systemd system service.
+ Includes text, PDF and DOCX analysis, local CLI and optional session tools.
+ This research prototype does not guarantee interception of every file transfer.

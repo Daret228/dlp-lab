@@ -11,37 +11,80 @@ import time
 import queue
 import select
 import threading
+import re
+import stat
 from .processes import identify
 
 # Explicit operational exceptions, not a claim that these locations cannot leak.
 # Match the path supplied by the event FD, never the caller's symlink spelling.
-EXCLUDED_ROOTS = (
-    '/usr', '/opt', '/etc', '/bin', '/sbin', '/lib', '/lib64',
-    '/home/roman/.cache',
-    '/home/roman/.local/share/TelegramDesktop',
-    '/home/roman/.config', '/home/roman/.local/share/fonts', '/home/roman/.fonts',
-)
+def default_exclusions(home):
+    return ('/usr', '/opt', '/etc', '/bin', '/sbin', '/lib', '/lib64',
+            home + '/.cache', home + '/.local/share/TelegramDesktop',
+            home + '/.config', home + '/.local/share/fonts', home + '/.fonts')
 
 
-def excluded(path):
+# Compatibility for the already installed broker; new deployments supply their
+# protected exclusion list explicitly, including an intentionally empty list.
+EXCLUDED_ROOTS = default_exclusions(os.path.expanduser('~'))
+
+
+def configured_exclusions():
+    if 'DLP_EXCLUDED_ROOTS' not in os.environ:
+        return EXCLUDED_ROOTS
+    roots = tuple(os.environ['DLP_EXCLUDED_ROOTS'].splitlines())
+    if len(roots) > 32 or any(not p.startswith('/') or p == '/' for p in roots):
+        raise ValueError('Invalid gateway exclusions')
+    return roots
+
+
+def excluded(path, roots=EXCLUDED_ROOTS):
     if path.endswith(' (deleted)'):
         path = path[:-10]
-    return any(path == root or path.startswith(root + '/') for root in EXCLUDED_ROOTS)
+    return any(path == root or path.startswith(root + '/') for root in roots)
+
+
+FONT_CACHE_DIR = '/var/cache/fontconfig'
+FONT_CACHE_NAME = re.compile(r'[0-9a-f]{32}-(?:le|be)(?:32|64)\.cache-[0-9]+')
+
+
+def protected_font_cache(path, fd):
+    """Allow only root-managed fontconfig cache FDs, not arbitrary /var files.
+
+    No file contents are read. The FD identity is compared with the directory
+    entry so a symlink, replaced file or deleted cache is not exempted.
+    """
+    parent, _, name = path.rpartition('/')
+    if parent != FONT_CACHE_DIR or not FONT_CACHE_NAME.fullmatch(name):
+        return False
+    try:
+        for directory in ('/', '/var', '/var/cache', FONT_CACHE_DIR):
+            metadata = os.lstat(directory)
+            if not stat.S_ISDIR(metadata.st_mode) or metadata.st_uid != 0 or metadata.st_mode & 0o022:
+                return False
+        metadata = os.fstat(fd)
+        entry = os.lstat(path)
+        return (stat.S_ISREG(metadata.st_mode) and stat.S_ISREG(entry.st_mode)
+                and metadata.st_uid == 0 and not metadata.st_mode & 0o022
+                and metadata.st_nlink == 1
+                and (metadata.st_dev, metadata.st_ino) == (entry.st_dev, entry.st_ino))
+    except OSError:
+        return False
 
 
 class PermissionPump:
-    def __init__(self, group_fd, process_filter, events, response, capacity=128, transport=None):
+    def __init__(self, group_fd, process_filter, events, response, capacity=128, transport=None, exclusions=None):
         if process_filter is None or process_filter.mode != 'messengers':
             raise ValueError('Filesystem scope requires mode=messengers; all is unsafe here')
         self.fd, self.process_filter = group_fd, process_filter
         self.events, self.response = events, response
         self.transport = transport
+        self.exclusions = EXCLUDED_ROOTS if exclusions is None else exclusions
         self.jobs = queue.Queue(maxsize=capacity)
         self.stop = threading.Event()
         self.thread = threading.Thread(target=self.run, daemon=True, name='fanotify-pump')
         self.error = None
         self.counts = {'unrelated_allowed': 0, 'identity_unknown_allowed': 0,
-                       'runtime_excluded': 0, 'analysis_queue_denied': 0, 'kernel_overflow': 0}
+                       'runtime_excluded': 0, 'protected_font_cache_allowed': 0, 'analysis_queue_denied': 0, 'kernel_overflow': 0, 'target_changed_allowed': 0}
 
     def answer(self, mask, fd, decision):
         try:
@@ -57,6 +100,8 @@ class PermissionPump:
 
     def dispatch(self, mask, fd, pid):
         if fd < 0:
+            if mask & 0x08000000:
+                self.counts['target_changed_allowed'] += 1
             if mask & 0x4000:
                 self.counts['kernel_overflow'] += 1
             if mask & 0x20000000:
@@ -84,7 +129,10 @@ class PermissionPump:
                 path = os.readlink(f'/proc/self/fd/{fd}')
             except OSError:
                 path = ''  # Selected target: let analyzer's on_error decide.
-            if excluded(path):
+            if protected_font_cache(path, fd):
+                self.counts['protected_font_cache_allowed'] += 1
+                return
+            if excluded(path, self.exclusions):
                 self.counts['runtime_excluded'] += 1
                 return
             try:
@@ -183,8 +231,18 @@ class BrokerTransport:
 def run_filesystems(group_fd, analyzer, audit, process_filter, events, response, process_event):
     from .file_notifications import FileWarnings
     from .correlation import AccessCorrelator
+    from pathlib import Path
+    target = os.environ.get('DLP_TARGET_EXECUTABLE')
+    signal_target = os.environ.get('DLP_SIGNAL_EXECUTABLE')
+    configured_targets = {'telegram': target, 'signal': signal_target}
+    for name, executable in configured_targets.items():
+        if executable and (process_filter is None or not any(
+                adapter.name == name and str(Path(path).resolve()) == executable
+                for adapter in process_filter.adapters for path in adapter.paths)):
+            raise ValueError(f'Gateway {name} target is not enabled in processes.yaml')
+    exclusions = configured_exclusions()
     transport = BrokerTransport(group_fd)
-    pump = PermissionPump(group_fd, process_filter, events, response, transport=transport)
+    pump = PermissionPump(group_fd, process_filter, events, response, transport=transport, exclusions=exclusions)
     warnings = FileWarnings(audit)
     correlator = AccessCorrelator()
     os.set_inheritable(group_fd, False)
@@ -195,9 +253,12 @@ def run_filesystems(group_fd, analyzer, audit, process_filter, events, response,
         pump.thread.start()
         audit.emit({'event': 'monitor_started', 'pid': os.getpid(), 'uid': os.geteuid(),
                     'filter_mode': 'messengers', 'scope': 'local_filesystems',
-                    'broker': 'fixed_telegram_uid_1000',
+                    'broker': 'configured_executables' if signal_target else 'configured_executable' if target else 'legacy_fixed_telegram',
+                    'controlled_messengers': [n for n,p in configured_targets.items() if p],
+                    'configuration_source': os.environ.get('DLP_GATEWAY_CONFIG', '/etc/dlp-lab/gateway.conf') if target else 'legacy_compiled',
                     'filesystem_roots': os.environ['DLP_FS_ROOTS'].splitlines(),
-                    'excluded_roots': list(EXCLUDED_ROOTS), 'new_mounts': 'restart_required',
+                    'excluded_roots': list(exclusions),
+                    'operational_exceptions': ['root_owned_fontconfig_cache_files'], 'new_mounts': 'restart_required',
                     'broker_deadline_seconds': 30,
                     'identity_unknown': 'ALLOW_unchecked', 'warn_enforcement': 'ALLOW'})
         previous = dict(pump.counts)
@@ -214,7 +275,7 @@ def run_filesystems(group_fd, analyzer, audit, process_filter, events, response,
                 process_event(group_fd, *event, analyzer, audit, process_filter, correlator, warnings,
                               responder=transport.respond)
             counts = dict(pump.counts)
-            significant = ('identity_unknown_allowed', 'analysis_queue_denied', 'kernel_overflow')
+            significant = ('identity_unknown_allowed', 'analysis_queue_denied', 'kernel_overflow', 'target_changed_allowed')
             if time.monotonic() - last_report >= 5 and any(counts[k] != previous[k] for k in significant):
                 audit.emit({'event': 'filesystem_coverage', 'counts': counts, 'coverage': 'degraded'})
                 previous, last_report = counts, time.monotonic()

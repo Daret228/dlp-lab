@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
+PACKAGED = ROOT == Path("/usr/lib/dlp-lab")
 GATEWAY = "/usr/local/libexec/dlp-lab/fanotify-gateway"
 UNITS = {name: f"dlp-lab-{name}.service" for name in ("files", "text", "export", "local", "notification-test")}
 
@@ -22,7 +23,7 @@ def _run(argv, *, capture=True, check=True):
 
 
 def unit_status(component):
-    result = _run(["systemctl", "--user", "show", UNITS[component],
+    result = _run(["systemctl", "--system" if PACKAGED and component == "files" else "--user", "show", UNITS[component],
                    "-p", "LoadState", "-p", "ActiveState", "-p", "SubState",
                    "-p", "Result", "-p", "MainPID", "-p", "ExecMainStatus"])
     return dict(line.split("=", 1) for line in result.stdout.splitlines() if "=" in line)
@@ -48,6 +49,8 @@ def status():
 
 
 def launch_command(component, policy, *, marker=None, seconds=120, file=None, root=None, expected_path=None):
+    if PACKAGED and component == "files":
+        raise ValueError("Пакет: используйте sudo systemctl start dlp-lab-files.service")
     command = ["systemd-run", "--user", "--no-ask-password",
                f"--unit={UNITS[component]}", "--service-type=exec",
                f"--description=DLP Lab: {component}",
@@ -112,6 +115,8 @@ def start(component, policy, **kwargs):
 
 
 def stop(component):
+    if PACKAGED and component in ("all", "files"):
+        raise ValueError("Пакет: используйте sudo systemctl stop dlp-lab-files.service; пользовательские модули останавливайте отдельно")
     components = list(UNITS) if component == "all" else [component]
     for name in components:
         data = unit_status(name)
@@ -125,6 +130,8 @@ def stop(component):
 
 
 def logs(lines=50, follow=False):
+    if PACKAGED:
+        raise ValueError("Пакет: sudo journalctl -u dlp-lab-files.service; для сессионных модулей journalctl --user")
     if not 1 <= lines <= 10000:
         raise ValueError("Число строк должно быть от 1 до 10000")
     command = ["journalctl", "--user", "--no-pager", "-o", "cat", "-n", str(lines)]

@@ -3,7 +3,7 @@ from dataclasses import asdict
 import sys
 import time
 from .notifications import desktop_warning, report_warning
-from .accessibility import inspect_tree
+from .accessibility import inspect_tree, outermost_fields
 from .models import TextContent, Decision
 from .processes import identify, ProcessFilter
 
@@ -42,10 +42,11 @@ def find_draft_bindings(desktop, atspi, filt, messenger, marker):
                 text = atspi.Text.get_text(node.get_text_iface(), 0, count)
                 if marker in text and not any(node == old[1] for old in bindings):
                     bindings.append((identity, node))
-    return bindings
+    outer = outermost_fields([node for _, node in bindings])
+    return [(identity, node) for identity, node in bindings if any(node == n for n in outer)]
 
 
-def wait_for_binding(scan, seconds=30):
+def wait_for_binding(scan, seconds=30, messenger="telegram"):
     deadline = time.monotonic() + seconds
     while True:
         bindings = scan()
@@ -54,9 +55,12 @@ def wait_for_binding(scan, seconds=30):
         if len(bindings) > 1:
             raise ValueError('Маркер найден в нескольких полях. Оставьте его только в одном тестовом черновике.')
         if time.monotonic() >= deadline:
-            raise ValueError('Поле с маркером не найдено. Полностью выйдите из Telegram и запустите '
-                             'QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1 /usr/bin/telegram-desktop; '
-                             'затем откройте тестовый чат и введите маркер в поле сообщения, не отправляя.')
+            if messenger == 'telegram':
+                raise ValueError('Поле Telegram не найдено. Перезапустите клиент с '
+                                 'QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1 и откройте тестовый черновик.')
+            raise ValueError('Поле с маркером не найдено. Откройте тестовый чат выбранного мессенджера, '
+                             'оставьте окно видимым и введите маркер в поле сообщения, не отправляя. '
+                             'Если поле по-прежнему недоступно, требуется диагностика доступности клиента.')
         time.sleep(0.5)
 
 
@@ -69,9 +73,9 @@ def run_text_monitor(config, analyzer, audit, messenger, marker, seconds=60, not
     Atspi.set_timeout(1000, 1000)
     filt = ProcessFilter(config)
     desktop = Atspi.get_desktop(0)
-    print(f'Ожидаю поле Telegram с маркером {marker!r} (до 30 секунд). '
-          'Откройте тестовый чат и оставьте окно Telegram видимым.', file=sys.stderr, flush=True)
-    bindings = wait_for_binding(lambda: find_draft_bindings(desktop, Atspi, filt, messenger, marker))
+    print(f'Ожидаю поле {messenger} с маркером {marker!r} (до 30 секунд). '
+          'Откройте тестовый чат и оставьте окно мессенджера видимым.', file=sys.stderr, flush=True)
+    bindings = wait_for_binding(lambda: find_draft_bindings(desktop, Atspi, filt, messenger, marker), messenger=messenger)
     identity, node = bindings[0]
     monitor = DraftMonitor(analyzer, audit, desktop_warning if notifications else None)
     audit.emit({'event': 'text_monitor_started', 'messenger': messenger, 'pid': identity.pid,

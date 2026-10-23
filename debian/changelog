@@ -1,0 +1,35 @@
+dlp-lab (0.2.4) unstable; urgency=medium
+
+  * Exempt validated root-owned fontconfig cache files from content analysis.
+  * Request normal urgency and finite expiry for desktop notifications.
+  * Verify Signal configuration in the isolated package lifecycle test.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 23 Oct 2026 14:00:00 +0000
+
+dlp-lab (0.2.3) unstable; urgency=medium
+
+  * Add optional administrator-selected Signal executable alongside Telegram.
+  * Validate both worker adapters before enabling filesystem marks.
+  * Support deep Electron draft fields without duplicate nested bindings.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 23 Oct 2026 12:00:00 +0000
+
+dlp-lab (0.2.2) unstable; urgency=medium
+
+  * Clean package Python bytecode on removal and debconf state on purge.
+  * Add reproducible snapshot build and rootless dpkg lifecycle checks.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 21 Oct 2026 13:00:00 +0000
+
+dlp-lab (0.2.1) unstable; urgency=medium
+
+  * Add first-install debconf setup and a foreground files launcher.
+  * Preserve explicit session tools and administrator-managed system startup.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 21 Oct 2026 12:00:00 +0000
+
+dlp-lab (0.2.0) unstable; urgency=medium
+
+  * Initial local Debian package with administrator-managed filesystem service.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Tue, 20 Oct 2026 08:00:00 +0000

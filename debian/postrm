@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+if [ "$1" = purge ]; then
+    if [ -f /usr/share/debconf/confmodule ]; then
+        . /usr/share/debconf/confmodule
+        db_purge
+    fi
+    deb-systemd-helper purge dlp-lab-files.service >/dev/null || true
+    deb-systemd-helper unmask dlp-lab-files.service >/dev/null || true
+    # Only generated package configuration. Never erase legacy gateway.conf,
+    # the shared lock, laboratory data, or the administrator's other files.
+    rm -f /etc/dlp-lab/system-gateway.conf /etc/dlp-lab/system/processes.yaml
+    rmdir /etc/dlp-lab/system 2>/dev/null || true
+    rmdir /var/lib/dlp-lab-package 2>/dev/null || true
+fi
+if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload >/dev/null || true
+fi

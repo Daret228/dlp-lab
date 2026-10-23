@@ -9,3 +9,7 @@ messengers:
   express:
     enabled: false
     executables: []
+  signal:
+    enabled: true
+    executables:
+    - /opt/Signal/signal-desktop

@@ -9,9 +9,24 @@ def desktop_warning(decision):
     title = 'DLP: обнаружен риск в тексте'
     body = (f'Решение политики: {decision}. Найдены риски или текст не удалось проверить. '
             'Отправка НЕ заблокирована. Подробности: scripts/dlp agent logs.')
+    return deliver_notification(title, body)
+
+
+def desktop_file_warning(event):
+    # Escape markup and control characters in user-controlled filenames.
+    from html import escape
+    name = escape(''.join(c if c.isprintable() else '?' for c in event['filename'])[:160])
+    denied = event.get('enforcement') == 'DENY'
+    title = 'DLP: открытие файла заблокировано' if denied else 'DLP: предупреждение о файле'
+    action = 'Доступ к файлу запрещён.' if denied else 'Доступ к этому файлу разрешён.'
+    body = f'{name}: {action} Решение политики: {event["decision"]}. Это событие открытия файла, не подтверждение отправки.'
+    return deliver_notification(title, body)
+
+
+def deliver_notification(title, body):
     executable = shutil.which('notify-send')
     if executable:
-        command = [executable, '-a', 'DLP Lab', '-u', 'critical', '-t', '10000', title, body]
+        command = [executable, '-a', 'DLP Lab', '-u', 'normal', '-t', '10000', title, body]
     else:
         executable = shutil.which('gdbus')
         if executable is None:
@@ -19,7 +34,7 @@ def desktop_warning(decision):
         command = [executable, 'call', '--session', '--dest', 'org.freedesktop.Notifications',
                    '--object-path', '/org/freedesktop/Notifications',
                    '--method', 'org.freedesktop.Notifications.Notify',
-                   'DLP Lab', '0', '', title, body, '[]', "{'urgency': <byte 2>}", '10000']
+                   'DLP Lab', '0', '', title, body, '[]', "{'urgency': <byte 1>}", '10000']
     try:
         env = dict(os.environ)
         # The fixed gateway clears the environment before dropping privileges.

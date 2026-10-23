@@ -10,8 +10,10 @@ from .policy import load_policy, load_policy_snapshot, PolicyError
 
 
 def main():
+    packaged = Path(__file__).resolve().parents[2] == Path('/usr/lib/dlp-lab')
+    config_directory = Path('/etc/dlp-lab/system') if packaged else Path('config')
     parser = argparse.ArgumentParser(description="Linux endpoint DLP laboratory prototype")
-    parser.add_argument("--policy", default="config/policy.yaml")
+    parser.add_argument("--policy", default=str(config_directory / "policy.yaml"))
     sub = parser.add_subparsers(dest="command", required=True)
     analyze = sub.add_parser("analyze")
     sources = analyze.add_mutually_exclusive_group(required=True)
@@ -23,10 +25,13 @@ def main():
     dashboard = sub.add_parser("dashboard", help="Локальная панель событий, политики и управления")
     dashboard.add_argument("--port", type=int, default=8765)
     processes = sub.add_parser("processes", help="List configured messenger processes of current user")
-    processes.add_argument("--config", default="config/processes.yaml")
+    processes.add_argument("--config", default=str(config_directory / "processes.yaml"))
     mode = sub.add_parser("process-mode", help="Select file monitoring scope; restart monitor afterward")
     mode.add_argument("mode", choices=["all", "messengers"])
-    mode.add_argument("--config", default="config/processes.yaml")
+    mode.add_argument("--config", default=str(config_directory / "processes.yaml"))
+    host_setup = sub.add_parser("configure-processes", help="Configure Telegram adapter for this user and machine")
+    host_setup.add_argument("--telegram", type=Path, required=True)
+    host_setup.add_argument("--config", type=Path, default=config_directory / "processes.yaml")
     text_monitor = sub.add_parser("text-monitor", help="Analyze an explicitly bound draft; does NOT block sending")
     text_monitor.add_argument("--marker", required=True, help="Marker you entered in your own test draft")
     text_monitor.add_argument("--messenger", default="telegram")
@@ -64,6 +69,11 @@ def main():
         if args.command == "agent":
             from .service import manage
             return manage(args)
+        if args.command == "configure-processes":
+            from .host_setup import configure_processes
+            changed = configure_processes(args.config,args.telegram)
+            print("Настройка процессов сохранена. Перезапустите модули." if changed else "Настройка процессов уже соответствует этому компьютеру.")
+            return 0
         from .processes import ProcessFilter, identify, load_process_config
         if args.command in ("processes", "process-mode"):
             config = load_process_config(args.config)

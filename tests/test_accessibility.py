@@ -1,6 +1,6 @@
 import unittest
 from types import SimpleNamespace
-from dlp.accessibility import inspect_tree
+from dlp.accessibility import inspect_tree, outermost_fields
 
 ATSPI = SimpleNamespace(StateType=SimpleNamespace(EDITABLE='editable',FOCUSED='focused',SHOWING='showing'),Role=SimpleNamespace(PASSWORD_TEXT='password'))
 
@@ -8,6 +8,9 @@ ATSPI = SimpleNamespace(StateType=SimpleNamespace(EDITABLE='editable',FOCUSED='f
 class Node:
     def __init__(self, role='entry', states=(), children=()):
         self.role, self.states, self.children = role, states, children
+        self.parent = None
+        for child in children: child.parent = self
+    def get_parent(self): return self.parent
     def get_state_set(self): return SimpleNamespace(contains=lambda value:value in self.states)
     def get_interfaces(self): return ['Accessible','Text']
     def get_role_name(self): return self.role
@@ -36,3 +39,26 @@ class AccessibilityTests(unittest.TestCase):
         rows,candidates=inspect_tree(Node(role='application'),ATSPI)
         self.assertEqual(candidates,[])
         self.assertEqual(rows[0]['children'],0)
+
+    def test_deep_electron_field_is_one_candidate(self):
+        mirrored=Node(states=('editable','showing'))
+        draft=Node(states=('editable','focused','showing'),children=[mirrored])
+        root=draft
+        for _ in range(24):root=Node(role='section',children=[root])
+        rows,candidates=inspect_tree(root,ATSPI,require_focus=False)
+        self.assertEqual(candidates,[draft,mirrored])
+        self.assertEqual(rows[-1]['depth'],25)
+        self.assertEqual(outermost_fields(candidates),[draft])
+        self.assertEqual(outermost_fields([mirrored]),[mirrored])
+
+    def test_separate_fields_remain_ambiguous(self):
+        first=Node(states=('editable','showing'))
+        second=Node(states=('editable','showing'))
+        _,candidates=inspect_tree(Node(role='application',children=[first,second]),ATSPI,require_focus=False)
+        self.assertEqual(outermost_fields(candidates),[first,second])
+
+    def test_password_descendants_are_not_candidates(self):
+        child=Node(states=('editable','focused','showing'))
+        root=Node(role='password',children=[child])
+        _,candidates=inspect_tree(root,ATSPI,require_focus=False)
+        self.assertEqual(candidates,[])

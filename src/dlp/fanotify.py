@@ -2,6 +2,7 @@
 import os
 import select
 import struct
+import time
 from dataclasses import asdict
 from pathlib import Path
 from .models import Decision, FileContent
@@ -31,6 +32,7 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
         if mask & OVERFLOW:
             audit.emit({"event": "queue_overflow", "coverage": "lost"})
         return
+    began = time.monotonic()
     response = DENY
     record = {"event": "file_access_attempt", "pid": pid, "send_confirmed": False}
     try:
@@ -53,7 +55,9 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
                 elif process_filter and process_filter.mode == "messengers" and identity is None:
                     result = analyzer.failure("process_identity_unknown")
                 else:
+                    analysis_start = time.monotonic()
                     result = analyzer.analyze(FileContent(Path(record["path"]), fd))
+                    record["analysis_ms"] = round((time.monotonic() - analysis_start) * 1000, 3)
             except OSError:
                 result = analyzer.failure("event_metadata_unavailable")
             response = DENY if result.decision == Decision.BLOCK else ALLOW
@@ -72,6 +76,7 @@ def process_event(group_fd, mask, fd, pid, analyzer, audit, process_filter=None,
             os.close(fd)
     # Respond before potentially blocking audit IO. Audit failure terminates daemon.
     if mask & OPEN_PERM:
+        record["worker_elapsed_ms"] = round((time.monotonic() - began) * 1000, 3)
         audit.emit(record)
         if warnings is not None:
             warnings.submit(record)

@@ -9,7 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@unittest.skipUnless(shutil.which('cc') and os.getuid() == 1000, 'Native fixture expects compiler and lab UID 1000')
+@unittest.skipUnless(shutil.which('cc') and os.getuid() > 0, 'Native fixture expects compiler and non-root UID')
 class NativeBrokerTests(unittest.TestCase):
     def test_identity_fd_passing_and_reply(self):
         with tempfile.TemporaryDirectory(prefix='dlp-native-test-') as tmp:

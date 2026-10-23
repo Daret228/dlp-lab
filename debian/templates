@@ -1,0 +1,22 @@
+Template: dlp-lab/configure
+Type: boolean
+Default: true
+Description: Configure and start DLP file protection now?
+ Select the local desktop user and Telegram executable in the next questions.
+ Stop any laboratory DLP file monitor before continuing. Text-field monitoring
+ remains an explicit user-session command. Choose No to configure later with
+ dlp-lab-configure.
+
+Template: dlp-lab/user
+Type: string
+Description: Local desktop username to protect:
+ Enter the existing non-root login name of the user who runs Telegram.
+ An empty value leaves protection unconfigured.
+
+Template: dlp-lab/telegram
+Type: string
+Default: /usr/bin/telegram-desktop
+Description: Absolute path to the Telegram executable:
+ The executable and its parent directories must be administrator-owned and
+ protected against modification by ordinary users. AppImage files in a user's
+ home directory are not supported by this system installation.

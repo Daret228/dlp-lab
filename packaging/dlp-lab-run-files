@@ -1,0 +1,16 @@
+#!/bin/sh
+# Foreground alternative to systemd: fixed packaged broker, same policy and lock.
+set -eu
+if [ "$#" -ne 0 ]; then
+    echo 'Usage: sudo dlp-lab-run-files (stop dlp-lab-files.service first)' >&2
+    exit 2
+fi
+if [ "$(id -u)" -ne 0 ]; then
+    echo 'Run: sudo dlp-lab-run-files' >&2
+    exit 2
+fi
+if [ ! -f /etc/dlp-lab/system-gateway.conf ]; then
+    echo 'Configure first: sudo dlp-lab-configure --user USER --telegram /path/to/Telegram' >&2
+    exit 2
+fi
+exec /usr/libexec/dlp-lab/fanotify-gateway

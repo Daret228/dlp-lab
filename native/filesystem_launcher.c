@@ -1,6 +1,6 @@
 #define _GNU_SOURCE
 /* Root-owned fixed gateway. Only this broker owns the filesystem fanotify FD.
- * Python receives read-only descriptors for UID 1000's fixed Telegram executable.
+ * Python receives read-only descriptors only for the administrator-configured target.
  * No caller-supplied command, path, environment or executable is trusted by root. */
 #include <sys/fanotify.h>
 #include <sys/prctl.h>
@@ -25,9 +25,7 @@
 #ifndef DLP_PERMISSION_SECONDS
 #define DLP_PERMISSION_SECONDS 30
 #endif
-#ifndef TELEGRAM
-#define TELEGRAM "/opt/telegram-desktop/Telegram"
-#endif
+#include "gateway_config.h"
 struct message { uint64_t mask; int32_t token, pid; };
 struct answer { int32_t token; uint32_t decision; };
 struct pending { int fd; int32_t token; time_t since; };
@@ -40,7 +38,7 @@ static time_t monotonic_seconds(void) {
 static void stop(int sig) { (void)sig; stopping=1; }
 static void die(const char *s) { perror(s); exit(1); }
 static void drop(void) {
-    if (setgroups(0,NULL) || setresgid(1000,1000,1000) || setresuid(1000,1000,1000) ||
+    if (setgroups(0,NULL) || setresgid(config.gid,config.gid,config.gid) || setresuid(config.uid,config.uid,config.uid) ||
         prctl(PR_SET_NO_NEW_PRIVS,1,0,0,0)) die("drop privileges");
 }
 static int eligible(const struct mntent *m) {
@@ -63,14 +61,18 @@ static int target(pid_t pid, const struct stat *expected) {
     char *uids=strstr(buf,"\nUid:\t");
     unsigned int a,b,c,d;
     if (!uids || sscanf(uids,"\nUid:\t%u\t%u\t%u\t%u",&a,&b,&c,&d)!=4) goto done;
-    if (a!=1000 || b!=1000 || c!=1000 || d!=1000) { selected=0; goto done; }
+    if (a!=config.uid || b!=config.uid || c!=config.uid || d!=config.uid) { selected=0; goto done; }
     n=readlinkat(proc,"exe",exe,sizeof(exe)-1);
     if (n<0) goto done;
     exe[n]=0;
-    if (strcmp(exe,TELEGRAM)) { selected=0; goto done; }
+    int index=0;
+    if (strcmp(exe,config.telegram)) {
+        if (!config.signal[0] || strcmp(exe,config.signal)) { selected=0; goto done; }
+        index=1;
+    }
     struct stat st;
     if (fstatat(proc,"exe",&st,0)) goto done;
-    selected=st.st_dev==expected->st_dev && st.st_ino==expected->st_ino;
+    selected=(st.st_dev==expected[index].st_dev && st.st_ino==expected[index].st_ino)?1:-2;
 done:
     close(proc); return selected;
 }
@@ -139,7 +141,7 @@ static int broker(int fan,int sock,pid_t child,const struct stat *expected) {
                 if (selected!=1) {
                     if (!respond(fan,e->fd,FAN_ALLOW)) failed=1;
                     /* Unknown identity is a reported coverage gap, never a global denial. */
-                    if (selected<0 && !relay(sock,0x20000000,-1,0,-1)) failed=1;
+                    if (selected<0 && !relay(sock,selected==-2?0x08000000:0x20000000,-1,0,-1)) failed=1;
                     continue;
                 }
                 int slot=-1;
@@ -176,9 +178,20 @@ int main(int argc,char **argv) {
         fprintf(stderr,"Filesystem gateway requires sudo and accepts no arguments\n"); return 2;
     }
     if (clearenv() || chdir("/")) die("environment");
-    struct stat expected;
-    if (stat(TELEGRAM,&expected) || !S_ISREG(expected.st_mode) || expected.st_uid!=0 ||
-        ((expected.st_mode&0002) || ((expected.st_mode&0020) && expected.st_gid!=0))) { fprintf(stderr,"Expected protected Telegram executable\n"); return 2; }
+    int config_lock=load_gateway_config();
+    if (config_lock<0) {
+        fprintf(stderr,"Invalid/protected gateway configuration or another instance is running\n"); return 2;
+    }
+    struct stat expected[2];
+    const char *targets[]={config.telegram,config.signal};
+    for (int i=0;i<2;i++) {
+        if (!targets[i][0]) continue;
+        if (stat(targets[i],&expected[i]) || !S_ISREG(expected[i].st_mode) ||
+            expected[i].st_uid!=0 || (expected[i].st_mode&0002) ||
+            ((expected[i].st_mode&0020) && expected[i].st_gid!=0)) {
+            fprintf(stderr,"Expected protected messenger executable\n"); return 2;
+        }
+    }
     int dirs[MAX_FS],count=0;
     dev_t devices[MAX_FS]; char roots[32768]="";
     FILE *mounts=setmntent("/proc/self/mounts","r");
@@ -203,24 +216,35 @@ int main(int argc,char **argv) {
     int fan=fanotify_init(FAN_CLASS_CONTENT|FAN_NONBLOCK|FAN_CLOEXEC,O_RDONLY|O_LARGEFILE|O_CLOEXEC);
     if (fan<0) die("fanotify_init");
     int channel[2]; if (socketpair(AF_UNIX,SOCK_SEQPACKET,0,channel)) die("worker socket");
+    char pythonpath[2*DLP_PATH_LIMIT+32],policy[DLP_PATH_LIMIT+32];
+    if (snprintf(pythonpath,sizeof(pythonpath),"%s/src:%s/.deps",config.project,config.project)>=(int)sizeof(pythonpath) ||
+        snprintf(policy,sizeof(policy),"%s/config/policy.yaml",config.project)>=(int)sizeof(policy)) return 2;
+#ifdef DLP_SYSTEM_PACKAGE
+    strcpy(pythonpath,"/usr/lib/dlp-lab/src");
+    strcpy(policy,"/etc/dlp-lab/system/policy.yaml");
+#endif
     char number[32]; snprintf(number,sizeof(number),"%d",channel[1]);
     if (setenv("DLP_FAN_FD",number,1) || setenv("DLP_FAN_SCOPE","local_filesystems",1) ||
         setenv("DLP_FS_ROOTS",roots,1) || setenv("PATH","/usr/bin:/bin",1) ||
-        setenv("HOME","/home/roman",1) || setenv("LANG","C.UTF-8",1) ||
-        setenv("PYTHONPATH","/home/roman/dlp-lab/src:/home/roman/dlp-lab/.deps",1)) die("worker environment");
+        setenv("HOME",config.home,1) || setenv("LANG","C.UTF-8",1) ||
+        setenv("PYTHONPATH",pythonpath,1) || setenv("PYTHONNOUSERSITE","1",1) ||
+        setenv("PYTHONSAFEPATH","1",1) ||
+        setenv("DLP_GATEWAY_CONFIG","/etc/dlp-lab/" DLP_GATEWAY_CONFIG,1) || setenv("DLP_EXCLUDED_ROOTS",config.exclusions,1) ||
+        setenv("DLP_TARGET_EXECUTABLE",config.telegram,1) ||
+        setenv("DLP_SIGNAL_EXECUTABLE",config.signal,1)) die("worker environment");
     struct sigaction sa={0}; sa.sa_handler=stop; sigemptyset(&sa.sa_mask);
     if (sigaction(SIGTERM,&sa,NULL) || sigaction(SIGINT,&sa,NULL)) die("signal handler");
     signal(SIGPIPE,SIG_IGN);
     pid_t parent=getpid(), child=fork();
     if (child<0) die("fork");
     if (!child) {
-        close(channel[0]); close(fan);
+        close(channel[0]); close(fan); close(config_lock);
         for (int i=0;i<count;i++) close(dirs[i]);
         drop();
         if (prctl(PR_SET_PDEATHSIG,SIGTERM)) die("parent death signal");
         if (getppid()!=parent) return 1;
         execl("/usr/bin/python3","python3","-m","dlp.cli","--policy",
-              "/home/roman/dlp-lab/config/policy.yaml","monitor",(char *)NULL);
+              policy,"monitor",(char *)NULL);
         die("exec worker");
     }
     close(channel[1]);
@@ -236,5 +260,5 @@ int main(int argc,char **argv) {
     }
     if (send(channel[0],"A",1,MSG_NOSIGNAL)!=1) { kill(child,SIGTERM); return 1; }
     if (prctl(PR_SET_DUMPABLE,0) || prctl(PR_SET_NO_NEW_PRIVS,1,0,0,0)) die("broker hardening");
-    return broker(fan,channel[0],child,&expected);
+    return broker(fan,channel[0],child,expected);
 }

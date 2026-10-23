@@ -112,11 +112,12 @@ class FilesystemScopeTests(unittest.TestCase):
         self.pump.dispatch(0x4000, -1, 0)
         self.assertEqual(self.pump.counts['kernel_overflow'], 1)
 
-    def test_dashboard_scope_does_not_expose_paths(self):
+    def test_dashboard_scope_exposes_only_configured_paths(self):
         event = project({'MESSAGE':json.dumps({'event':'monitor_started', 'timestamp':'2026-10-18',
-                         'scope':'local_filesystems', 'filesystem_roots':['/private/path']})})
+                         'scope':'local_filesystems', 'filesystem_roots':['/data'], 'path':'/private/accessed.txt'})})
         self.assertEqual(event['scope'], 'local_filesystems')
-        self.assertNotIn('/private/path', json.dumps(event))
+        self.assertEqual(event['filesystem_roots'], ['/data'])
+        self.assertNotIn('/private/accessed.txt', json.dumps(event))
 
 class BrokerProtocolTests(unittest.TestCase):
     def test_descriptor_token_is_translated_and_closed_on_reject(self):

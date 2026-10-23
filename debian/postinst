@@ -1,0 +1,34 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ]; then
+    . /usr/share/debconf/confmodule
+    if [ ! -f /etc/dlp-lab/system-gateway.conf ]; then
+        db_get dlp-lab/configure
+        if [ "$RET" = true ]; then
+            db_get dlp-lab/user
+            target_user=$RET
+            db_get dlp-lab/telegram
+            target_telegram=$RET
+            if [ -n "$target_user" ]; then
+                /usr/sbin/dlp-lab-configure --user "$target_user" --telegram "$target_telegram"
+            else
+                echo 'DLP is not configured: run sudo dlp-lab-configure --user USER --telegram /path/to/Telegram --enable' >&2
+            fi
+        fi
+    fi
+    db_stop
+    deb-systemd-helper unmask dlp-lab-files.service >/dev/null || true
+    if deb-systemd-helper --quiet was-enabled dlp-lab-files.service; then
+        deb-systemd-helper enable dlp-lab-files.service >/dev/null || true
+    else
+        deb-systemd-helper update-state dlp-lab-files.service >/dev/null || true
+    fi
+    if [ -d /run/systemd/system ]; then
+        systemctl --system daemon-reload >/dev/null || true
+        # No host target is invented on first install. ConditionPathExists also
+        # prevents an unconfigured service from claiming protection on boot.
+        if [ -f /etc/dlp-lab/system-gateway.conf ]; then
+            deb-systemd-invoke restart dlp-lab-files.service >/dev/null || true
+        fi
+    fi
+fi

@@ -6,11 +6,21 @@
 
 int main(int argc,char **argv) {
     assert(argc==2);
+    config.uid=getuid(); config.gid=getgid();
+    assert(strlen(TELEGRAM)<sizeof(config.telegram)); strcpy(config.telegram,TELEGRAM);
     struct stat expected; assert(!stat(TELEGRAM,&expected));
     assert(target(getpid(),&expected)==1);
     struct stat wrong=expected; wrong.st_ino++;
-    assert(target(getpid(),&wrong)==0);
+    assert(target(getpid(),&wrong)==-2);
     assert(target(99999999,&expected)==-1);
+    /* Same executable selected as the second configured messenger. */
+    struct stat both[2]={expected,expected};
+    strcpy(config.signal,TELEGRAM); strcpy(config.telegram,"/not-the-running-client");
+    assert(target(getpid(),both)==1);
+    both[1].st_ino++; assert(target(getpid(),both)==-2);
+    config.uid++; assert(target(getpid(),both)==0); config.uid--;
+    strcpy(config.signal,"/not-signal-either"); assert(target(getpid(),both)==0);
+    config.signal[0]=0; strcpy(config.telegram,TELEGRAM);
     int kernel[2],worker[2],result[2];
     assert(!socketpair(AF_UNIX,SOCK_SEQPACKET,0,kernel));
     assert(!socketpair(AF_UNIX,SOCK_SEQPACKET,0,worker));

@@ -53,8 +53,16 @@ def attach_policy_versions(modules,events,disk_version):
         module['policy_matches_disk']=(version==disk_version) if version and disk_version else None
 
 
+def scope_paths(values):
+    # Only configured monitoring scope, never file-access event paths.
+    if not isinstance(values,list) or len(values)>128:
+        return []
+    return [v for v in values if isinstance(v,str) and v.startswith('/') and len(v)<=4096
+            and not any(ord(c)<32 or ord(c)==127 for c in v)]
+
+
 def project(entry):
-    """Allowlist projection: never return raw MESSAGE, paths or message text."""
+    """Allowlist projection: no raw MESSAGE, accessed-file paths or message text."""
     if not isinstance(entry,dict):return None
     raw=entry.get('MESSAGE')
     if not isinstance(raw,str) or len(raw)>65536:return None
@@ -87,6 +95,10 @@ def project(entry):
         'source':short(e.get('source',e.get('messenger')),60),
         'file_type':short(metadata.get('file_type'),16),
         'scope':short(e.get('scope',metadata.get('scope')),60),
+        'coverage':short(e.get('coverage'),24),
+        'filesystem_roots':scope_paths(e.get('filesystem_roots')) if e['event']=='monitor_started' else [],
+        'excluded_roots':scope_paths(e.get('excluded_roots')) if e['event']=='monitor_started' else [],
+        'configuration_source':short(e.get('configuration_source'),80) if e['event']=='monitor_started' else None,
         'send_confirmed':e.get('send_confirmed') is True,
         'send_blocked':e.get('send_blocked') is True,
     }

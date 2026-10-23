@@ -8,7 +8,7 @@ import time
 from .processes import ProcessFilter, identify
 
 
-def inspect_tree(root, atspi, limit=300, max_depth=10, seconds=8, require_focus=True):
+def inspect_tree(root, atspi, limit=300, max_depth=32, seconds=8, require_focus=True):
     pending = deque([(root, 0)])
     rows, candidates = [], []
     end = time.monotonic() + seconds
@@ -26,7 +26,7 @@ def inspect_tree(root, atspi, limit=300, max_depth=10, seconds=8, require_focus=
             if (row['editable'] and (row['focused'] or not require_focus) and row['showing'] and
                     'Text' in interfaces and node.get_role() != atspi.Role.PASSWORD_TEXT):
                 candidates.append(node)
-            if depth < max_depth:
+            if depth < max_depth and node.get_role() != atspi.Role.PASSWORD_TEXT:
                 for index in range(min(row['children'], max(0, limit-len(rows)-len(pending)))):
                     child = node.get_child_at_index(index)
                     if child is not None:
@@ -69,3 +69,24 @@ def probe(config, messenger, marker=None):
                         report['draft_marker_found'] = True
         results.append(report)
     return {'event': 'accessibility_probe', 'messenger': messenger, 'applications': results}
+
+
+def outermost_fields(nodes):
+    """Deduplicate matching ancestor/descendant fields, never equal text in siblings."""
+    result = []
+    for node in nodes:
+        parent = node
+        nested = False
+        for _ in range(32):
+            try:
+                parent = parent.get_parent()
+            except Exception:
+                break
+            if parent is None:
+                break
+            if any(parent == other for other in nodes):
+                nested = True
+                break
+        if not nested:
+            result.append(node)
+    return result

@@ -1,0 +1,29 @@
+[Unit]
+Description=DLP Lab filesystem access control
+Documentation=file:/usr/share/doc/dlp-lab/README.Debian
+After=local-fs.target
+ConditionPathExists=/etc/dlp-lab/system-gateway.conf
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=exec
+ExecStart=/usr/libexec/dlp-lab/fanotify-gateway
+Restart=always
+RestartSec=3s
+TimeoutStopSec=10s
+KillMode=control-group
+UMask=0077
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_DAC_READ_SEARCH CAP_DAC_OVERRIDE CAP_SETUID CAP_SETGID CAP_KILL CAP_SYS_PTRACE
+RestrictAddressFamilies=AF_UNIX
+RestrictRealtime=yes
+LockPersonality=yes
+LimitCORE=0
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dlp-lab-files
+# No PrivateTmp/ProtectHome/mount namespaces: inspect the host filesystem view.
+
+[Install]
+WantedBy=multi-user.target

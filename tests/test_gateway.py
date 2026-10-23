@@ -13,8 +13,8 @@ import tempfile
                      'Opt in with make privileged-test after installing gateway')
 class InstalledGatewayTest(unittest.TestCase):
     def test_allow_warn_block(self):
-        self.assertEqual(os.geteuid(), 1000, 'Run harness as roman, not root')
-        watch = Path('/var/lib/dlp-lab/watch')
+        self.assertGreater(os.geteuid(), 0, 'Run harness as the target user, not root')
+        legacy_watch = Path('/var/lib/dlp-lab/watch')
         gateway = Path('/usr/local/libexec/dlp-lab/fanotify-gateway')
         self.assertTrue(gateway.is_file(), 'Install scripts/install-fanotify-access.sh first')
         prefix = 'dlp-test-' + uuid.uuid4().hex
@@ -22,6 +22,7 @@ class InstalledGatewayTest(unittest.TestCase):
         paths = []
         worker = None
         outside = tempfile.TemporaryDirectory(prefix='dlp-gateway-outside-')
+        watch = legacy_watch if legacy_watch.is_dir() and os.access(legacy_watch,os.W_OK) else Path(outside.name)
         try:
             for name, text, _ in cases:
                 path = watch / (prefix + '-' + name)
@@ -41,7 +42,7 @@ class InstalledGatewayTest(unittest.TestCase):
             if started['event'] == 'policy_loaded':
                 started = event()
             self.assertEqual(started['event'], 'monitor_started')
-            self.assertEqual(started['uid'], 1000)
+            self.assertEqual(started['uid'], os.getuid())
             # Worker PID is used only to stop our own unprivileged process.
             worker_pid = started['pid']
             broad = started.get('scope') == 'local_filesystems'

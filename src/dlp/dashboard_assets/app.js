@@ -61,7 +61,8 @@ function renderModules(){
  const started=running&&m?.invocation?snapshot.events.find(e=>e.event===readyEvent&&e.unit===m.unit&&e.invocation===m.invocation):null;
  const ready=connectionReady&&running&&Boolean(started);
  const broad=started?.scope==='local_filesystems';
- const state=!connectionReady||!m?'Состояние недоступно':ready?'Проверка работает':running?'Процесс запущен · готовность не подтверждена':({inactive:'Выключено',failed:'Ошибка запуска',activating:'Запускается',deactivating:'Останавливается'}[m.active]||'Состояние неизвестно');
+ const degraded=component==='files'&&running&&snapshot.events.some(e=>e.event==='filesystem_coverage'&&e.coverage==='degraded'&&e.unit===m.unit&&e.invocation===m.invocation);
+ const state=!connectionReady||!m?'Состояние недоступно':ready?(degraded?'Проверка работает · есть пропуски или ошибки':'Проверка работает'):running?'Процесс запущен · готовность не подтверждена':({inactive:'Выключено',failed:'Ошибка запуска',activating:'Запускается',deactivating:'Останавливается'}[m.active]||'Состояние неизвестно');
  const card=el('article','','module-card');
  card.append(el('span',state,'state '+(ready?'running':m?.active==='failed'?'failed':'')),el('h2',component==='files'?'Проверка файлов':'Текст в Telegram'),el('p',component==='files'?'Проверяет файлы при открытии мессенджером. Может запретить открытие по правилам анализа.':'Наблюдает за выбранным черновиком, предупреждает о чувствительных данных и записывает результат.'));
  const scope=el('div','','scope');scope.append(el('strong',component==='files'?(broad?'Локальные файловые системы':started?.scope==='direct_children'?'Тестовый каталог':'Область пока не подтверждена'):'Тестовая проверка · 2 минуты'),el('code',component==='files'?(broad?'Включая вложенные папки':started?.scope==='direct_children'?'/var/lib/dlp-lab/watch':'Определяется gateway при запуске'):'Видимое поле с маркером DLP_TEST'),el('small',component==='files'?(broad?'Служебные каталоги исключены. После подключения нового диска перезапустите проверку. Сетевые и FUSE-диски не охвачены.':started?.scope==='direct_children'?'Установлен прежний gateway: только файлы непосредственно в каталоге.':'Для расширенного контроля требуется обновлённый gateway. Фактическая область показывается после запуска.'):'Отправка сообщения не блокируется.'));card.append(scope);
@@ -70,6 +71,12 @@ function renderModules(){
  const details=el('details','','technical');details.append(el('summary','Состояние и настройки'));
  details.append(el('p',ready?'Событие готовности найдено для текущего запуска.':'Готовность определяется по событию текущего запуска в журнале.'));
  details.append(el('p',m?.policy_version?'Политика '+m.policy_version.slice(0,12)+(m.policy_matches_disk===true?' · актуальна':m.policy_matches_disk===false?' · изменена, перезапустите модуль':' · сравнение недоступно'):'Загрузка политики не подтверждена.'));
+ if(component==='files'&&started){
+  if(started.filesystem_roots?.length)details.append(el('p','Файловые системы при запуске: '+started.filesystem_roots.join(', ')));
+  if(started.excluded_roots?.length)details.append(el('p','Исключённые каталоги: '+started.excluded_roots.join(', ')),el('p','Любой документ внутри этих каталогов тоже не проверяется.'));
+  if(started.configuration_source)details.append(el('p','Настройки области: '+started.configuration_source));
+  if(degraded)details.append(el('p','В текущем запуске отмечено неполное покрытие или вынужденный запрет. Проверьте журнал.'));
+ }
  card.append(details);$('modules').append(card);
  }
 }
