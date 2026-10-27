@@ -7,7 +7,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 PACKAGED = ROOT == Path("/usr/lib/dlp-lab")
 GATEWAY = "/usr/local/libexec/dlp-lab/fanotify-gateway"
-UNITS = {name: f"dlp-lab-{name}.service" for name in ("files", "text", "export", "local", "notification-test")}
+UNITS = {name: f"dlp-lab-{name}.service" for name in ("files", "text", "export", "local", "notification-test", "signal-local")}
 
 
 def _run(argv, *, capture=True, check=True):
@@ -30,7 +30,7 @@ def unit_status(component):
 
 
 def status():
-    labels = {"files": "Файлы", "text": "Поле ввода", "export": "Разовая проверка экспорта", "local": "Локальное хранилище (разово)", "notification-test": "Проверка уведомления"}
+    labels = {"files": "Файлы", "text": "Поле ввода", "export": "Разовая проверка экспорта", "local": "Локальное хранилище (разово)", "notification-test": "Проверка уведомления", "signal-local": "Сохранённые сообщения Signal"}
     for component in UNITS:
         data = unit_status(component)
         active = data.get("ActiveState", "unknown")
@@ -76,6 +76,13 @@ def launch_command(component, policy, *, marker=None, seconds=120, file=None, ro
         if not marker or not 1 <= seconds <= 3600:
             raise ValueError("Для текста нужны --marker и --seconds от 1 до 3600")
         worker = python + ["text-monitor", "--marker", marker, "--seconds", str(seconds)]
+    elif component == "signal-local":
+        # A single explicit check; fixed profile and journal, no browser paths.
+        command += ["--property=StateDirectory=dlp-lab", "--property=StateDirectoryMode=0700"]
+        if PACKAGED:
+            python = ["/usr/bin/dlp-agent", "--policy", str(Path(policy).resolve())]
+        worker = python + ["signal-local-check", "--root", str(Path.home()/".config/Signal"),
+                           "--journal", str(Path.home()/".local/state/dlp-lab/signal-local.jsonl")]
     elif component == "local":
         if root is None:
             raise ValueError("Для локальной проверки нужен --root")

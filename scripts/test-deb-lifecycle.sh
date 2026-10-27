@@ -41,13 +41,22 @@ mount -t proc proc "$root/proc"
 cp "$package" "$root/tmp/dlp.deb"
 cp "$yaml" "$root/tmp/yaml.deb"
 cp "$previous" "$root/tmp/previous.deb"
+# Optional explicit runtime packages for new Depends absent from the host.
+if [[ -n ${DLP_TEST_DEP_DIR:-} ]]; then
+    mkdir -p "$root/tmp/extra-deps"
+    cp "$DLP_TEST_DEP_DIR"/*.deb "$root/tmp/extra-deps/"
+fi
 printf '#!/bin/sh\nexit 0\n' > "$root/opt/test-telegram"
 chmod 755 "$root/opt/test-telegram"
 cp "$root/opt/test-telegram" "$root/opt/test-signal"
 /usr/sbin/chroot "$root" /bin/sh -eu <<'CHECKS'
 export DEBIAN_FRONTEND=noninteractive
 printf 'dlp-lab dlp-lab/configure boolean false\n' | debconf-set-selections
-dpkg --no-triggers -i /tmp/yaml.deb /tmp/previous.deb
+if [ -d /tmp/extra-deps ]; then
+    dpkg --no-triggers -i /tmp/extra-deps/*.deb
+fi
+# Host dpkg metadata may already list DLP; restore conffiles absent from this test root.
+dpkg --force-confmiss --no-triggers -i /tmp/yaml.deb /tmp/previous.deb
 # The first install must not invent a host target.
 test ! -e /etc/dlp-lab/system-gateway.conf
 /usr/sbin/dlp-lab-configure --user testuser --telegram /opt/test-telegram
@@ -73,6 +82,40 @@ yaml.safe_load(s)
 assert Path('/usr/sbin/dlp-lab-run-files').is_file()
 assert Path('/usr/lib/systemd/system/dlp-lab-files.service').is_file()
 PYVERIFY
+# Packaged Signal CLI imports and dependency wiring (no real profile or keyring).
+/usr/bin/dlp-agent signal-local-check --help > /tmp/signal-help.txt
+/usr/bin/python3 -I - <<'PYSIGNAL'
+import sys, ctypes, tempfile
+from pathlib import Path
+sys.path.insert(0, '/usr/lib/dlp-lab/src')
+from dlp.signal_sqlcipher import load_library, ReadOnlySignalDatabase, unwrap_linux_v11
+from dlp.signal_local import worker_command
+from types import SimpleNamespace
+from Cryptodome.Cipher import AES
+from Cryptodome.Util.Padding import pad
+import hashlib
+password=b'synthetic'; key=b'12'*32
+derived=hashlib.pbkdf2_hmac('sha1',password,b'saltysalt',1,16)
+blob=b'v11'+AES.new(derived,AES.MODE_CBC,b' '*16).encrypt(pad(key,16))
+assert unwrap_linux_v11(blob,password)==key
+lib=load_library('libsqlcipher.so.1')
+with tempfile.TemporaryDirectory() as folder:
+    path=Path(folder)/'synthetic.sqlite'; db=ctypes.c_void_p()
+    assert lib.sqlite3_open_v2(str(path).encode(),ctypes.byref(db),6,None)==0
+    sql=b"PRAGMA key=\"x'"+key+b"'\"; CREATE TABLE sample(body TEXT);"
+    assert lib.sqlite3_exec(db,sql,None,None,None)==0
+    lib.sqlite3_close(db)
+    with ReadOnlySignalDatabase(path,key,'libsqlcipher.so.1') as reader:
+        assert reader.rows('SELECT count(*) FROM sample')==[['0']]
+args=SimpleNamespace(root='/tmp/no-profile',executable='/opt/test-signal',
+                     sqlcipher_library='libsqlcipher.so.1',policy='/etc/dlp-lab/system/policy.yaml',limit=100)
+command=worker_command(args,'/tmp/no-copy')
+assert '-I' in command
+import subprocess,json,os
+result=subprocess.run(command,env={**os.environ,'PYTHONPATH':'/tmp'},capture_output=True)
+assert result.returncode==2
+assert json.loads(result.stdout)=={'reason':'run_as_desktop_user'}
+PYSIGNAL
 # Removal preserves settings, purge removes managed configuration only.
 printf 'legacy sentinel\n' > /etc/dlp-lab/gateway.conf
 dpkg --no-triggers --remove dlp-lab

@@ -16,7 +16,7 @@ class MonitorControl:
     def execute(self, request):
         keys(request, ('component', 'action'))
         component, action = request['component'], request['action']
-        if component not in ('files', 'text') or action not in ('start', 'stop'):
+        if component not in ('files', 'text', 'signal-local') or action not in ('start', 'stop') or (component == 'signal-local' and action != 'start'):
             raise ValueError('Unsupported operation')
         # Requests cannot supply units, commands, paths or additional scope.
         with self.lock:
@@ -43,5 +43,6 @@ class MonitorControl:
                     'active': current.get('ActiveState', 'unknown'),
                     'policy_at_request': version,
                     'applied_policy_confirmed': False,
-                    'message': ('Команда запуска выполнена. Готовность проверяйте по событию monitor_started или text_monitor_started.'
+                    'message': ('Проверка сохранённых сообщений Signal запущена. Результат появится в карточке и журнале.' if component == 'signal-local' else
+                                'Команда запуска выполнена. Готовность проверяйте по событию monitor_started или text_monitor_started.'
                                 if action == 'start' else 'Команда остановки выполнена. Контроль остановленного модуля снят.')}

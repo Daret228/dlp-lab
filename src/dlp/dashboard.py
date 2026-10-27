@@ -21,7 +21,7 @@ EVENTS={'policy_loaded','analysis','draft_analysis','file_access_attempt','notif
         'local_draft_analysis','local_draft_analysis_error','local_check_finished',
         'text_monitor_started','text_monitor_stopped','monitor_started','queue_overflow','filesystem_coverage',
         'export_message_analysis','export_analysis_summary','local_locations_inspection',
-        'notification_test_analysis'}
+        'notification_test_analysis','signal_local_started','signal_local_failed','signal_local_analysis_summary'}
 
 
 def command(args):
@@ -102,6 +102,16 @@ def project(entry):
         'send_confirmed':e.get('send_confirmed') is True,
         'send_blocked':e.get('send_blocked') is True,
     }
+    if e['event']=='signal_local_analysis_summary':
+        def count(value):
+            return value if type(value) is int and 0<=value<=1000 else None
+        decisions=e.get('decisions',{})
+        if not isinstance(decisions,dict):decisions={}
+        result['signal_summary']={key:count(e.get(key)) for key in
+                                  ('analyzed','incomplete','skipped_oversize','sample_limit')}
+        result['signal_summary']['decisions']={key:count(decisions.get(key)) for key in ('ALLOW','WARN','BLOCK')}
+        result['signal_summary']['more_text_rows']=e.get('more_text_rows') is True
+        result['signal_summary']['source_files_unchanged']=e.get('source_files_unchanged') is True
     if result['decision'] not in ('ALLOW','WARN','BLOCK'):result['decision']=None
     if type(result['complete']) is not bool:result['complete']=None
     # A timestamp in the JSON payload may be absent: fall back to journald.

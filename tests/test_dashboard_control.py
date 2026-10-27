@@ -37,3 +37,15 @@ class ControlTests(unittest.TestCase):
         with patch('dlp.dashboard_control.service.unit_status',side_effect=[{'ActiveState':'active'},{'ActiveState':'inactive'}]),patch('dlp.dashboard_control.service._run') as run:
             self.control.execute({'component':'files','action':'stop'})
         run.assert_called_once_with(['systemctl','--user','stop','dlp-lab-files.service'])
+
+    def test_signal_local_uses_fixed_profile_and_no_wait(self):
+        with patch('dlp.dashboard_control.service.unit_status',side_effect=[{'ActiveState':'inactive'},{'ActiveState':'active'}]), patch('dlp.dashboard_control.service._run') as run:
+            self.control.execute({'component':'signal-local','action':'start'})
+        command=run.call_args.args[0]
+        self.assertIn('signal-local-check',command)
+        self.assertIn(str(Path.home()/'.config/Signal'),command)
+        self.assertIn('--property=StateDirectory=dlp-lab',command)
+        self.assertNotIn('--wait',command)
+        for request in ({'component':'signal-local','action':'stop'},
+                        {'component':'signal-local','action':'start','root':'/other'}):
+            with self.assertRaises(ValueError):self.control.execute(request)

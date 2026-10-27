@@ -1,3 +1,11 @@
+dlp-lab (0.2.5) unstable; urgency=medium
+
+  * Add explicit offline Signal message checks with read-only snapshots.
+  * Include SQLCipher, Secret Service and Python crypto runtime dependencies.
+  * Record aggregate results and deliver a bounded desktop warning.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 26 Oct 2026 10:00:00 +0000
+
 dlp-lab (0.2.4) unstable; urgency=medium
 
   * Exempt validated root-owned fontconfig cache files from content analysis.

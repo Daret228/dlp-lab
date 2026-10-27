@@ -21,6 +21,13 @@ def main():
     sources.add_argument("--file", type=Path)
     export = sub.add_parser("analyze-export", help="Audit text in a single Telegram JSON chat export")
     export.add_argument("--file", type=Path, required=True)
+    signal_local = sub.add_parser("signal-local-check", help="Offline Signal text analysis; client must be closed")
+    signal_local.add_argument("--root", type=Path, required=True)
+    signal_local.add_argument("--executable", type=Path, default=Path('/opt/Signal/signal-desktop'))
+    signal_local.add_argument("--sqlcipher-library", type=Path, default=Path("libsqlcipher.so.1"))
+    signal_local.add_argument("--journal", type=Path, required=True)
+    signal_local.add_argument("--limit", type=int, default=100)
+    signal_local.add_argument("--no-notify", action="store_true")
     sub.add_parser("monitor", help="Internal: launch through fanotify-launcher")
     dashboard = sub.add_parser("dashboard", help="Локальная панель событий, политики и управления")
     dashboard.add_argument("--port", type=int, default=8765)
@@ -99,6 +106,9 @@ def main():
                         matches.append({'messenger': name, **asdict(identity)})
             JsonAudit(sys.stdout).emit({'event': 'process_inventory', 'matches': matches})
             return 0
+        if args.command == "signal-local-check":
+            from .signal_local import run_signal_local
+            return run_signal_local(args, JsonAudit(sys.stdout))
         if args.command == "local-check":
             from .local_job import run_local
             return run_local(args, JsonAudit(sys.stdout))
