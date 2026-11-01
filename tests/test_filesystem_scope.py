@@ -97,7 +97,7 @@ class FilesystemScopeTests(unittest.TestCase):
 
     def test_runtime_exclusion_and_path_boundaries(self):
         self.assertTrue(excluded('/usr/lib/test'))
-        self.assertTrue(excluded('/home/roman/.local/share/TelegramDesktop/tdata/map (deleted)'))
+        self.assertTrue(excluded(os.path.expanduser('~')+'/.local/share/TelegramDesktop/tdata/map (deleted)'))
         self.assertFalse(excluded('/usr-other/file'))
         self.assertFalse(excluded('/home/roman/Documents/sub/file.docx'))
         self.assertFalse(excluded('/var/lib/dlp-lab/watch/test'))

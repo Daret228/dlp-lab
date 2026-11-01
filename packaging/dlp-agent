@@ -8,6 +8,6 @@ os.environ['PYTHONSAFEPATH'] = '1'
 os.environ['DLP_INSTALL_MODE'] = 'system'
 sys.path.insert(0, '/usr/lib/dlp-lab/src')
 from dlp.cli import main
-if '--policy' not in sys.argv[1:]:
+if '--policy' not in sys.argv[1:] and sys.argv[1:2] != ['central']:
     sys.argv[1:1] = ['--policy', '/etc/dlp-lab/system/policy.yaml']
 raise SystemExit(main())

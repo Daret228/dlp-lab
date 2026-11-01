@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 if [ "$1" = configure ]; then
+    systemd-sysusers /usr/lib/sysusers.d/dlp-lab.conf
     . /usr/share/debconf/confmodule
     if [ ! -f /etc/dlp-lab/system-gateway.conf ]; then
         db_get dlp-lab/configure
@@ -25,6 +26,12 @@ if [ "$1" = configure ]; then
     fi
     if [ -d /run/systemd/system ]; then
         systemctl --system daemon-reload >/dev/null || true
+        # Central roles remain opt-in; upgrades restart only already active roles.
+        for unit in dlp-lab-central.service dlp-lab-forwarder.service; do
+            if systemctl --system is-active --quiet "$unit"; then
+                deb-systemd-invoke restart "$unit" >/dev/null || true
+            fi
+        done
         # No host target is invented on first install. ConditionPathExists also
         # prevents an unconfigured service from claiming protection on boot.
         if [ -f /etc/dlp-lab/system-gateway.conf ]; then

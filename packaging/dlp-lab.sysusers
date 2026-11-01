@@ -1,0 +1,2 @@
+u dlp-central - "DLP central server" /var/lib/dlp-central /usr/sbin/nologin
+u dlp-forwarder - "DLP journal forwarder" /var/lib/dlp-forwarder /usr/sbin/nologin

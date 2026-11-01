@@ -1,3 +1,61 @@
+dlp-lab (0.2.13) unstable; urgency=medium
+
+  * Separate read-only process inventory from monitor UID authorization.
+  * Fix false messenger errors in diagnostics run by the forwarding service.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sat, 31 Oct 2026 18:00:00 +0000
+
+dlp-lab (0.2.12) unstable; urgency=medium
+
+  * Add bounded authenticated remote diagnostics with durable result delivery.
+  * Add per-device diagnostic requests and result history to central UI.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sat, 31 Oct 2026 16:30:00 +0000
+
+dlp-lab (0.2.11) unstable; urgency=medium
+
+  * Add interactive first-time file protection setup without overwriting settings.
+  * Add read-only doctor command with service and configuration diagnostics.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sat, 31 Oct 2026 16:00:00 +0000
+
+dlp-lab (0.2.10) unstable; urgency=medium
+
+  * Support service-owned read-only credentials provided by Debian 12 systemd.
+  * Preserve root-owned credential support and private ordinary configurations.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 30 Oct 2026 06:00:00 +0000
+
+dlp-lab (0.2.9) unstable; urgency=medium
+
+  * Support Debian Cryptodome namespace in Telegram local storage reader.
+  * Make process and filesystem tests independent of host Python and username.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 30 Oct 2026 05:00:00 +0000
+
+dlp-lab (0.2.8) unstable; urgency=medium
+
+  * Collect system-unit events from both system and split user journals.
+  * Keep collection restricted to the DLP file service and retain its cursor.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 28 Oct 2026 10:00:00 +0000
+
+dlp-lab (0.2.7) unstable; urgency=medium
+
+  * Accept root-owned systemd credentials only in the fixed system service path.
+  * Preserve strict ownership checks for ordinary agent configuration files.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 28 Oct 2026 09:00:00 +0000
+
+dlp-lab (0.2.6) unstable; urgency=medium
+
+  * Add opt-in central event server and durable journal forwarding.
+  * Ship isolated system services and a user-session forwarding unit.
+  * Preserve manual operation and existing file protection configuration.
+  * Include Signal database dashboard controls.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 28 Oct 2026 08:00:00 +0000
+
 dlp-lab (0.2.5) unstable; urgency=medium
 
   * Add explicit offline Signal message checks with read-only snapshots.

@@ -68,26 +68,37 @@ class WarningTests(unittest.TestCase):
 from types import SimpleNamespace
 from dlp.signal_local import require_stopped
 
+_real_readlink = __import__('os').readlink
+
+
+def inaccessible_proc_link(path, *args, **kwargs):
+    if str(path).startswith('/proc/'):
+        raise PermissionError()
+    return _real_readlink(path, *args, **kwargs)
+
+
 class ProcessGuardTests(unittest.TestCase):
     def fake_process(self,name):
         from unittest.mock import MagicMock
         process=MagicMock();process.name='123'
         process.stat.return_value=SimpleNamespace(st_uid=__import__('os').getuid())
         process.__truediv__.return_value.read_text.return_value=name
+        comm=process.__truediv__.return_value
+        process.__truediv__.side_effect=lambda part: Path('/proc/123/exe') if part == 'exe' else comm
         return process
 
-    @patch('dlp.signal_local.os.readlink',side_effect=PermissionError())
+    @patch('dlp.signal_local.os.readlink',side_effect=inaccessible_proc_link)
     @patch('dlp.signal_local.Path.iterdir')
     def test_known_hidden_session_helper(self,listing,_):
         listing.return_value=[self.fake_process('ssh-agent')]
-        require_stopped('/usr/bin/python3.13')
+        require_stopped(__import__('sys').executable)
 
-    @patch('dlp.signal_local.os.readlink',side_effect=PermissionError())
+    @patch('dlp.signal_local.os.readlink',side_effect=inaccessible_proc_link)
     @patch('dlp.signal_local.Path.iterdir')
     def test_unknown_hidden_process_fails_closed(self,listing,_):
         listing.return_value=[self.fake_process('signal-desktop')]
         with self.assertRaisesRegex(LocalCheckError,'process_visibility_unavailable'):
-            require_stopped('/usr/bin/python3.13')
+            require_stopped(__import__('sys').executable)
 
 
 class PackagedWorkerTests(unittest.TestCase):

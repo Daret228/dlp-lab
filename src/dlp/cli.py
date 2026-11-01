@@ -10,11 +10,18 @@ from .policy import load_policy, load_policy_snapshot, PolicyError
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "central":
+        from .central import main as central_main
+        return central_main(sys.argv[2:])
     packaged = Path(__file__).resolve().parents[2] == Path('/usr/lib/dlp-lab')
     config_directory = Path('/etc/dlp-lab/system') if packaged else Path('config')
     parser = argparse.ArgumentParser(description="Linux endpoint DLP laboratory prototype")
     parser.add_argument("--policy", default=str(config_directory / "policy.yaml"))
     sub = parser.add_subparsers(dest="command", required=True)
+    central = sub.add_parser("central", help="Центральный сервер и отправка событий", add_help=False)
+    central.add_argument("arguments", nargs=argparse.REMAINDER)
+    doctor = sub.add_parser("doctor", help="Диагностика пакетной установки без изменения настроек")
+    doctor.add_argument("--json", action="store_true", help="Машиночитаемый отчёт")
     analyze = sub.add_parser("analyze")
     sources = analyze.add_mutually_exclusive_group(required=True)
     sources.add_argument("--text")
@@ -69,6 +76,12 @@ def main():
     sub.add_parser("notification-test-worker", help=argparse.SUPPRESS)
     args = parser.parse_args()
     try:
+        if args.command == "doctor":
+            from .doctor import run
+            return run(json_output=args.json)
+        if args.command == "central":
+            from .central import main as central_main
+            return central_main(args.arguments)
         if args.command == "dashboard":
             from .dashboard import run
             run(args.port)

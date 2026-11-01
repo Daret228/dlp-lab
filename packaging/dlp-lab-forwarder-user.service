@@ -1,0 +1,15 @@
+[Unit]
+Description=DLP Lab user journal event forwarder
+ConditionPathExists=%h/.config/dlp-lab/central-agent.json
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/dlp-agent central forward --config %h/.config/dlp-lab/central-agent.json --state %h/.local/state/dlp-forwarder
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=yes
+LimitCORE=0
+
+[Install]
+WantedBy=default.target

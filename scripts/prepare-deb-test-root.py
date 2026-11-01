@@ -13,7 +13,7 @@ binaries = '''sh dash bash perl python3 python3.13 dpkg dpkg-deb dpkg-query
  debconf-communicate debconf-show py3compile py3clean
  find dirname basename ln mkdir chmod chown stat sha256sum rm rmdir tar gzip xz
  diff cmp cat readlink realpath sort touch sed grep head tail cut tr id env printf test
- systemctl dpkg-divert update-alternatives'''.split()
+ systemctl systemd-sysusers dpkg-divert update-alternatives'''.split()
 binaries += [p.name for p in Path('/usr/bin').glob('dpkg*') if p.is_file()]
 for name in binaries:
     source = Path('/usr/bin')/name

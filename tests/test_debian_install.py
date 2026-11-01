@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DebianInstallTests(unittest.TestCase):
-    def run_install(self, *, configured=False, username='testuser', configure=True, fail=False):
+    def run_install(self, *, configured=False, username='testuser', configure=True, fail=False, central_active=False):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             log = root/'calls'
@@ -30,13 +30,15 @@ db_stop() { :; }
             helper.write_text('''#!/bin/sh
 printf '%s\\n' "$0 $*" >> "$CALLS"
 case "$0" in
+ *systemctl)
+   if [ "$2" = is-active ]; then [ "$CENTRAL_ACTIVE" = 1 ]; exit $?; fi;;
  *dlp-lab-configure)
    [ "$FAIL_SETUP" = 0 ] || exit 2
    touch "$CONFIG_FILE";;
 esac
 ''')
             helper.chmod(0o755)
-            for name in ('dlp-lab-configure','deb-systemd-helper','deb-systemd-invoke','systemctl'):
+            for name in ('dlp-lab-configure','deb-systemd-helper','deb-systemd-invoke','systemctl','systemd-sysusers'):
                 (root/name).symlink_to(helper)
             script = (ROOT/'debian/postinst').read_text()
             script = script.replace('/usr/share/debconf/confmodule', str(module))
@@ -45,7 +47,7 @@ esac
             script = script.replace('/run/systemd/system', str(root))
             env = dict(os.environ, PATH=str(root)+':/usr/bin:/bin', CALLS=str(log),
                        CONFIG_FILE=str(conf), SETUP=str(configure).lower(),
-                       TARGET_USER=username, FAIL_SETUP=str(int(fail)))
+                       TARGET_USER=username, FAIL_SETUP=str(int(fail)), CENTRAL_ACTIVE=str(int(central_active)))
             result = subprocess.run(['sh','-c',script,'postinst','configure'], env=env,
                                     text=True,capture_output=True)
             return result, log.read_text() if log.exists() else ''
@@ -80,3 +82,12 @@ esac
                               capture_output=True,text=True)
         self.assertEqual(result.returncode,2)
         self.assertIn('Usage:',result.stderr)
+
+    def test_only_active_central_roles_restart(self):
+        result, calls = self.run_install(configured=True, central_active=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('restart dlp-lab-central.service', calls)
+        self.assertIn('restart dlp-lab-forwarder.service', calls)
+        result, calls = self.run_install(configured=True)
+        self.assertNotIn('restart dlp-lab-central.service', calls)
+        self.assertNotIn('restart dlp-lab-forwarder.service', calls)

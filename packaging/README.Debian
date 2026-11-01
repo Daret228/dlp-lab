@@ -170,3 +170,38 @@ This is an explicit session command, not an automatic systemd/keyring job. File
 service auto-start and sudo dlp-lab-run-files remain unchanged. Existing host
 settings are preserved on upgrade; do not rerun configure --replace just to
 upgrade. An installed 0.2.4 must be upgraded before this command is available.
+
+Central roles (0.2.6): opt-in dlp-lab-central.service and dlp-lab-forwarder.service,
+plus user dlp-lab-forwarder-user.service. Manual dlp-agent central commands remain.
+Server config: /etc/dlp-lab/central-server.json (host/port/cert/key); server state:
+/var/lib/dlp-central, automatically initialized on first configured service start.
+Agent config: /etc/dlp-lab/central-agent.json, root-owned 0600, passed with systemd
+LoadCredential. System sender state: /var/lib/dlp-forwarder. Enable selected roles
+explicitly with systemctl enable --now after configuration. No network roles are
+enabled by package installation. Non-loopback servers require TLS.
+The system sender runs as dlp-forwarder with systemd-journal supplementary group;
+that group permits reading the whole journal, while code selects only DLP units.
+User sender reads ~/.config/dlp-lab/central-agent.json and uses its own state.
+Purge retains central credentials, audit databases and service accounts.
+See repository docs/CENTRAL_SERVER.md for setup, migration and limitations.
+
+Удобная первоначальная настройка (с версии 0.2.11)
+-------------------------------------------------
+sudo dlp-lab-configure --wizard
+
+Мастер ищет Telegram в /usr/bin и /opt/Telegram, Signal в /opt/Signal,
+позволяет указать другой путь и пользователя рабочего стола. Перед применением
+показывает выбор. После подтверждения использует те же проверки root-owned
+исполняемых файлов и атомарную запись, что обычный configure. Существующую
+конфигурацию не заменяет. При отказе от запуска сохраняет настройки; вручную:
+sudo systemctl start dlp-lab-files.service
+Для запуска в переднем плане: sudo dlp-lab-run-files (сначала остановить службу).
+
+Диагностика без sudo: dlp-agent doctor
+Для обработки скриптом: dlp-agent doctor --json
+Коды: 0 — нет обнаруженных ошибок; 1 — есть ошибки; 2 — systemd недоступен.
+Нулевой код не гарантирует полную защиту. Проверяются пакетная политика,
+пути мессенджеров и состояния system units. Токены и сообщения не читаются.
+Сеть, сертификат, очередь и пользовательские модули этим отчётом не проверяются.
+Мастер настраивает только файловый контроль. Подключение к серверу пока отдельное;
+регистрация по одноразовому коду из панели в этой версии не реализована.

@@ -83,7 +83,8 @@ class ProcessFilter:
         return next((a.name for a in self.adapters if a.matches(identity)), None)
 
 
-def load_process_config(path):
+def load_process_inventory(path):
+    """Validate configuration for read-only inventory; does not authorize monitoring."""
     path = Path(path)
     try:
         if path.stat().st_size > 65536:
@@ -94,8 +95,8 @@ def load_process_config(path):
             raise PolicyError('Unsupported process config version')
         if config['mode'] not in ('all', 'messengers'):
             raise PolicyError('mode must be all or messengers')
-        if type(config['uid']) is not int or config['uid'] != os.getuid():
-            raise PolicyError('Process filter must target current user UID')
+        if type(config['uid']) is not int or not 0 < config['uid'] < 2**32-1:
+            raise PolicyError('Process filter requires a non-root user UID')
         if not isinstance(config['messengers'], dict):
             raise PolicyError('messengers must be a mapping')
         paths = set()
@@ -114,3 +115,11 @@ def load_process_config(path):
         return config
     except (ValueError, TypeError, KeyError, yaml.YAMLError, RecursionError) as exc:
         raise PolicyError(f'Invalid process configuration: {exc}') from exc
+
+
+def load_process_config(path):
+    """Runtime monitor must only target its own UID."""
+    config = load_process_inventory(path)
+    if config['uid'] != os.getuid():
+        raise PolicyError('Process filter must target current user UID')
+    return config

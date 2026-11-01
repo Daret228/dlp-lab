@@ -1,8 +1,12 @@
 import hashlib
 import unittest
 try:
-    from Crypto.Cipher import AES
-    from Crypto.Util.Padding import pad
+    try:
+        from Cryptodome.Cipher import AES
+        from Cryptodome.Util.Padding import pad
+    except ImportError:
+        from Crypto.Cipher import AES
+        from Crypto.Util.Padding import pad
 except ImportError:
     AES = None
 from dlp.signal_sqlcipher import unwrap_linux_v11, SignalDatabaseError

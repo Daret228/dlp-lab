@@ -7,6 +7,11 @@ if [ "$1" = purge ]; then
     fi
     deb-systemd-helper purge dlp-lab-files.service >/dev/null || true
     deb-systemd-helper unmask dlp-lab-files.service >/dev/null || true
+    for unit in dlp-lab-central.service dlp-lab-forwarder.service; do
+        deb-systemd-helper purge "$unit" >/dev/null || true
+        deb-systemd-helper unmask "$unit" >/dev/null || true
+    done
+    # Central state, credentials and service accounts are deliberately retained.
     # Only generated package configuration. Never erase legacy gateway.conf,
     # the shared lock, laboratory data, or the administrator's other files.
     rm -f /etc/dlp-lab/system-gateway.conf /etc/dlp-lab/system/processes.yaml

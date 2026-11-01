@@ -106,7 +106,10 @@ def xor(a, b):
 def decrypt(encrypted, local_key):
     if not 32 <= len(encrypted) <= MAX_FILE or len(encrypted) % 16:
         raise StorageError('invalid_encrypted_length')
-    from Crypto.Cipher import AES  # Optional dependency; only this reader needs it.
+    try:
+        from Cryptodome.Cipher import AES  # Debian package namespace.
+    except ImportError:
+        from Crypto.Cipher import AES  # Optional pip dependency.
     msg_key = encrypted[:16]
     key, iv = aes_parameters(local_key, msg_key)
     cipher = AES.new(key, AES.MODE_ECB)

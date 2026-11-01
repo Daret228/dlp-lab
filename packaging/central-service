@@ -1,0 +1,28 @@
+#!/usr/bin/python3 -I
+"""Fixed package service entrypoints; configuration is supplied by administrator."""
+import json
+import os
+from pathlib import Path
+import sys
+sys.path.insert(0, '/usr/lib/dlp-lab/src')
+from dlp.central import main, private_dir
+
+if sys.argv[1:] == ['server']:
+    config = json.loads(Path('/etc/dlp-lab/central-server.json').read_text())
+    if not isinstance(config, dict) or set(config) - {'host', 'port', 'cert', 'key'}:
+        raise SystemExit('Invalid server configuration')
+    state = private_dir('/var/lib/dlp-central')
+    if not (state/'admin.json').exists():
+        if main(['init', '--state', str(state)]):
+            raise SystemExit(2)
+    args = ['serve', '--state', str(state), '--host', str(config.get('host', '127.0.0.1')),
+            '--port', str(config.get('port', 8766))]
+    for key in ('cert', 'key'):
+        if key in config:
+            args += ['--'+key, str(config[key])]
+elif sys.argv[1:] == ['forward']:
+    credentials = Path(os.environ['CREDENTIALS_DIRECTORY'])/'agent.json'
+    args = ['forward', '--system', '--state', '/var/lib/dlp-forwarder', '--config', str(credentials)]
+else:
+    raise SystemExit('Unknown service role')
+raise SystemExit(main(args, systemd_credential=sys.argv[1:] == ['forward']))

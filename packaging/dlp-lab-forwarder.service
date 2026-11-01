@@ -1,0 +1,29 @@
+[Unit]
+Description=DLP Lab system journal event forwarder
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/etc/dlp-lab/central-agent.json
+
+[Service]
+Type=exec
+User=dlp-forwarder
+Group=dlp-forwarder
+SupplementaryGroups=systemd-journal
+StateDirectory=dlp-forwarder
+StateDirectoryMode=0700
+LoadCredential=agent.json:/etc/dlp-lab/central-agent.json
+ExecStart=/usr/libexec/dlp-lab/central-service forward
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

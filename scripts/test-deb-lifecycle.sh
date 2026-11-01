@@ -116,6 +116,41 @@ result=subprocess.run(command,env={**os.environ,'PYTHONPATH':'/tmp'},capture_out
 assert result.returncode==2
 assert json.loads(result.stdout)=={'reason':'run_as_desktop_user'}
 PYSIGNAL
+# Central roles ship disabled and contain no generated host credentials.
+/usr/bin/dlp-agent central --help > /tmp/central-help.txt
+/usr/bin/dlp-agent central init --state /var/lib/central-test
+/usr/bin/dlp-agent central add-agent --state /var/lib/central-test --name synthetic --server http://127.0.0.1:8766 --out /tmp/synthetic-agent.json
+/usr/bin/python3 -I - <<'PYCENTRAL'
+from pathlib import Path
+import pwd, json
+assert pwd.getpwnam('dlp-central').pw_uid != 0
+assert pwd.getpwnam('dlp-forwarder').pw_uid != 0
+for name in ('dlp-lab-central', 'dlp-lab-forwarder'):
+    assert Path('/usr/lib/systemd/system/'+name+'.service').is_file()
+    assert not Path('/etc/systemd/system/multi-user.target.wants/'+name+'.service').exists()
+assert Path('/usr/lib/systemd/user/dlp-lab-forwarder-user.service').is_file()
+assert not Path('/etc/dlp-lab/central-agent.json').exists()
+assert not Path('/etc/dlp-lab/central-server.json').exists()
+assert Path('/tmp/synthetic-agent.json').stat().st_mode & 0o777 == 0o600
+assert json.loads(Path('/tmp/synthetic-agent.json').read_text())['agent_id']
+# Reproduce system-manager credential ownership/mode in this isolated root.
+import sys, os
+sys.path.insert(0, '/usr/lib/dlp-lab/src')
+from dlp.central import read_systemd_config, read_config
+credential_dir=Path('/run/credentials/dlp-lab-forwarder.service')
+credential_dir.mkdir(parents=True, mode=0o700)
+credential=credential_dir/'agent.json'
+credential.write_text('{"synthetic":true}')
+credential.chmod(0o440)
+os.environ['CREDENTIALS_DIRECTORY']=str(credential_dir)
+assert read_systemd_config(credential)=={'synthetic':True}
+try:
+    read_config(credential)
+except ValueError:
+    pass
+else:
+    raise AssertionError('Ordinary config accepted group-readable credential')
+PYCENTRAL
 # Removal preserves settings, purge removes managed configuration only.
 printf 'legacy sentinel\n' > /etc/dlp-lab/gateway.conf
 dpkg --no-triggers --remove dlp-lab
@@ -132,5 +167,6 @@ if debconf-show dlp-lab | grep -q 'dlp-lab/'; then
     exit 1
 fi
 test -f /etc/dlp-lab/gateway.conf
+test -f /var/lib/central-test/admin.json
 printf 'PASS: install, configure, isolated imports, upgrade preservation, remove, purge\n'
 CHECKS
