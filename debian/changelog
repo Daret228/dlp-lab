@@ -1,3 +1,10 @@
+dlp-lab (0.2.14) unstable; urgency=medium
+
+  * Exempt the private home Xauthority file from messenger content analysis.
+  * Check owner, permissions, file identity and links for the session exception.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 02 Nov 2026 05:00:00 +0000
+
 dlp-lab (0.2.13) unstable; urgency=medium
 
   * Separate read-only process inventory from monitor UID authorization.

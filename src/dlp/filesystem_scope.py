@@ -13,6 +13,7 @@ import select
 import threading
 import re
 import stat
+import pwd
 from .processes import identify
 
 # Explicit operational exceptions, not a claim that these locations cannot leak.
@@ -71,6 +72,28 @@ def protected_font_cache(path, fd):
         return False
 
 
+def session_authority(path, fd, home, uid):
+    """Explicit coverage exception for the user's standard X11 cookie file.
+
+    No content reads in the permission pump. A file deliberately placed at this
+    exact location also bypasses analysis; this is not a content classifier.
+    """
+    if not home or path != home.rstrip('/') + '/.Xauthority':
+        return False
+    try:
+        parent = os.lstat(home)
+        metadata = os.fstat(fd)
+        entry = os.lstat(path)
+        return (stat.S_ISDIR(parent.st_mode) and parent.st_uid == uid
+                and not parent.st_mode & 0o022
+                and stat.S_ISREG(metadata.st_mode) and stat.S_ISREG(entry.st_mode)
+                and metadata.st_uid == uid and not metadata.st_mode & 0o077
+                and metadata.st_nlink == 1
+                and (metadata.st_dev, metadata.st_ino) == (entry.st_dev, entry.st_ino))
+    except OSError:
+        return False
+
+
 class PermissionPump:
     def __init__(self, group_fd, process_filter, events, response, capacity=128, transport=None, exclusions=None):
         if process_filter is None or process_filter.mode != 'messengers':
@@ -78,13 +101,17 @@ class PermissionPump:
         self.fd, self.process_filter = group_fd, process_filter
         self.events, self.response = events, response
         self.transport = transport
+        try:
+            self.session_home = pwd.getpwuid(process_filter.uid).pw_dir
+        except KeyError:
+            self.session_home = None
         self.exclusions = EXCLUDED_ROOTS if exclusions is None else exclusions
         self.jobs = queue.Queue(maxsize=capacity)
         self.stop = threading.Event()
         self.thread = threading.Thread(target=self.run, daemon=True, name='fanotify-pump')
         self.error = None
         self.counts = {'unrelated_allowed': 0, 'identity_unknown_allowed': 0,
-                       'runtime_excluded': 0, 'protected_font_cache_allowed': 0, 'analysis_queue_denied': 0, 'kernel_overflow': 0, 'target_changed_allowed': 0}
+                       'session_authority_allowed': 0, 'runtime_excluded': 0, 'protected_font_cache_allowed': 0, 'analysis_queue_denied': 0, 'kernel_overflow': 0, 'target_changed_allowed': 0}
 
     def answer(self, mask, fd, decision):
         try:
@@ -129,6 +156,9 @@ class PermissionPump:
                 path = os.readlink(f'/proc/self/fd/{fd}')
             except OSError:
                 path = ''  # Selected target: let analyzer's on_error decide.
+            if session_authority(path, fd, self.session_home, identity.uid):
+                self.counts['session_authority_allowed'] += 1
+                return
             if protected_font_cache(path, fd):
                 self.counts['protected_font_cache_allowed'] += 1
                 return
@@ -258,7 +288,7 @@ def run_filesystems(group_fd, analyzer, audit, process_filter, events, response,
                     'configuration_source': os.environ.get('DLP_GATEWAY_CONFIG', '/etc/dlp-lab/gateway.conf') if target else 'legacy_compiled',
                     'filesystem_roots': os.environ['DLP_FS_ROOTS'].splitlines(),
                     'excluded_roots': list(exclusions),
-                    'operational_exceptions': ['root_owned_fontconfig_cache_files'], 'new_mounts': 'restart_required',
+                    'operational_exceptions': ['root_owned_fontconfig_cache_files', 'private_home_xauthority'], 'new_mounts': 'restart_required',
                     'broker_deadline_seconds': 30,
                     'identity_unknown': 'ALLOW_unchecked', 'warn_enforcement': 'ALLOW'})
         previous = dict(pump.counts)
