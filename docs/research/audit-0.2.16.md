@@ -53,3 +53,10 @@ d53a43130630934f8acfb58c239e419e4a5e7a6c53d3bcaea01695a4835d6fc5  dlp-lab_0.2.16
 41794483fd691a3c34fa1b5892ed6b71844f1f3e820c6e805b9496374abaad7f  dlp-install-0.2.16-debian13-amd64.tar.gz
 3e443afb088210bc266aabd88d8841fd486f2471c79b55dfcf7ae5d0b0e8641d  endpoint_dlp_lab-0.2.16-py3-none-any.whl
 ```
+
+## После установки пользователем
+
+Позднее 5 ноября2026 пользователь установил DEB0.2.16 на основной хост.
+Read-only проверка подтвердила версию0.2.16, files/forwarder active/running,
+старые central units inactive/disabled, HTTP200 и HTTPS200 с проверкой CA.
+Новый сквозной опыт с прикреплением файла этим не подтверждается.
