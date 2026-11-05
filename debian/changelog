@@ -1,3 +1,11 @@
+dlp-lab (0.2.17) unstable; urgency=medium
+
+  * Forward bounded opaque access correlation IDs without file paths.
+  * Group repeated file access attempts in the central dashboard.
+  * Preserve raw audit records and separate devices and differing outcomes.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Thu, 05 Nov 2026 19:00:00 +0000
+
 dlp-lab (0.2.16) unstable; urgency=medium
 
   * Refresh installed operations documentation after central Docker migration.

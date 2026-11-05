@@ -163,7 +163,34 @@ def project(raw):
         if isinstance(counts, dict):
             value['decisions'] = {k: counts[k] for k in DECISIONS
                                   if type(counts.get(k)) is int and 0 <= counts[k] <= 1000}
+    if raw['event'] == 'file_access_attempt':
+        correlation = raw.get('correlation')
+        group = correlation.get('group_id') if isinstance(correlation, dict) else raw.get('access_group')
+        if isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
+            value['access_group'] = group
     return value
+
+
+def group_access_events(events):
+    """Group only explicit endpoint correlations, never infer a file from time/category."""
+    grouped, positions = [], {}
+    for event in events:
+        group = event.get('access_group')
+        key = None
+        if event.get('event') == 'file_access_attempt' and isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
+            key = (event.get('agent'), group, event.get('messenger'), event.get('decision'),
+                   event.get('enforcement'), event.get('complete'), tuple(event.get('categories', [])))
+        if key is not None and key in positions:
+            row = grouped[positions[key]]
+            row['attempts_in_view'] += 1
+            row['first_received'] = min(row['first_received'], event['received'])
+            row['received'] = max(row['received'], event['received'])
+        else:
+            row = dict(event, attempts_in_view=1, first_received=event['received'])
+            if key is not None:
+                positions[key] = len(grouped)
+            grouped.append(row)
+    return grouped
 
 
 class ServerStore:
@@ -228,7 +255,7 @@ class ServerStore:
                       db.execute('SELECT agent,received,payload FROM events ORDER BY rowid DESC LIMIT 200')]
             from .remote_control import report
             commands = report(db)
-        return {'agents': agents, 'events': events, 'commands': commands}
+        return {'agents': agents, 'events': events, 'event_groups': group_access_events(events), 'commands': commands}
 
 
 PAGE = Path(__file__).with_name('central_page.html').read_text()

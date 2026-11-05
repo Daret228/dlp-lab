@@ -67,6 +67,24 @@ class CentralTests(unittest.TestCase):
         self.assertEqual(restarted.send(), 0)
         self.assertEqual(len(self.store.report()['events']), 1)
 
+    def test_grouped_report_preserves_raw_events_and_delivery_deduplication(self):
+        worker = self.worker()
+        records = []
+        for count in range(1, 4):
+            event = self.event()
+            event['event'] = 'file_access_attempt'
+            event['enforcement'] = 'DENY'
+            event['correlation'] = {'group_id': 'b'*32, 'repeat_count': count}
+            records.append((str(count), event))
+        worker.enqueue(records, 'system')
+        self.assertEqual(worker.send(), 3)
+        worker.enqueue(records, 'system')
+        worker.send()
+        report = self.store.report()
+        self.assertEqual(len(report['events']), 3)
+        self.assertEqual(len(report['event_groups']), 1)
+        self.assertEqual(report['event_groups'][0]['attempts_in_view'], 3)
+
     def test_auth_separation_and_malformed_payload(self):
         for token in ('', self.configs[0]['token']):
             with self.assertRaises(HTTPError) as error:

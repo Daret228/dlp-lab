@@ -1,6 +1,6 @@
 # Руководство по эксплуатации DLP Lab
 
-Версия исходников/DEB Debian 13: **0.2.16**, актуально на **05.11.2026**.
+Версия исходников/DEB Debian 13: **0.2.17**, актуально на **05.11.2026**.
 На текущем стенде сервер перенесён в Docker, агенты работают через DEB/systemd.
 Для Debian 12 последняя подтверждённая установка —0.2.14~deb12u1;
 сборки 0.2.16 для Debian 12 пока нет. Лабораторный запуск выделен отдельно. На основном хосте установлен DEB 0.2.16; после обновления службы агента
@@ -51,7 +51,7 @@ active/running, панель доступна по HTTP/HTTPS. Команды н
 Из корня исходников, без sudo:
 
 ```bash
-./scripts/build-install-kit.py --package build/dlp-lab_0.2.16_amd64.deb --output build/dlp-install-0.2.16-debian13-amd64.tar.gz
+./scripts/build-install-kit.py --package build/dlp-lab_0.2.17_amd64.deb --output build/dlp-install-0.2.17-debian13-amd64.tar.gz
 ```
 
 Для Debian 12 передайте совместимый DEB через `--package` и локальный
@@ -63,7 +63,7 @@ active/running, панель доступна по HTTP/HTTPS. Команды н
 подготовленные по разделу 3. Затем:
 
 ```bash
-tar -xzf dlp-install-0.2.16-debian13-amd64.tar.gz
+tar -xzf dlp-install-0.2.17-debian13-amd64.tar.gz
 cd dlp-install
 # Положите сюда central-agent.json и central-ca.crt перед проверкой.
 sudo ./install-dlp.py --check
@@ -108,7 +108,7 @@ Telegram и поддерживает дополнительный Signal для 
 Без комплекта можно запускать исходный скрипт с явными параметрами:
 
 ```bash
-sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.16_amd64.deb --user YOUR_USER --central-config /path/to/central-agent.json --ca /path/to/central-ca.crt
+sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.17_amd64.deb --user YOUR_USER --central-config /path/to/central-agent.json --ca /path/to/central-ca.crt
 ```
 
 Далее описан ручной путь, который сохраняется для диагностики и нестандартных
@@ -123,7 +123,7 @@ sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.16_amd64.deb --user 
 ./scripts/build-deb.sh
 ```
 
-Результат Debian 13 amd64 — `build/dlp-lab_0.2.16_amd64.deb`.
+Результат Debian 13 amd64 — `build/dlp-lab_0.2.17_amd64.deb`.
 Сборка выполняет тесты. Не переносите бинарный пакет Debian 13 на Debian 12:
 соберите совместимый вариант. На стенде для Debian 12 используются
 `dlp-lab_0.2.14~deb12u1_amd64.deb` и локальный `libsqlcipher1` версии 4.6.1.
@@ -136,7 +136,7 @@ sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.16_amd64.deb --user 
 каталог. Для Debian 13:
 
 ```bash
-sudo apt install ./dlp-lab_0.2.16_amd64.deb
+sudo apt install ./dlp-lab_0.2.17_amd64.deb
 ```
 
 Для подготовленного Debian 12-стенда из каталога с обоими пакетами:
@@ -653,3 +653,11 @@ sudo -u dlp-central dlp-agent central revoke-agent --state /var/lib/dlp-central 
 только dlp-lab-central.service. Он не меняет файловую защиту, регистрацию,
 политику, базу событий или HTTPS-службу. При различии серверного кода требуется
 пакетное обновление. При обычной сборке DEB новый HTML включается автоматически.
+
+### Объединение повторных открытий
+
+Начиная с0.2.17 повторные файловые события с одной группой и результатом
+показываются одной строкой с количеством попыток. Исходный аудит не удаляется.
+[Порядок обновления и применение на текущем Docker-стенде](DOCKER.md#повторные-открытия-одного-файла-0217).
+Старые события без группы остаются отдельными; первыми обновляются серверы,
+затем отправщики. Уведомления рабочего стола этим изменением не меняются.
