@@ -67,7 +67,8 @@ printf 'raise RuntimeError("untrusted yaml imported")\n' > /tmp/yaml.py
 (cd /tmp && PYTHONPATH=/tmp /usr/bin/dlp-agent analyze --text 'public release' > /tmp/isolated.json)
 printf '\n# administrator edit retained across upgrade\n' >> /etc/dlp-lab/system/policy.yaml
 sha256sum /etc/dlp-lab/system/policy.yaml /etc/dlp-lab/system/processes.yaml /etc/dlp-lab/system-gateway.conf > /tmp/before.sha256
-dpkg --no-triggers -i /tmp/dlp.deb
+# Model the administrator choosing to preserve local policy when defaults change.
+dpkg --force-confold --no-triggers -i /tmp/dlp.deb
 sha256sum -c /tmp/before.sha256
 test "$(stat -c %u /usr/libexec/dlp-lab/fanotify-gateway)" = 0
 # Exercise the optional second messenger using protected synthetic executables.

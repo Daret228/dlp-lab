@@ -1,0 +1,11 @@
+**
+!src/
+!src/dlp/
+!src/dlp/__init__.py
+!src/dlp/central.py
+!src/dlp/remote_control.py
+!src/dlp/central_page.html
+!src/dlp/central_ui.js
+!docker/
+!docker/Dockerfile
+!docker/entrypoint.py

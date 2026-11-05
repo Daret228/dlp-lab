@@ -23,6 +23,7 @@ for path in Path('src/dlp').rglob('*'):
 install('build/debian/fanotify-gateway', '/usr/libexec/dlp-lab/fanotify-gateway', 0o755)
 install('packaging/admin_configure.py', '/usr/lib/dlp-lab/admin_configure.py')
 install('packaging/dlp-agent', '/usr/bin/dlp-agent', 0o755)
+install('packaging/dlp-admin-token', '/usr/sbin/dlp-admin-token', 0o755)
 install('packaging/dlp-lab-run-files', '/usr/sbin/dlp-lab-run-files', 0o755)
 install('packaging/dlp-lab-configure', '/usr/sbin/dlp-lab-configure', 0o755)
 install('packaging/dlp-lab-files.service', '/usr/lib/systemd/system/dlp-lab-files.service')

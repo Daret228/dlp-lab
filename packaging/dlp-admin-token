@@ -1,0 +1,45 @@
+#!/usr/bin/python3 -I
+"""Show the existing central administrator token locally; never rotate it."""
+import argparse
+import json
+import os
+import re
+import stat
+import sys
+
+
+def read_token(path):
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, 'r', encoding='utf-8') as source:
+        info = os.fstat(source.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_mode & 0o077:
+            raise ValueError('Нужен обычный файл токена с правами 0600.')
+        data = source.read(4097)
+        if len(data) > 4096:
+            raise ValueError('Некорректный файл токена.')
+        config = json.loads(data)
+        token = config.get('token') if isinstance(config, dict) else None
+        if not isinstance(token, str) or not re.fullmatch(r'[A-Za-z0-9_-]{32,128}', token):
+            raise ValueError('Некорректный токен администратора.')
+        return token
+
+
+def main():
+    argparse.ArgumentParser(description='Показать существующий токен центральной панели. Запуск: sudo dlp-admin-token').parse_args()
+    if os.geteuid() != 0:
+        print('Запустите: sudo dlp-admin-token', file=sys.stderr)
+        return 1
+    try:
+        token = read_token('/var/lib/dlp-central/admin.json')
+    except FileNotFoundError:
+        print('Токен не найден. Выполните команду на настроенном центральном сервере.', file=sys.stderr)
+        return 1
+    except (OSError, ValueError):
+        print('Не удалось прочитать токен. Проверьте файл /var/lib/dlp-central/admin.json и его права (0600).', file=sys.stderr)
+        return 1
+    print(token)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -153,7 +153,10 @@ class MLIntegrationTests(unittest.TestCase):
     def test_ml_policy_toggle_preserves_other_analysis_settings(self):
         from dlp.policy_store import PolicyStore
         with tempfile.TemporaryDirectory() as d:
-            path=Path(d)/'policy.yaml';path.write_bytes((ROOT/'config/policy.yaml').read_bytes())
+            path=Path(d)/'policy.yaml'
+            policy=load_policy(ROOT/'config/policy.yaml')
+            policy['ml_alerts']['enabled']=False
+            path.write_text(yaml.safe_dump(policy,allow_unicode=True))
             store=PolicyStore(path,Path(d)/'backups');view=store.get()
             body=dict(view);body['expected_version']=body.pop('version');body['ml_enabled']=True
             old=load_policy(path)

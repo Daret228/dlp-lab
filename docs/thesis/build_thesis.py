@@ -33,8 +33,8 @@ def diagram(name, nodes, edges, height=5):
   a=pt(x1,y1);b=pt(x2,y2);draw.line([a,b],fill='black',width=3);angle=math.atan2(b[1]-a[1],b[0]-a[0]);pts=[b,(b[0]-17*math.cos(angle-.45),b[1]-17*math.sin(angle-.45)),(b[0]-17*math.cos(angle+.45),b[1]-17*math.sin(angle+.45))];draw.polygon(pts,fill='black')
  im.save(TMP/f'{name}.png')
 
-diagram('architecture',[(1.7,8.6,2.7,1.2,'Файл\nfanotify'),(5,8.6,2.7,1.2,'Поле ввода\nAT-SPI'),(8.3,8.6,2.7,1.2,'Черновик / JSON\ntdata / экспорт'),(5,6.3,6.8,1.2,'Нормализация\nFileContent / TextContent'),(5,4.1,6.8,1.2,'Общий анализ и политика\nALLOW / WARN / BLOCK'),(1.7,1.6,2.7,1.3,'Ответ ядру\nALLOW / DENY'),(5,1.6,2.7,1.3,'Уведомление\nobserve_only'),(8.3,1.6,2.7,1.3,'Отчёт\nretrospective')],[(1.7,8,3,6.9),(5,8,5,6.9),(8.3,8,7,6.9),(5,5.7,5,4.7),(3,3.5,1.7,2.25),(5,3.5,5,2.25),(7,3.5,8.3,2.25)],5.4)
-diagram('privileges',[(5,8.7,7,1.3,'Ограниченный sudo\nФиксированный gateway без аргументов'),(5,6.2,7,1.3,'Root setup\nГруппа fanotify и метка каталога'),(5,3.7,7,1.3,'Сброс групп и UID/GID\nno_new_privs'),(5,1.2,7,1.3,'Python-worker от пользователя\nНаследуемый FD выбранной группы')],[(5,8.05,5,6.85),(5,5.55,5,4.35),(5,3.05,5,1.85)],5.5)
+diagram('architecture',[(1.7,8.6,2.7,1.2,'Файл\nfanotify'),(5,8.6,2.7,1.2,'Поле ввода\nAT-SPI'),(8.3,8.6,2.7,1.2,'Локальные данные\nTelegram / Signal'),(5,6.3,6.8,1.2,'Нормализация\nFileContent / TextContent'),(5,4.1,6.8,1.2,'Общий анализ и политика\nALLOW / WARN / BLOCK'),(1.7,1.6,2.7,1.3,'Ответ ядру\nALLOW / DENY'),(5,1.6,2.7,1.3,'Уведомление\nobserve_only'),(8.3,1.6,2.7,1.3,'Отчёт\nretrospective')],[(1.7,8,3,6.9),(5,8,5,6.9),(8.3,8,7,6.9),(5,5.7,5,4.7),(3,3.5,1.7,2.25),(5,3.5,5,2.25),(7,3.5,8.3,2.25)],5.4)
+diagram('privileges',[(5,8.7,7,1.3,'Системная служба systemd\nФиксированный исполнитель'),(5,6.2,7,1.3,'Привилегированный C-брокер\nМетки файловых систем'),(5,3.7,7,1.3,'Локальный канал\nПередача FD и решения'),(5,1.2,7,1.3,'Python-анализатор\nПолномочия пользователя')],[(5,8.05,5,6.85),(5,5.55,5,4.35),(5,3.05,5,1.85)],5.5)
 diagram('fileflow',[(5,9,7,1,'Событие открытия и FD объекта'),(5,7,7,1,'Определение процесса и области'),(5,5,7,1,'Чтение FD и анализ содержимого'),(5,3,7,1,'Решение и ответ ядру'),(5,1,7,1,'Закрытие event FD и запись аудита')],[(5,8.5,5,7.5),(5,6.5,5,5.5),(5,4.5,5,3.5),(5,2.5,5,1.5)],5.6)
 diagram('lifecycle',[(5,9,6,1,'Неактивен'),(5,6.8,6,1,'Запуск процесса'),(5,4.5,6,1.3,'Активен\nГотовность подтверждается событием'),(2.4,1.7,4,1.3,'Завершён / остановлен\nРезультат в журнале'),(7.5,1.7,4,1.3,'Ошибка\nДиагностика в журнале')],[(5,8.5,5,7.3),(5,6.3,5,5.15),(3.6,3.85,2.4,2.35),(6.4,3.85,7.5,2.35)],5.5)
 pdfmetrics.registerFont(TTFont('DLPSerif',FONT))
@@ -61,7 +61,7 @@ styles['Caption'].font.size=Pt(12);styles['Caption'].paragraph_format.first_line
 # Page number: cover counted but not printed.
 f=sec.footer.paragraphs[0];f.alignment=WD_ALIGN_PARAGRAPH.CENTER;f.paragraph_format.first_line_indent=Mm(0)
 r=f.add_run();fld=OxmlElement('w:fldSimple');fld.set(qn('w:instr'),'PAGE');r._r.addnext(fld)
-D.core_properties.title='Разработка системы контроля утечек информации в мессенджерах под управлением ОС Linux';D.core_properties.author='';D.core_properties.subject='Выпускная квалификационная работа специалиста';D.core_properties.keywords='Linux, DLP, Telegram, fanotify, AT-SPI'
+D.core_properties.title='Разработка системы контроля утечек информации в мессенджерах под управлением ОС Linux';D.core_properties.author='';D.core_properties.subject='Выпускная квалификационная работа специалиста';D.core_properties.keywords='Linux, DLP, Telegram, Signal, fanotify, AT-SPI, ML'
 settings=D.settings.element; lang=OxmlElement('w:themeFontLang');lang.set(qn('w:val'),'ru-RU');settings.append(lang)
 normal_rpr=styles['Normal']._element.get_or_add_rPr();lng=OxmlElement('w:lang');lng.set(qn('w:val'),'ru-RU');normal_rpr.append(lng)
 for st in styles:
@@ -111,7 +111,7 @@ def table(label,title,rows,continuation=False):
    if idx==0:s=OxmlElement('w:shd');s.set(qn('w:fill'),'EEEEEE');pr.append(s)
  borders=OxmlElement('w:tblBorders')
  for side in ['top','left','bottom','right','insideH','insideV']:
-  e=OxmlElement('w:'+side);e.set(qn('w:val'),'single');e.set(qn('w:sz'),'5');e.set(qn('w:color'),'999999');borders.append(e)
+  e=OxmlElement('w:'+side);e.set(qn('w:val'),'single');e.set(qn('w:sz'),'5');e.set(qn('w:color'),'D9D9D9');borders.append(e)
  t._tbl.tblPr.append(borders)
  para('').paragraph_format.line_spacing=0.3
 
@@ -137,15 +137,15 @@ heading('ЗАДАНИЕ НА ВЫПОЛНЕНИЕ ВКР')
 for text in ['Студент _____________________ Группа __________','Специальность ________________________________','Руководитель _________________________________','Утверждено распоряжением от __________ № _______']:
  para(text,indent=0)
 para('Тема: разработка системы контроля утечек информации в мессенджерах под управлением ОС Linux.')
-para('Исходные данные: собственный Linux-стенд, открытая техническая документация, искусственные тексты и файлы, согласованный тестовый аккаунт Telegram, исходный код прототипа DLP Lab.')
-para('Содержание работы: анализ угроз и интерфейсов; проектирование модульной системы; реализация анализа и адаптеров; экспериментальная проверка; оценка ограничений и рекомендации.')
+para('Исходные данные: собственный Linux-стенд, открытая техническая документация, искусственные тексты и файлы, согласованные тестовые аккаунты Telegram и Signal, исходный код прототипа DLP Lab.')
+para('Содержание работы: анализ угроз и интерфейсов; проектирование модульной системы; реализация анализа и адаптеров; экспериментальная проверка; анализ результатов и рекомендации.')
 para('Демонстрационные материалы: схема архитектуры, схема полномочий, файловый алгоритм, состояния модулей, результаты испытаний.')
 for text in ['Срок сдачи _________________________________','Плановые сроки этапов: анализ ______; разработка ______; испытания ______; оформление ______.','Руководитель _____________ /________________/','Задание принято __________ /________________/']:
  para(text,indent=0)
 heading('РЕФЕРАТ')
 abstract_count=para(f'ВКР {PAGE_COUNT or "___"} с., 5 рис., 17 табл., 24 источника, 5 приложений.')
-para('LINUX, DLP, МЕССЕНДЖЕР, TELEGRAM, FANOTIFY, AT-SPI, КОНТЕНТНЫЙ АНАЛИЗ, JSON, АУДИТ',indent=0)
-para('Объект исследования — обработка информации настольными мессенджерами Linux. Цель — разработка и проверка модульного прототипа контроля файлов, текстового поля и локальных данных. Реализованы общий анализатор, YAML-политика, файловый запрет через fanotify, наблюдение поля AT-SPI, чтение локальных черновиков и файловых сведений, анализ JSON-экспорта. Поддержано ограниченное извлечение текста PDF и DOCX, добавлены предупреждения по новым категориям. Управление выполняется через user systemd и локальную веб-панель с общим журналом, редактором политики и подтверждением загруженной версии. На реальном стенде подтверждены обнаружение, видимое предупреждение и журналирование для сохранённого черновика и живого поля. Запрет отправки текста и чтение полной локальной истории не реализованы. Полученные результаты относятся к ограниченному исследовательскому стенду.')
+para('LINUX, DLP, TELEGRAM, SIGNAL, FANOTIFY, AT-SPI, МАШИННОЕ ОБУЧЕНИЕ, АУДИТ',indent=0)
+para('Объект исследования — обработка информации настольными мессенджерами Linux. Цель — разработка модульной системы контроля файлов, текстовых полей и локальных данных. Реализованы анализ правил и обучаемая модель, файловый контроль fanotify, наблюдение AT-SPI, чтение черновиков Telegram и выборки локальных текстов Signal. Созданы DEB-пакет, системные службы, установщик и центральный журнал с удалённой диагностикой. На двухмашинном стенде проверены контроль файлов, доставка событий и автозапуск. Классификатор финансовых сведений, паспортных данных и данных доступа оценён на диагностическом синтетическом наборе. Результаты представлены в виде журналируемых событий и доступны администратору в веб-панели.')
 # TOC filled after all headings have been registered.
 p=para('СОДЕРЖАНИЕ','Heading 1');toc_anchor=p
 heading('ТЕРМИНЫ И ОПРЕДЕЛЕНИЯ')
@@ -198,16 +198,16 @@ def parse(path):
 for name in ['00-intro.md','01-analysis.md','02-design.md','03-implementation.md','04-evaluation.md','05-conclusion.md']:parse(CONTENT/name)
 heading('СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ')
 for i,ref in enumerate(json.loads((ROOT/'docs/thesis/references.json').read_text()),1):
- p=para(f'{i}. {ref}',align=WD_ALIGN_PARAGRAPH.LEFT);p.paragraph_format.keep_together=True;p.paragraph_format.first_line_indent=Mm(0);p.paragraph_format.space_after=Pt(0)
+ p=para(f'{i}. {ref}',align=WD_ALIGN_PARAGRAPH.LEFT);p.paragraph_format.keep_together=True;p.paragraph_format.first_line_indent=Mm(12.5);p.paragraph_format.space_after=Pt(0)
 parse(CONTENT/'07-appendices.md')
-# Cached, hyperlinked TOC with an updateable Word field spanning entry paragraphs.
+# Cached TOC with an updateable Word field spanning entry paragraphs.
 anchor=toc_anchor._p
 entries=[]
 for title,level,key in headings:
  if title=='ЗАДАНИЕ НА ВЫПОЛНЕНИЕ ВКР':continue
  p=D.add_paragraph(style='TOC Entry');p.paragraph_format.line_spacing=1.15;p.paragraph_format.space_after=Pt(6);p.paragraph_format.left_indent=Mm(7 if level==2 else 0);p.paragraph_format.right_indent=Mm(0);p.paragraph_format.tab_stops.add_tab_stop(Mm(165),WD_TAB_ALIGNMENT.RIGHT,WD_TAB_LEADER.DOTS)
  p.add_run(title.replace('\n',' '));p.add_run('\t'+str(PAGE_MAP.get(title,1)))
- if len(entries)==18:p.paragraph_format.page_break_before=True
+ # Contents flows naturally as the heading set grows.
  anchor.addnext(p._p);anchor=p._p;entries.append(p)
 # field markers placed inside existing entries to avoid extra blank lines.
 if entries:

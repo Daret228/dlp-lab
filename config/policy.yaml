@@ -20,7 +20,7 @@ sensitive_alerts:
   mode: rules
   action: WARN
 ml_alerts:
-  enabled: false
+  enabled: true
   action: WARN
   model_sha256: 83b9c89e16e2b76f1ef65a367b32b51b11f4d7dd4a675543544d113667201414
 rules:

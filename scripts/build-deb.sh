@@ -16,7 +16,7 @@ from pathlib import Path
 import shutil
 import sys
 root = Path(sys.argv[1])
-for name in ('debian', 'packaging', 'src', 'native', 'config', 'tests', 'scripts', 'examples', 'data'):
+for name in ('debian', 'packaging', 'src', 'native', 'config', 'tests', 'scripts', 'examples', 'data', 'docker'):
     shutil.copytree(name, root/name, ignore=shutil.ignore_patterns('__pycache__', 'files', 'substvars'))
 for name in ('Makefile', 'pyproject.toml', 'LICENSE'):
     shutil.copyfile(name, root/name)

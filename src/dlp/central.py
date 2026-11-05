@@ -231,13 +231,7 @@ class ServerStore:
         return {'agents': agents, 'events': events, 'commands': commands}
 
 
-PAGE = '''<!doctype html><html lang="ru"><meta charset="utf-8"><title>DLP · Сервер</title>
-<style>body{font:16px system-ui;max-width:1100px;margin:40px auto;padding:20px;background:#f5f7fa;color:#182536}input,button{padding:10px;margin:6px}table{border-collapse:collapse;width:100%;background:white}td,th{text-align:left;padding:12px;border-bottom:1px solid #ddd}pre{white-space:pre-wrap}small{color:#526070}</style>
-<h1>DLP · Центральный журнал</h1><p>Устройства и последние 200 событий. Анализ выполняется на устройствах.</p>
-<label>Токен администратора <input id="token" type="password" autocomplete="off"></label><button id="refresh">Обновить</button><p id="status"></p>
-<h2>Устройства</h2><div id="agents"></div><h2>Задания агентам</h2><p>Удалённая диагностика требует системного отправщика версии 0.2.12+. Результат не подтверждает полную защиту. Настройки и службы не изменяются.</p><div id="commands"></div><h2>События</h2><div id="events"></div>
-<small>BLOCK — результат анализа. Фактический запрет указан отдельно. Последняя связь не доказывает работу всех модулей.</small>
-<script src="/app.js"></script></html>'''
+PAGE = Path(__file__).with_name('central_page.html').read_text()
 JS = Path(__file__).with_name('central_ui.js').read_text()
 
 

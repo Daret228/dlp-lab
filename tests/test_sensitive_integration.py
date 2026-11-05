@@ -24,6 +24,8 @@ ROOT=Path(__file__).resolve().parents[1]
 class AdvisoryTests(unittest.TestCase):
     def setUp(self):
         self.policy=load_policy(ROOT/'config/policy.yaml')
+        # Test the independent rules module, regardless of shipped ML defaults.
+        self.policy['ml_alerts']['enabled']=False
         self.analyzer=ContentAnalyzer(self.policy)
 
     def test_categories_warn_not_score_block(self):

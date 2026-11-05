@@ -1,3 +1,11 @@
+dlp-lab (0.2.15) unstable; urgency=medium
+
+  * Refresh central dashboard with filters, device cards and event details.
+  * Add dlp-admin-token command and enable ML warnings for new installations.
+  * Provide an optional HTTPS Docker Compose deployment for the central server.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Thu, 05 Nov 2026 17:00:00 +0000
+
 dlp-lab (0.2.14) unstable; urgency=medium
 
   * Exempt the private home Xauthority file from messenger content analysis.
