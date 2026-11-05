@@ -1,7 +1,9 @@
 # Руководство по эксплуатации DLP Lab
 
-Версия: **0.2.14**, актуально на **01.11.2026**. Основной сценарий — установленный
-DEB. Лабораторный запуск из исходников выделен отдельно. Команды ниже — инструкции,
+Версия исходников/DEB Debian13: **0.2.15**, актуально на **05.11.2026**.
+На текущем стенде сервер перенесён в Docker, агенты работают через DEB/systemd.
+Для Debian12 последняя подтверждённая установка —0.2.14~deb12u1;
+сборки0.2.15 для Debian12 пока нет. Лабораторный запуск выделен отдельно. Команды ниже — инструкции,
 они не выполняются автоматически при чтении документа.
 
 ## Навигация
@@ -48,7 +50,7 @@ DEB. Лабораторный запуск из исходников выдел�
 Из корня исходников, без sudo:
 
 ```bash
-./scripts/build-install-kit.py --package build/dlp-lab_0.2.14_amd64.deb --output build/dlp-install-debian13-amd64.tar.gz
+./scripts/build-install-kit.py --package build/dlp-lab_0.2.15_amd64.deb --output build/dlp-install-0.2.15-debian13-amd64.tar.gz
 ```
 
 Для Debian12 передайте совместимый DEB через `--package` и локальный
@@ -60,7 +62,7 @@ DEB. Лабораторный запуск из исходников выдел�
 подготовленные по разделу3. Затем:
 
 ```bash
-tar -xzf dlp-install-debian13-amd64.tar.gz
+tar -xzf dlp-install-0.2.15-debian13-amd64.tar.gz
 cd dlp-install
 # Положите сюда central-agent.json и central-ca.crt перед проверкой.
 sudo ./install-dlp.py --check
@@ -105,7 +107,7 @@ Telegram и поддерживает дополнительный Signal для 
 Без комплекта можно запускать исходный скрипт с явными параметрами:
 
 ```bash
-sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.14_amd64.deb --user YOUR_USER --central-config /path/to/central-agent.json --ca /path/to/central-ca.crt
+sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.15_amd64.deb --user YOUR_USER --central-config /path/to/central-agent.json --ca /path/to/central-ca.crt
 ```
 
 Далее описан ручной путь, который сохраняется для диагностики и нестандартных
@@ -120,7 +122,7 @@ sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.14_amd64.deb --user 
 ./scripts/build-deb.sh
 ```
 
-Результат Debian 13 amd64 — `build/dlp-lab_0.2.14_amd64.deb`.
+Результат Debian 13 amd64 — `build/dlp-lab_0.2.15_amd64.deb`.
 Сборка выполняет тесты. Не переносите бинарный пакет Debian 13 на Debian 12:
 соберите совместимый вариант. На стенде для Debian 12 используются
 `dlp-lab_0.2.14~deb12u1_amd64.deb` и локальный `libsqlcipher1` версии4.6.1.
@@ -133,7 +135,7 @@ sudo ./scripts/install-dlp.py --package ./build/dlp-lab_0.2.14_amd64.deb --user 
 каталог. Для Debian13:
 
 ```bash
-sudo apt install ./dlp-lab_0.2.14_amd64.deb
+sudo apt install ./dlp-lab_0.2.15_amd64.deb
 ```
 
 Для подготовленного Debian12-стенда из каталога с обоими пакетами:
@@ -182,8 +184,11 @@ sudo journalctl -u dlp-lab-files.service -n 20 --no-pager
 
 ## 3. Сервер и подключение устройства
 
-Для альтернативной установки центрального сервера см. [Docker Compose](DOCKER.md).
-Это отдельный вариант развёртывания, не автоматический перенос текущей базы.
+**Текущий сервер уже перенесён в Docker.** Для него используйте
+[управление после переноса](DOCKER.md#текущий-стенд-после-переноса).
+Разделы3.1–3.2 ниже описывают альтернативную новую установку через systemd.
+На текущем сервере их не повторяйте: адреса уже заняты Docker, база принадлежит
+UID10001. Повторная инициализация и повторный запуск миграции не нужны.
 
 ### 3.1 Запустить центральный сервер
 
@@ -247,7 +252,13 @@ TLS-файлы. CA private key храните отдельно защищённ�
 
 ### 3.3 Зарегистрировать агент и передать конфигурацию
 
-**На сервере, sudo.** Выберите уникальное имя устройства, например `linux-02`:
+**Для текущего Docker-сервера**, выберите уникальное имя:
+
+```bash
+sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json exec local python3 /app/entrypoint.py add-agent --name linux-02 --server https://192.168.17.131:8767 --out /var/lib/dlp-central/linux-02.json
+```
+
+**Только для альтернативного systemd-сервера:**
 
 ```bash
 sudo -u dlp-central dlp-agent central add-agent --state /var/lib/dlp-central --name linux-02 --server https://192.168.17.131:8767 --out /var/lib/dlp-central/linux-02.json
@@ -432,7 +443,7 @@ dlp-agent agent logs --lines 30
 
 ## 6. Правила и исключения
 
-**На агенте, администратор.** В0.2.14 центральная панель правила не применяет.
+**На агенте, администратор.** В0.2.15 центральная панель правила не применяет.
 Пакетная политика: `/etc/dlp-lab/system/policy.yaml`. Политика исходников
 `config/policy.yaml` — другой файл. Редактор локальной панели не заменяет
 системную политику установленного пакета.
@@ -464,7 +475,8 @@ sudo systemctl restart dlp-lab-files.service
 
 Пороговые значения, правила, разрешённые типы и ML описаны в
 [примере политики](../config/policy.yaml). ML включается `ml_alerts.enabled: true`,
-действие остаётся WARN; перед применением оцените ложные срабатывания на своих
+действие остаётся WARN. В новой политике0.2.15 ML уже включён, но обновление
+с сохранением старой политики не меняет её настройку. Перед применением оцените ложные срабатывания на своих
 разрешённых тестах. [Оценка ML](research/ml_quality_2026-10-19.md).
 
 Исключения файлового контроля — строки `exclude=` в
@@ -497,7 +509,11 @@ dlp-agent doctor
 изменения conffile штатным механизмом; при вопросе сравните версии политики.
 Обновление/перезапуск может дать краткий перерыв файловой защиты.
 
-**На сервере, только если установлен дополнительный лабораторный TLS unit:**
+**На текущем Docker-сервере** обновление DEB не обновляет образ. Используйте
+[обновление Docker-сервера](DOCKER.md#обновление-текущего-docker-сервера).
+`update-central-ui.sh` для него не применяется.
+
+**Только для альтернативного сервера через systemd**, если включён TLS unit:
 
 ```bash
 sudo systemctl restart dlp-lab-central-tls.service
@@ -512,6 +528,8 @@ systemctl --user restart dlp-lab-forwarder-user.service
 
 После обновления перезагрузите страницу панели, введите токен, запросите новые
 отчёты. Сверьте версии через `dpkg-query -W dlp-lab` на каждой машине.
+
+Для текущего Docker-сервера есть [команды согласованной резервной копии](DOCKER.md#резервная-копия-текущего-сервера).
 
 Для резервной копии нужны `/etc/dlp-lab`, `/var/lib/dlp-central` на сервере и
 `/var/lib/dlp-forwarder` на агенте. Они содержат секреты/аудит: архив доступен только
@@ -557,8 +575,14 @@ systemctl --user restart dlp-lab-forwarder-user.service
 systemctl --user disable --now dlp-lab-forwarder-user.service
 ```
 
-Остановите также запущенные текстовые/локальные задания. **На сервере**, перед
-удалением пакета отключите отдельный TLS listener, если он есть:
+Остановите также запущенные текстовые/локальные задания. **Текущий Docker-сервер**
+останавливается отдельно; удаление DEB его контейнеры не удаляет:
+
+```bash
+sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json stop
+```
+
+**Только для systemd-сервера**, перед удалением пакета отключите отдельный TLS listener:
 
 ```bash
 sudo systemctl disable --now dlp-lab-central-tls.service
@@ -571,7 +595,13 @@ sudo systemctl disable --now dlp-lab-central-tls.service
 это не полное стирание истории. Отдельный TLS unit/сертификаты также требуют
 ручного сопровождения. Не удаляйте их без резервной копии и решения администратора.
 
-Чтобы отозвать токен устройства, **на сервере**, заменив `DEVICE_ID` из панели:
+Чтобы отозвать токен устройства **на текущем Docker-сервере**, замените `DEVICE_ID`:
+
+```bash
+sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json exec local python3 /app/entrypoint.py revoke-agent --id DEVICE_ID
+```
+
+Для альтернативного **systemd-сервера**:
 
 ```bash
 sudo -u dlp-central dlp-agent central revoke-agent --state /var/lib/dlp-central --id DEVICE_ID
@@ -612,6 +642,8 @@ sudo -u dlp-central dlp-agent central revoke-agent --state /var/lib/dlp-central 
 имена файлов, исходный текст и подробные правила сервер не получает.
 Автообновление выполняется каждые15секунд в видимой вкладке; его можно отключить.
 
+**Исторический способ только для systemd-сервера. На текущем Docker-сервере
+не запускать:** скрипт попытается включить старую службу на занятом порту.
 Для установки только этой версии интерфейса поверх совместимой серверной
 логики из корня исходников: `sudo ./scripts/update-central-ui.sh`.
 Скрипт сравнивает серверный код вне HTML, делает резервную копию трёх файлов

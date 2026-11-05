@@ -1,4 +1,4 @@
-DLP Lab 0.2.14 for Debian 13 / native Debian 12 build
+DLP Lab 0.2.15 for Debian 13; Debian 12 requires a separate native build
 ===================================================
 
 Unified operations guide: docs/OPERATIONS.md in the project repository.
@@ -11,7 +11,7 @@ is skipped until /etc/dlp-lab/system-gateway.conf exists. The interactive
 dlp-lab-configure --wizard can configure it afterwards.
 
 Fresh installation:
-  sudo apt install ./dlp-lab_0.2.14_amd64.deb
+  sudo apt install ./dlp-lab_0.2.15_amd64.deb
   sudo dlp-lab-configure --user YOUR_USER --telegram /absolute/path/to/Telegram --enable
   sudo systemctl status dlp-lab-files.service
   sudo journalctl -u dlp-lab-files.service -n 30
@@ -69,7 +69,7 @@ training corpus, private export, local log, or build fixture is included.
 
 Version 0.2.1: interactive first install
 --------------------------------------
-  sudo apt install ./dlp-lab_0.2.14_amd64.deb
+  sudo apt install ./dlp-lab_0.2.15_amd64.deb
 The installer asks whether to configure, for the desktop login name, and for
 Telegram's absolute executable path. Stop the laboratory files monitor first.
 With valid answers it creates host settings and starts the system service;
@@ -213,3 +213,15 @@ sudo systemctl start dlp-lab-files.service
 Сеть, сертификат, очередь и пользовательские модули этим отчётом не проверяются.
 Мастер настраивает только файловый контроль. Подключение к серверу пока отдельное;
 регистрация по одноразовому коду из панели в этой версии не реализована.
+
+Docker central deployment (current lab, 2026-11-05)
+------------------------------------------------
+Agents remain DEB/systemd services. The migrated central server runs two Docker
+containers, preserving loopback HTTP8766 and LAN HTTPS8767. Its root-owned Compose
+configuration is /etc/dlp-lab/docker/compose.json (project dlp-central-migrated).
+The database remains /var/lib/dlp-central, owned by UID10001. Do not start the old
+central systemd units, run central init, or use sudo -u dlp-central on that database.
+Updating this DEB does not update the Docker image. See docs/DOCKER.md for image
+updates, registration, and backups. sudo dlp-admin-token still reads the same token.
+New policy defaults enable ML WARN; preserve administrator conffiles on upgrade.
+The last verified Debian12 package remains 0.2.14~deb12u1.
