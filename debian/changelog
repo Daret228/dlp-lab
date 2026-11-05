@@ -1,3 +1,11 @@
+dlp-lab (0.2.16) unstable; urgency=medium
+
+  * Refresh installed operations documentation after central Docker migration.
+  * Include central dashboard resources in Python wheel distributions.
+  * Align Python package version with the Debian release.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Thu, 05 Nov 2026 18:00:00 +0000
+
 dlp-lab (0.2.15) unstable; urgency=medium
 
   * Refresh central dashboard with filters, device cards and event details.

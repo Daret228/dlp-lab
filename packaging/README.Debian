@@ -1,4 +1,4 @@
-DLP Lab 0.2.15 for Debian 13; Debian 12 requires a separate native build
+DLP Lab 0.2.16 for Debian 13; Debian 12 requires a separate native build
 ===================================================
 
 Unified operations guide: docs/OPERATIONS.md in the project repository.
@@ -11,7 +11,7 @@ is skipped until /etc/dlp-lab/system-gateway.conf exists. The interactive
 dlp-lab-configure --wizard can configure it afterwards.
 
 Fresh installation:
-  sudo apt install ./dlp-lab_0.2.15_amd64.deb
+  sudo apt install ./dlp-lab_0.2.16_amd64.deb
   sudo dlp-lab-configure --user YOUR_USER --telegram /absolute/path/to/Telegram --enable
   sudo systemctl status dlp-lab-files.service
   sudo journalctl -u dlp-lab-files.service -n 30
@@ -69,7 +69,7 @@ training corpus, private export, local log, or build fixture is included.
 
 Version 0.2.1: interactive first install
 --------------------------------------
-  sudo apt install ./dlp-lab_0.2.15_amd64.deb
+  sudo apt install ./dlp-lab_0.2.16_amd64.deb
 The installer asks whether to configure, for the desktop login name, and for
 Telegram's absolute executable path. Stop the laboratory files monitor first.
 With valid answers it creates host settings and starts the system service;
