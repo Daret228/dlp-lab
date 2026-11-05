@@ -9,14 +9,25 @@ from dlp.central import main, private_dir, read_config
 STATE = Path('/var/lib/dlp-central')
 TLS_DIR = Path('/run/tls')
 PORT = 8766
+TLS_HOST = os.environ.get('DLP_TLS_HOST', '0.0.0.0')
+TLS_PORT = int(os.environ.get('DLP_TLS_PORT', '8766'))
 
 
 def run(argv):
     os.umask(0o077)
     action = argv[0] if argv else 'serve'
+    if action == 'serve-local':
+        # Migration companion: never expose the unencrypted endpoint on the LAN.
+        if len(argv) != 1:
+            raise ValueError('serve-local takes no arguments')
+        return main(['serve', '--state', str(STATE), '--host', '127.0.0.1', '--port', str(PORT)])
+    if action == 'health-local':
+        with urlopen(f'http://127.0.0.1:{PORT}/', timeout=3) as reply:
+            return 0 if reply.status == 200 else 1
     if action == 'health':
         # Liveness only: certificate identity is checked by external clients.
-        with urlopen(f'https://127.0.0.1:{PORT}/', context=ssl._create_unverified_context(), timeout=3) as reply:
+        host = '127.0.0.1' if TLS_HOST == '0.0.0.0' else TLS_HOST
+        with urlopen(f'https://{host}:{TLS_PORT}/', context=ssl._create_unverified_context(), timeout=3) as reply:
             return 0 if reply.status == 200 else 1
     if action == 'admin-token':
         print(read_config(STATE / 'admin.json')['token'])
@@ -33,8 +44,8 @@ def run(argv):
                 raise ValueError('Existing database has no admin token; restore its admin.json')
             if main(['init', '--state', str(STATE)]):
                 return 2
-        return main(['serve', '--state', str(STATE), '--host', '0.0.0.0',
-                     '--port', str(PORT), '--cert', str(TLS_DIR / 'server.crt'), '--key', str(TLS_DIR / 'server.key')])
+        return main(['serve', '--state', str(STATE), '--host', TLS_HOST,
+                     '--port', str(TLS_PORT), '--cert', str(TLS_DIR / 'server.crt'), '--key', str(TLS_DIR / 'server.key')])
     if action in ('add-agent', 'revoke-agent'):
         if any(arg == '--state' or arg.startswith('--state=') for arg in argv):
             raise ValueError('State path is fixed in this container')

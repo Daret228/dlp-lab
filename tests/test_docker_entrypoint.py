@@ -35,8 +35,8 @@ class DockerEntryTests(unittest.TestCase):
             runner = """import runpy,sys
 from pathlib import Path
 f=runpy.run_path(sys.argv[1])['run']
-f.__globals__.update(STATE=Path(sys.argv[2]), TLS_DIR=Path(sys.argv[3]), PORT=int(sys.argv[4]))
-sys.exit(f(['serve']))
+f.__globals__.update(STATE=Path(sys.argv[2]), TLS_DIR=Path(sys.argv[3]), TLS_PORT=int(sys.argv[4]), PORT=int(sys.argv[4]))
+sys.exit(f([sys.argv[5] if len(sys.argv)>5 else 'serve']))
 """
             args = [sys.executable, '-c', runner, str(ENTRY), str(root/'state'), str(root), str(port)]
             context = ssl.create_default_context(cafile=str(root/'server.crt'))
@@ -64,7 +64,7 @@ sys.exit(f(['serve']))
                     urlopen(url+'/api/report', context=context)
                 self.assertEqual(failure.exception.code, 401)
                 run = runpy.run_path(str(ENTRY))['run']
-                run.__globals__.update(STATE=root/'state', PORT=port)
+                run.__globals__.update(STATE=root/'state', TLS_PORT=port)
                 with contextlib.redirect_stdout(io.StringIO()) as output:
                     self.assertEqual(run(['admin-token']), 0)
                 self.assertEqual(output.getvalue().strip(), token)
@@ -85,6 +85,29 @@ sys.exit(f(['serve']))
                     report = json.load(reply)
                 self.assertEqual(len(report['agents']), 1)
                 self.assertEqual(len(report['events']), 1)
+                # Migration runs loopback HTTP and HTTPS against the same database.
+                with socket.socket() as sock:
+                    sock.bind(('127.0.0.1', 0))
+                    local_port = sock.getsockname()[1]
+                local = subprocess.Popen([*args[:-1], str(local_port), 'serve-local'],
+                                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                try:
+                    local_request = Request(f'http://127.0.0.1:{local_port}/api/report',
+                                            headers={'Authorization': 'Bearer '+token})
+                    for attempt in range(100):
+                        try:
+                            with urlopen(local_request, timeout=.2) as reply:
+                                local_report = json.load(reply)
+                            break
+                        except URLError:
+                            time.sleep(.05)
+                    else:
+                        self.fail('Local migration listener not ready')
+                    self.assertEqual(local_report, report)
+                    run.__globals__['PORT'] = local_port
+                    self.assertEqual(run(['health-local']), 0)
+                finally:
+                    local.terminate(); local.wait(timeout=5)
             finally:
                 process.terminate(); process.wait(timeout=5)
 

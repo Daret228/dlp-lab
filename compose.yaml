@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     restart: unless-stopped
+    init: true
     ports:
       - "${DLP_BIND_ADDRESS:-127.0.0.1}:${DLP_HTTPS_PORT:-8876}:8766"
     volumes:
