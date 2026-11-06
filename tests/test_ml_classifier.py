@@ -16,7 +16,7 @@ from dlp.models import TextContent,FileContent
 from dlp.policy import load_policy,parse_policy,PolicyError
 from dlp.audit import JsonAudit
 from dlp.text_monitor import DraftMonitor
-from dlp.dashboard import project
+from dlp.journal_view import project
 from test_documents import make_docx
 ROOT=Path(__file__).resolve().parents[1]
 

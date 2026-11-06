@@ -36,8 +36,6 @@ def main():
     signal_local.add_argument("--limit", type=int, default=100)
     signal_local.add_argument("--no-notify", action="store_true")
     sub.add_parser("monitor", help="Internal: launch through fanotify-launcher")
-    dashboard = sub.add_parser("dashboard", help="Локальная панель событий, политики и управления")
-    dashboard.add_argument("--port", type=int, default=8765)
     processes = sub.add_parser("processes", help="List configured messenger processes of current user")
     processes.add_argument("--config", default=str(config_directory / "processes.yaml"))
     mode = sub.add_parser("process-mode", help="Select file monitoring scope; restart monitor afterward")
@@ -82,10 +80,6 @@ def main():
         if args.command == "central":
             from .central import main as central_main
             return central_main(args.arguments)
-        if args.command == "dashboard":
-            from .dashboard import run
-            run(args.port)
-            return 0
         if args.command == "agent":
             from .service import manage
             return manage(args)

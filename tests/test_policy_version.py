@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from dlp.policy import load_policy_snapshot
 from dlp.policy_store import ROOT
-from dlp.dashboard import attach_policy_versions, project
+from dlp.journal_view import attach_policy_versions, project
 import json
 
 

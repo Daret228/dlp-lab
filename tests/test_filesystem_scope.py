@@ -14,7 +14,7 @@ from dlp.processes import ProcessFilter, ProcessIdentity
 from dlp.analysis import ContentAnalyzer
 from dlp.policy import load_policy
 from dlp.audit import JsonAudit
-from dlp.dashboard import project
+from dlp.journal_view import project
 
 ROOT = Path(__file__).resolve().parents[1]
 

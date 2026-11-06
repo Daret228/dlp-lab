@@ -1,3 +1,10 @@
+dlp-lab (0.2.18) unstable; urgency=medium
+
+  * Remove the local web dashboard and its HTTP control endpoints.
+  * Keep the central administrator dashboard and CLI session commands.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 06 Nov 2026 18:00:00 +0000
+
 dlp-lab (0.2.17) unstable; urgency=medium
 
   * Forward bounded opaque access correlation IDs without file paths.

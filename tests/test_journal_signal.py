@@ -1,6 +1,6 @@
 import json
 import unittest
-from dlp.dashboard import project
+from dlp.journal_view import project
 
 class SignalProjectionTests(unittest.TestCase):
     def test_counts_allowlisted_and_secrets_excluded(self):

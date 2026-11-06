@@ -42,8 +42,7 @@ Control:
   sudo journalctl -u dlp-lab-files.service
 The old `dlp-agent agent` lifecycle is for laboratory user units; for packaged
 file protection use the systemctl commands above. Optional text-field/local
-storage tools remain explicit user-session commands, never root jobs. The
-web dashboard's user-unit controls are not a system-service administration UI.
+storage tools remain explicit user-session commands, never root jobs. The local web dashboard has been removed; use CLI for session modules.
 
 Updates stop and restart the configured system service; there is a protection
 gap during update/restart. Administrator disabling/masking is respected by the
