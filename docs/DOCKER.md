@@ -22,7 +22,7 @@ DEB-службами на рабочих машинах. Нужны Docker Engin
 | Конфигурация | `/etc/dlp-lab/docker/compose.json` |
 | База, токен, регистрации | `/var/lib/dlp-central`, владелец UID 10001 |
 | Сертификат и ключ контейнера | `/etc/dlp-lab/docker/tls` |
-| Образ после переноса | `dlp-lab-central:0.2.15-migration1` |
+| Текущий образ | `dlp-lab-central:0.2.17` |
 | Резервная копия до переноса | `/var/backups/dlp-central-before-docker-69ybd1j0` |
 
 Команды для текущего сервера выполняются с явными `-p` и `-f`:
@@ -91,9 +91,9 @@ UID/GID 10001 и приватными правами (каталог 0700, фа�
 ```bash
 cd /home/roman/dlp-lab
 saved_image="dlp-lab-central:before-update-$(date +%Y%m%d%H%M%S)"
-sudo docker image tag dlp-lab-central:0.2.15-migration1 "$saved_image"
+sudo docker image tag dlp-lab-central:0.2.17 "$saved_image"
 printf 'Предыдущий образ: %s\n' "$saved_image"
-sudo docker build -t dlp-lab-central:0.2.15-migration1 -f docker/Dockerfile .
+sudo docker build -t dlp-lab-central:0.2.17 -f docker/Dockerfile .
 sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json up -d --force-recreate
 sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json ps
 ```
