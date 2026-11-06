@@ -8,12 +8,14 @@ import sys
 
 root = Path(sys.argv[1])
 (root/"usr/lib64").mkdir(parents=True, exist_ok=True)
-binaries = '''sh dash bash perl python3 python3.13 dpkg dpkg-deb dpkg-query
+python_version = f"python{sys.version_info.major}.{sys.version_info.minor}"
+binaries = '''sh dash bash perl python3 dpkg dpkg-deb dpkg-query
  dpkg-maintscript-helper deb-systemd-helper deb-systemd-invoke debconf-set-selections
  debconf-communicate debconf-show py3compile py3clean
  find dirname basename ln mkdir chmod chown stat sha256sum rm rmdir tar gzip xz
  diff cmp cat readlink realpath sort touch sed grep head tail cut tr id env printf test
  systemctl systemd-sysusers dpkg-divert update-alternatives'''.split()
+binaries.append(python_version)
 binaries += [p.name for p in Path('/usr/bin').glob('dpkg*') if p.is_file()]
 for name in binaries:
     source = Path('/usr/bin')/name
@@ -25,7 +27,7 @@ for name in ('ldconfig', 'start-stop-daemon'):
     target = root/'usr/sbin'/name
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(Path('/usr/sbin')/name, target)
-for pattern in ('/usr/lib/python3.13', '/usr/share/python3', '/usr/share/debconf',
+for pattern in (f'/usr/lib/{python_version}', '/usr/share/python3', '/usr/share/debconf',
                 '/usr/share/perl', '/usr/share/perl5',
                 '/usr/lib/x86_64-linux-gnu/perl', '/usr/lib/x86_64-linux-gnu/perl-base'):
     for source in glob.glob(pattern):
