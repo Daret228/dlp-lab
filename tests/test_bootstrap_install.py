@@ -67,7 +67,7 @@ class BootstrapTests(unittest.TestCase):
              patch.object(bootstrap,'atomic_write') as write, \
              patch.object(bootstrap.subprocess,'run') as process, \
              contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-            rc=bootstrap.main(['--package','/tmp/test.deb','--telegram','/usr/bin/telegram-desktop','--no-signal',*extra])
+            rc=bootstrap.main([* ([] if '--installed' in extra else ['--package','/tmp/test.deb']), '--telegram','/usr/bin/telegram-desktop','--no-signal',*extra])
             return rc,calls,write.call_count,process.call_count
 
     def test_check_does_not_install_or_write(self):
@@ -104,6 +104,28 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(rc,0)
         self.assertEqual(writes,3)
         self.assertTrue(any('dlp-lab-forwarder.service' in c and 'enable' in c for c in calls))
+
+    def test_installed_profile_no_apt_and_all_services_checked(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(bootstrap.ssl,'create_default_context'):
+            profile=Path(folder)/'connection.json'
+            profile.write_text(json.dumps({'registration':self.identity(),'ca':'synthetic'}))
+            profile.chmod(0o600)
+            rc,calls,writes,processes=self.run_flow(folder,['--installed','--connection',str(profile),'--yes'])
+        self.assertEqual(rc,0)
+        self.assertEqual(writes,3)
+        self.assertEqual(processes,0)
+        self.assertFalse(any(c[0]=='/usr/bin/apt-get' for c in calls))
+        self.assertTrue(any('is-active' in c and 'dlp-lab-admin-control.service' in c for c in calls))
+
+    def test_invalid_connection_rejected_before_changes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            profile=Path(folder)/'connection.json'
+            profile.write_text(json.dumps({'registration':self.identity(),'ca':'not a certificate'}))
+            profile.chmod(0o600)
+            rc,calls,writes,processes=self.run_flow(folder,['--installed','--connection',str(profile),'--yes'])
+        self.assertEqual(rc,2)
+        self.assertEqual((writes,processes),(0,0))
+        self.assertFalse(any(c[0]=='/usr/bin/systemctl' for c in calls))
 
 
 

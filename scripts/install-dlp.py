@@ -74,6 +74,17 @@ def registration(data):
     return value
 
 
+def connection(data):
+    value = json.loads(data)
+    if not isinstance(value, dict) or set(value) != {'registration', 'ca'} or not isinstance(value['ca'], str):
+        raise ValueError('Некорректный профиль подключения')
+    identity = json.dumps(value['registration']).encode()
+    registration(identity)
+    ca = value['ca'].encode('ascii')
+    ssl.create_default_context(cadata=value['ca'])
+    return identity, ca
+
+
 def package_info(path, expected, architecture, release):
     path = path.resolve(strict=True)
     if not path.is_file() or path.suffix != '.deb':
@@ -142,6 +153,8 @@ def check_existing(path, desired, mode):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Установка файлового DLP-агента и HTTPS отправщика (Debian12/13)')
+    parser.add_argument('--installed', action='store_true', help='Настроить уже установленный пакет без вызова apt')
+    parser.add_argument('--connection', type=Path, help='Один индивидуальный профиль: регистрация и публичный CA')
     parser.add_argument('--package', type=Path, help='DEB агента; по умолчанию единственный dlp-lab_*.deb рядом со скриптом')
     parser.add_argument('--sqlcipher-package', type=Path, help='Локальный libsqlcipher1 DEB для Debian12')
     parser.add_argument('--user', help='Пользователь рабочего стола')
@@ -168,25 +181,32 @@ def main(argv=None):
         if not Path('/run/systemd/system').is_dir():
             raise ValueError('Нужна система с работающим systemd')
         base = Path(__file__).resolve().parent
-        if not args.package:
-            candidates = list(base.glob('dlp-lab_*.deb'))
-            if len(candidates) != 1:
-                raise ValueError('Укажите --package или положите единственный DEB агента рядом со скриптом')
-            args.package = candidates[0]
         arch = run(['/usr/bin/dpkg','--print-architecture'], True)
-        package, version = package_info(args.package, 'dlp-lab', arch, release['VERSION_ID'])
-        try:
-            run(['/usr/bin/dpkg','--compare-versions',version,'ge','0.2.13~'])
-        except subprocess.CalledProcessError:
-            raise ValueError('Нужен агент0.2.13 или новее')
         packages = []
-        if args.sqlcipher_package:
-            packages.append(str(package_info(args.sqlcipher_package,'libsqlcipher1',arch,release['VERSION_ID'])[0]))
-        elif release['VERSION_ID'] == '12':
-            candidates = list(base.glob('libsqlcipher1_*.deb'))
-            if len(candidates) == 1:
-                packages.append(str(package_info(candidates[0],'libsqlcipher1',arch,'12')[0]))
-        packages.append(str(package))
+        if args.installed:
+            if args.package or args.sqlcipher_package:
+                raise ValueError('--installed несовместим с пакетами')
+            version = run(['/usr/bin/dpkg-query','-W','-f=${Version}','dlp-lab'], True)
+        else:
+            if not args.package:
+                candidates = list(base.glob('dlp-lab_*.deb'))
+                if len(candidates) != 1:
+                    raise ValueError('Укажите --package или положите единственный DEB агента рядом со скриптом')
+                args.package = candidates[0]
+            arch = run(['/usr/bin/dpkg','--print-architecture'], True)
+            package, version = package_info(args.package, 'dlp-lab', arch, release['VERSION_ID'])
+            try:
+                run(['/usr/bin/dpkg','--compare-versions',version,'ge','0.2.13~'])
+            except subprocess.CalledProcessError:
+                raise ValueError('Нужен агент0.2.13 или новее')
+            packages = []
+            if args.sqlcipher_package:
+                packages.append(str(package_info(args.sqlcipher_package,'libsqlcipher1',arch,release['VERSION_ID'])[0]))
+            elif release['VERSION_ID'] == '12':
+                candidates = list(base.glob('libsqlcipher1_*.deb'))
+                if len(candidates) == 1:
+                    packages.append(str(package_info(candidates[0],'libsqlcipher1',arch,'12')[0]))
+            packages.append(str(package))
         gateway = CONFIG/'system-gateway.conf'
         existing = gateway.exists() or gateway.is_symlink()
         setup = []
@@ -211,14 +231,16 @@ def main(argv=None):
                 setup += ['--signal',str(executable(signal))]
         writes = []
         central = CONFIG/'central-agent.json'
+        if args.connection and (args.central_config or args.ca or args.local_only):
+            raise ValueError('--connection несовместим с отдельными параметрами подключения')
         if args.local_only and (args.central_config or args.ca):
             raise ValueError('--local-only несовместим с настройкой сервера')
         if not args.local_only:
-            if not args.central_config and (base/'central-agent.json').is_file():
+            if not args.connection and not args.central_config and (base/'central-agent.json').is_file():
                 args.central_config = base/'central-agent.json'
-            if not args.ca and (base/'central-ca.crt').is_file():
+            if not args.connection and not args.ca and (base/'central-ca.crt').is_file():
                 args.ca = base/'central-ca.crt'
-            if not args.central_config:
+            if not args.central_config and not args.connection:
                 if not central.exists():
                     raise ValueError('Нужны --central-config и --ca либо явный --local-only')
                 protected(central)
@@ -227,12 +249,19 @@ def main(argv=None):
                 if args.ca:
                     raise ValueError('Для изменения CA существующей регистрации используйте отдельную процедуру')
             else:
-                data = read_file(args.central_config, private=True)
-                registration(data)
-                if not args.ca:
-                    raise ValueError('Укажите публичный --ca')
-                ca = read_file(args.ca)
-                ssl.create_default_context(cadata=ca.decode('ascii'))
+                if args.connection:
+                    data, ca = connection(read_file(args.connection, private=True))
+                else:
+                    data = read_file(args.central_config, private=True)
+                    registration(data)
+                    if not args.ca:
+                        raise ValueError('Укажите публичный --ca')
+                    ca = read_file(args.ca)
+                    ssl.create_default_context(cadata=ca.decode('ascii'))
+                if central.exists():
+                    previous = read_file(central, private=True)
+                    if registration(previous) == registration(data):
+                        data = previous
                 writes = [(central,data,0o600),(CONFIG/'central-ca.crt',ca,0o644),
                           (DROPIN/'tls.conf',b'[Service]\nEnvironment=SSL_CERT_FILE=/etc/dlp-lab/central-ca.crt\n',0o644)]
                 for path,data,mode in writes:
@@ -241,8 +270,9 @@ def main(argv=None):
         print('Файловая защита: '+('сохранить настройки' if existing else ' '.join(setup[1:])))
         print('Сервер: '+('не настраивать, существующий отправщик не отключается' if args.local_only else 'включить системный отправщик'))
         print('Текстовый компонент запускает системная служба; доступность поля проверяется отдельно.')
-        print('Проверка зависимостей apt (без установки):', flush=True)
-        run(['/usr/bin/apt-get','--simulate','--no-remove','install',*packages])
+        if not args.installed:
+            print('Проверка зависимостей apt (без установки):', flush=True)
+            run(['/usr/bin/apt-get','--simulate','--no-remove','install',*packages])
         if args.check:
             print('Проверка завершена. Изменения не внесены; связь и реальная защита ещё не проверены.')
             return 0
@@ -253,9 +283,10 @@ def main(argv=None):
                 print('Отменено. Изменения не внесены.'); return 0
         os.umask(0o077)
         # Apt/debconf must not guess desktop settings during bootstrap.
-        subprocess.run(['/usr/bin/debconf-set-selections'], input='dlp-lab dlp-lab/configure boolean false\n',
-                       text=True, check=True, env=ENV)
-        run(['/usr/bin/apt-get','-y','--no-remove','-o','Dpkg::Options::=--force-confold','install',*packages])
+        if not args.installed:
+            subprocess.run(['/usr/bin/debconf-set-selections'], input='dlp-lab dlp-lab/configure boolean false\n',
+                           text=True, check=True, env=ENV)
+            run(['/usr/bin/apt-get','-y','--no-remove','-o','Dpkg::Options::=--force-confold','install',*packages])
         if setup:
             run(setup)
         for path,data,mode in writes:
@@ -266,7 +297,7 @@ def main(argv=None):
         if not args.local_only:
             run(['/usr/bin/systemctl','enable','--now','dlp-lab-forwarder.service'])
         run(['/usr/bin/dlp-agent','doctor'])
-        for unit in (['dlp-lab-files.service'] + ([] if args.local_only else ['dlp-lab-forwarder.service'])):
+        for unit in (['dlp-lab-files.service','dlp-lab-session.service'] + ([] if args.local_only else ['dlp-lab-forwarder.service','dlp-lab-admin-control.service'])):
             run(['/usr/bin/systemctl','is-active','--quiet',unit])
         print('Установка выполнена. Проверьте monitor_started и тестовое прикрепление; затем событие в центральной панели.')
         print('sudo journalctl -u dlp-lab-files.service -n 20 --no-pager')

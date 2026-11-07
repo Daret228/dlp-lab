@@ -1,13 +1,5 @@
 #!/bin/sh
+# First install is noninteractive; dlp-setup handles host discovery and connection.
+# Explicit debconf preseeding remains supported by postinst.
 set -e
-. /usr/share/debconf/confmodule
-if [ ! -f /etc/dlp-lab/system-gateway.conf ]; then
-    db_input high dlp-lab/configure || true
-    db_go
-    db_get dlp-lab/configure
-    if [ "$RET" = true ]; then
-        db_input high dlp-lab/user || true
-        db_input high dlp-lab/telegram || true
-        db_go
-    fi
-fi
+exit 0

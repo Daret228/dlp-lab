@@ -9,13 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DebianInstallTests(unittest.TestCase):
-    def run_install(self, *, configured=False, username='testuser', configure=True, fail=False, central_active=False):
+    def run_install(self, *, configured=False, username='testuser', configure=True, fail=False, central_active=False, profile=False):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             log = root/'calls'
             conf = root/'system-gateway.conf'
             if configured:
                 conf.touch()
+            profile_path = root/'connection.json'
+            if profile: profile_path.touch()
             module = root/'confmodule'
             module.write_text('''db_get() {
  case "$1" in
@@ -38,9 +40,10 @@ case "$0" in
 esac
 ''')
             helper.chmod(0o755)
-            for name in ('dlp-lab-configure','deb-systemd-helper','deb-systemd-invoke','systemctl','systemd-sysusers'):
+            for name in ('dlp-setup','dlp-lab-configure','deb-systemd-helper','deb-systemd-invoke','systemctl','systemd-sysusers'):
                 (root/name).symlink_to(helper)
             script = (ROOT/'debian/postinst').read_text()
+            script = script.replace('/etc/dlp-lab/connection.json', str(profile_path)).replace('/usr/sbin/dlp-setup', str(root/'dlp-setup'))
             script = script.replace('/usr/share/debconf/confmodule', str(module))
             script = script.replace('/etc/dlp-lab/system-gateway.conf', str(conf))
             script = script.replace('/usr/sbin/dlp-lab-configure', str(root/'dlp-lab-configure'))
@@ -91,3 +94,9 @@ esac
         result, calls = self.run_install(configured=True)
         self.assertNotIn('restart dlp-lab-central.service', calls)
         self.assertNotIn('restart dlp-lab-forwarder.service', calls)
+
+    def test_provisioned_profile_invokes_installed_setup(self):
+        result,calls=self.run_install(profile=True,configure=False)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertIn('dlp-setup',calls)
+        self.assertIn('connection.json',calls)

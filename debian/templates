@@ -1,11 +1,10 @@
 Template: dlp-lab/configure
 Type: boolean
-Default: true
+Default: false
 Description: Configure and start DLP file protection now?
  Select the local desktop user and Telegram executable in the next questions.
- Stop any laboratory DLP file monitor before continuing. Text-field monitoring
- remains an explicit user-session command. Choose No to configure later with
- dlp-lab-configure.
+ File and session monitoring are system services. The standard deployment
+ command is sudo dlp-setup connection.json.
 
 Template: dlp-lab/user
 Type: string

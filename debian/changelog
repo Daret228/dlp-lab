@@ -1,3 +1,11 @@
+dlp-lab (0.2.22) unstable; urgency=medium
+
+  * Ship dlp-setup for one-command enrollment with a private connection profile.
+  * Support administrator-preseeded profile setup in postinst without nested apt.
+  * Remove first-install debconf questions; preserve configured upgrades.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sat, 07 Nov 2026 20:00:00 +0000
+
 dlp-lab (0.2.21) unstable; urgency=medium
 
   * Add authenticated fixed component restarts with a privileged local broker.

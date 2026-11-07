@@ -2,6 +2,14 @@
 set -e
 if [ "$1" = configure ]; then
     systemd-sysusers /usr/lib/sysusers.d/dlp-lab.conf
+    # Optional administrator-provisioned profile: setup never invokes apt.
+    if [ -f /etc/dlp-lab/connection.json ] && [ -d /run/systemd/system ]; then
+        if /usr/sbin/dlp-setup /etc/dlp-lab/connection.json; then
+            echo 'DLP: профиль применён, службы запущены.'
+        else
+            echo 'DLP: настройка не завершена; повторите sudo dlp-setup /etc/dlp-lab/connection.json' >&2
+        fi
+    fi
     . /usr/share/debconf/confmodule
     if [ ! -f /etc/dlp-lab/system-gateway.conf ]; then
         db_get dlp-lab/configure
@@ -13,7 +21,7 @@ if [ "$1" = configure ]; then
             if [ -n "$target_user" ]; then
                 /usr/sbin/dlp-lab-configure --user "$target_user" --telegram "$target_telegram"
             else
-                echo 'DLP is not configured: run sudo dlp-lab-configure --user USER --telegram /path/to/Telegram --enable' >&2
+                echo 'DLP: для подключения выполните sudo dlp-setup connection.json' >&2
             fi
         fi
     fi

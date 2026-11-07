@@ -1,0 +1,11 @@
+#!/usr/bin/python3 -I
+"""One-command setup of an installed agent; trusted code paths only."""
+import os
+import sys
+if os.geteuid() != 0:
+    print('Запустите sudo dlp-setup подключение.json', file=sys.stderr)
+    raise SystemExit(2)
+args = sys.argv[1:]
+if args and not args[0].startswith('-'):
+    args = ['--connection', args[0], *args[1:]]
+os.execv('/usr/bin/python3', ['python3', '-I', '/usr/lib/dlp-lab/install-dlp.py', '--installed', '--yes', *args])
