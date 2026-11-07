@@ -94,3 +94,14 @@ class ManagedSessionTests(unittest.TestCase):
                 self.assertEqual(launch.call_count,2)
                 self.assertEqual(kill.call_count,2)
                 self.assertEqual(json.loads(state.read_text())['state'],'stopped')
+
+    def test_session_detection_does_not_traverse_private_runtime(self):
+        from dlp.managed_session import session_available
+        info=SimpleNamespace(st_mode=0o40700,st_uid=1000)
+        def metadata(path):
+            if str(path).endswith('/bus'):
+                raise PermissionError('Root supervisor has no DAC override')
+            return info
+        replies=[SimpleNamespace(stdout='2'),SimpleNamespace(stdout='Active=yes\nType=wayland\nRemote=no\n')]
+        with patch.object(Path,'lstat',metadata),patch('dlp.managed_session.subprocess.run',side_effect=replies):
+            self.assertTrue(session_available(1000))

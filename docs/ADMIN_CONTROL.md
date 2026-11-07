@@ -77,7 +77,7 @@ AT-SPI-монитор выбирает единственное видимое, 
 ## Обновить действующий стенд
 
 **Сначала сервер:** старый сервер не принимает новые события состояния.
-На основной машине подготовлены пакет 0.2.19 и сценарий:
+На основной машине подготовлены пакет 0.2.20 и сценарий:
 
 ```bash
 cd /home/roman/dlp-lab
@@ -94,7 +94,7 @@ sudo python3 scripts/update-managed-agent.py
 
 ```bash
 cd ~/dlp-build-input
-sudo apt -o Dpkg::Options::="--force-confold" install ./dlp-lab_0.2.19~deb12u1_amd64.deb
+sudo apt -o Dpkg::Options::="--force-confold" install ./dlp-lab_0.2.20~deb12u1_amd64.deb
 sudo systemctl enable --now dlp-lab-session.service
 sudo systemctl restart dlp-lab-forwarder.service
 sudo dlp-agent doctor
@@ -105,3 +105,7 @@ sudo dlp-agent doctor
 процесса отображается и вызывает восстановление; остановка службы администратором
 отображается в панели. После опыта верните службу через sudo systemctl start.
 Эти реальные опыты нужно выполнить после развёртывания нового пакета.
+
+Исправление 0.2.20: устранено ложное no_session при активном сеансе.
+Если сервер и агент0.2.19 уже установлены, достаточно обновить DEB до0.2.20;
+Docker повторно обновлять не нужно.

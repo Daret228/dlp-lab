@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = Path('/etc/dlp-lab/docker/compose.json')
 IMAGE = 'dlp-lab-central:0.2.19'
-PACKAGE = ROOT/'build/dlp-lab_0.2.19_amd64.deb'
+PACKAGE = ROOT/'build/dlp-lab_0.2.20_amd64.deb'
 
 
 def run(*args, capture=False):
@@ -40,10 +40,10 @@ def main():
     updated = json.loads(original)
     if set(updated['services']) != {'local', 'https'}:
         raise ValueError('Неизвестная конфигурация контейнеров')
-    if run('dpkg-deb', '-f', str(PACKAGE), 'Version', capture=True) != '0.2.19':
-        raise ValueError('Нужен пакет0.2.19')
+    if run('dpkg-deb', '-f', str(PACKAGE), 'Version', capture=True) != '0.2.20':
+        raise ValueError('Нужен пакет0.2.20')
     installed = run('dpkg-query', '-W', '-f=${Version}', 'dlp-lab', capture=True)
-    if subprocess.run(['dpkg', '--compare-versions', installed, 'gt', '0.2.19']).returncode == 0:
+    if subprocess.run(['dpkg', '--compare-versions', installed, 'gt', '0.2.20']).returncode == 0:
         raise ValueError('Установлена более новая версия; понижение отменено')
     run('apt-get', '--simulate', '--no-remove', 'install', str(PACKAGE))
     token = json.loads(Path('/var/lib/dlp-central/admin.json').read_text())['token']

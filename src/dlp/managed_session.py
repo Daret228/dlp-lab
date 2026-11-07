@@ -33,11 +33,11 @@ def session_available(uid):
     runtime = Path('/run/user') / str(uid)
     try:
         info = runtime.lstat()
-        bus = (runtime/'bus').lstat()
         if not stat.S_ISDIR(info.st_mode) or info.st_uid != uid or info.st_mode & 0o022:
             return False
-        if not stat.S_ISSOCK(bus.st_mode) or bus.st_uid != uid:
-            return False
+        # Do not traverse the user's 0700 runtime directory as supervisor:
+        # it deliberately lacks CAP_DAC_READ_SEARCH. The dropped-UID worker
+        # connects to its bus and reports unavailable if that fails.
         result = subprocess.run(['/usr/bin/loginctl', 'show-user', str(uid), '-p', 'Sessions', '--value'],
                                 capture_output=True, text=True, timeout=5, check=True)
         for session in result.stdout.split()[:16]:
