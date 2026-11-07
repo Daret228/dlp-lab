@@ -33,3 +33,8 @@ private-exports/
 /*.changes
 /*.tar.xz
 /*.dsc
+
+# Per-device enrollment and administrator credentials (generated locally)
+connection.json
+central-agent.json
+admin.json

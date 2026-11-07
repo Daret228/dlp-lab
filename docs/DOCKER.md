@@ -1,7 +1,7 @@
 # Сервер в Docker
 
 Docker нужен **только серверу**. На рабочих машинах агент устанавливается
-DEB-комплектом. Серверу без локального агента DEB не требуется.
+DEB-пакетом. Серверу без локального агента DEB не требуется.
 
 ## Текущий стенд Романа
 
@@ -12,7 +12,7 @@ DEB-комплектом. Серверу без локального агент�
 | --- | --- |
 | Панель на сервере | http://127.0.0.1:8766/ |
 | Адрес для агентов | https://192.168.17.131:8767 |
-| Образ | `dlp-lab-central:0.2.19` (последнее подтверждённое развёртывание; обновление до 0.2.21 — ADMIN_CONTROL.md) |
+| Управление | Compose-проект `dlp-central-migrated`, сервисы `local` и `https` |
 | Данные | `/var/lib/dlp-central` |
 | Конфигурация | `/etc/dlp-lab/docker/compose.json` |
 
@@ -33,9 +33,16 @@ sudo install -o "$(id -u)" -g "$(id -g)" -m 600 /var/lib/dlp-central/new-device.
 sudo install -o "$(id -u)" -g "$(id -g)" -m 644 /etc/dlp-lab/tls/ca.crt "$HOME/dlp-provision/central-ca.crt"
 ```
 
-Используйте уникальное имя и выходной файл для каждой регистрации. Передайте
-оба файла конкретной машине по SSH/SCP или другим доверенным способом. Токен
-администратора агенту не нужен. Продолжайте с [установщика агента](OPERATIONS.md#3-установить-на-рабочую-машину).
+Соберите единый профиль из корня репозитория:
+
+```bash
+python3 scripts/build-connection.py --registration "$HOME/dlp-provision/central-agent.json" --ca "$HOME/dlp-provision/central-ca.crt" --output "$HOME/dlp-provision/connection.json"
+```
+
+Используйте уникальное имя, выходной файл и каталог подготовки для каждого
+устройства. Передайте только `connection.json` конкретной машине по SSH/SCP
+или другим доверенным способом. Токен администратора агенту не нужен.
+Продолжайте с [установки пакета](OPERATIONS.md#3-установить-пакет-и-подключить-машину).
 
 [Резервная копия и обновление текущего сервера](MAINTENANCE.md#сервер-текущего-стенда).
 Старые центральные systemd-службы остаются выключенными; агентские службы работают.
@@ -103,8 +110,15 @@ sudo chown "$(id -u):$(id -g)" build/registration/central-agent.json
 chmod 600 build/registration/central-agent.json
 ```
 
-Передайте регистрацию и публичный CA установщику агента. Проверка завершена
-только после появления нового события этого устройства в панели.
+Соберите профиль (в примере CA находится в `build/central-ca.crt`):
+
+```bash
+python3 scripts/build-connection.py --registration build/registration/central-agent.json --ca build/central-ca.crt --output build/registration/connection.json
+```
+
+Передайте клиенту только `connection.json` и подходящий DEB, затем выполните
+[подключение](OPERATIONS.md#3-установить-пакет-и-подключить-машину).
+Проверка завершена после появления нового события устройства в панели.
 
 ## Хранение и обслуживание
 

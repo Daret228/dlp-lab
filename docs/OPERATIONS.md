@@ -1,7 +1,7 @@
 # Установка и эксплуатация
 
 Актуально на 07.11.2026, версия исходников 0.2.22. Основной путь: **сервер Docker →
-регистрация устройства → установщик агента**. Используйте разделы по порядку для первой установки. Для работающего агента
+профиль устройства → DEB → dlp-setup**. Используйте разделы по порядку для первой установки. Для работающего агента
 переходите сразу к проверке или обновлению.
 
 ## 1. Сервер
@@ -20,14 +20,14 @@
 python3 scripts/build-connection.py --registration /путь/central-agent.json --ca /путь/central-ca.crt --output connection.json
 ```
 
-Профиль создаётся с правами0600, содержит только регистрацию устройства и CA.
+Профиль создаётся с правами 0600, содержит только регистрацию устройства и CA.
 Передайте его целевой машине доверенным способом. Не публикуйте и не используйте
 один профиль на разных устройствах. Административный токен сервера туда не входит.
 
 ## 3. Установить пакет и подключить машину
 
 Telegram должен быть установлен заранее в защищённом системном каталоге.
-Для Debian13 amd64:
+Для Debian 13 amd64:
 
 ```bash
 sudo apt install ./dlp-lab_0.2.22_amd64.deb
@@ -40,11 +40,19 @@ sudo dlp-setup connection.json
 При неоднозначном выборе добавьте `--user ИМЯ`; нестандартный Telegram задайте
 через `--telegram /путь`. Для проверки без изменений добавьте `--check`.
 
-Для Debian12 нужен `dlp-lab_0.2.22~deb12u1_amd64.deb`. Зависимость SQLCipher4
-должна быть доступна apt либо уже установлена. На чистом Debian12 штатного
-SQLCipher3 недостаточно: пока нужно также передать локальный пакет
+Для Debian 12 нужен `dlp-lab_0.2.22~deb12u1_amd64.deb`. Зависимость SQLCipher 4
+должна быть доступна apt либо уже установлена. На чистом Debian 12 штатного
+SQLCipher 3 недостаточно: пока нужно также передать локальный пакет
 `libsqlcipher1_4.6.1-2~dlplab12.1_amd64.deb` и указать его в той же команде apt.
-Это остаётся отдельным шагом подготовки зависимостей для чистого Debian12.
+Одна команда установки двух локальных пакетов:
+
+```bash
+sudo apt install ./libsqlcipher1_4.6.1-2~dlplab12.1_amd64.deb ./dlp-lab_0.2.22~deb12u1_amd64.deb
+sudo dlp-setup connection.json
+```
+
+Пакеты собираются под целевую ОС: [сборка](DEVELOPMENT.md#сборка-пакета).
+
 
 Уже настроенную машину достаточно обновить через apt: подключение и политика
 сохраняются, работающие компоненты перезапускаются. `sudo dlp-setup` без профиля
@@ -68,7 +76,7 @@ SQLCipher3 недостаточно: пока нужно также переда
 
 ```bash
 sudo dlp-agent doctor
-systemctl is-active dlp-lab-files.service dlp-lab-forwarder.service
+systemctl is-active dlp-lab-files.service dlp-lab-session.service dlp-lab-forwarder.service dlp-lab-admin-control.service
 sudo journalctl -u dlp-lab-files.service -n 20 --no-pager
 sudo journalctl -u dlp-lab-forwarder.service -n 20 --no-pager
 ```
@@ -91,12 +99,11 @@ sudo systemctl restart dlp-lab-files.service dlp-lab-session.service dlp-lab-for
 
 ```bash
 sudo apt -o Dpkg::Options::="--force-confold" install ./dlp-lab_0.2.22~deb12u1_amd64.deb
-sudo systemctl restart dlp-lab-files.service dlp-lab-session.service dlp-lab-forwarder.service
 sudo dlp-agent doctor
 ```
 
 Для Debian 13 используйте `dlp-lab_0.2.22_amd64.deb`. Повторная регистрация
-при обычном обновлении не нужна. Серверный Docker-образ обновляется отдельно.
+при обычном обновлении не нужна; postinst перезапускает настроенные компоненты. Серверный Docker-образ обновляется отдельно.
 Из панели доступны журнал, диагностика и перезапуск файлового/текстового компонентов.
 [Условия и результат команд](ADMIN_CONTROL.md#управление-с-сервера). Установка обновлений агента выполняется администратором отдельно.
 
@@ -105,7 +112,7 @@ sudo dlp-agent doctor
 
 ## 6. Административный контроль текста
 
-В 0.2.21 `dlp-lab-session.service` автоматически запускает наблюдение в активном
+`dlp-lab-session.service` автоматически запускает наблюдение в активном
 графическом сеансе настроенного пользователя. Пользователь не запускает CLI
 и не управляет службой. [Команды и состояния](ADMIN_CONTROL.md).
 

@@ -19,12 +19,12 @@ sudo dlp-agent --policy "$HOME/dlp-policy-candidate.yaml" analyze --text 'ком
 ```bash
 sudo cp -a /etc/dlp-lab/system/policy.yaml /etc/dlp-lab/system/policy.yaml.previous
 sudo install -o root -g root -m 644 "$HOME/dlp-policy-candidate.yaml" /etc/dlp-lab/system/policy.yaml
-sudo systemctl restart dlp-lab-files.service
+sudo systemctl restart dlp-lab-files.service dlp-lab-session.service
 sudo journalctl -u dlp-lab-files.service -n 20 --no-pager
 ```
 
 Копия `.previous` хранит только предыдущее состояние. Для отката скопируйте её
-обратно в `policy.yaml` и перезапустите файловую службу. Проверьте прикрепление.
+обратно в `policy.yaml` и перезапустите файловую и сеансовую службы. Проверьте прикрепление.
 Настройка процессов и каталогов: `sudo dlp-lab-configure --wizard`.
 
 ## Сервер текущего стенда
@@ -90,10 +90,11 @@ cp build/docker-tls/server.crt build/central-ca.crt
 ## Остановка и удаление агента
 
 ```bash
-sudo systemctl disable --now dlp-lab-files.service dlp-lab-forwarder.service
+sudo systemctl disable --now dlp-lab-files.service dlp-lab-session.service dlp-lab-forwarder.service
+sudo systemctl stop dlp-lab-admin-control.service
 ```
 
-Возобновление: `sudo systemctl enable --now dlp-lab-files.service dlp-lab-forwarder.service`.
+Возобновление настроенного агента: `sudo dlp-setup`.
 Для удаления программы: `sudo apt remove dlp-lab`. Перед полным удалением настроек
 через `sudo apt purge dlp-lab` сохраните нужные конфигурации и журналы. Данные
 серверного Docker-развёртывания обслуживаются отдельно.
