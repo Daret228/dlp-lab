@@ -168,6 +168,8 @@ def project(raw):
         group = correlation.get('group_id') if isinstance(correlation, dict) else raw.get('access_group')
         if isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
             value['access_group'] = group
+    if raw['event'] == 'endpoint_health' and type(raw.get('management_ready')) is bool:
+        value['management_ready'] = raw['management_ready']
     if raw['event'] in ('endpoint_health', 'session_control'):
         if raw.get('session_state') in ('ready','waiting_field','unavailable','no_session','restarting','stopped'):
             value['session_state'] = raw['session_state']

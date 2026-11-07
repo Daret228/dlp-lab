@@ -29,4 +29,5 @@ def snapshot():
         except (OSError, ValueError, TypeError, AttributeError):
             pass
     return {'event': 'endpoint_health', 'timestamp': datetime.now(timezone.utc).isoformat(),
-            'files_state': files, 'session_state': status}
+            'files_state': files, 'session_state': status,
+            'management_ready': service_state('dlp-lab-admin-control.service') == 'active'}

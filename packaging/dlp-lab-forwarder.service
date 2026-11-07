@@ -1,7 +1,7 @@
 [Unit]
 Description=DLP Lab system journal event forwarder
-After=network-online.target
-Wants=network-online.target
+After=network-online.target dlp-lab-admin-control.service
+Wants=network-online.target dlp-lab-admin-control.service
 ConditionPathExists=/etc/dlp-lab/central-agent.json
 
 [Service]

@@ -56,17 +56,14 @@ SH
 
 ```bash
 cd /home/roman/dlp-lab
-saved_image="dlp-lab-central:before-update-$(date +%Y%m%d%H%M%S)"
-sudo docker image tag dlp-lab-central:0.2.17 "$saved_image"
-sudo docker build -t dlp-lab-central:0.2.17 -f docker/Dockerfile .
-# Продолжайте только после успешной сборки:
-sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json up -d --force-recreate
-sudo docker compose -p dlp-central-migrated -f /etc/dlp-lab/docker/compose.json ps
+sudo python3 scripts/update-managed-agent.py
 ```
 
-Тег должен совпадать с Compose-конфигурацией. При смене версии обновите оба.
-Проверьте доступность панели и новое событие. Откат образа допустим только при
-совместимости формата базы. Обновление сервера и DEB агентов — отдельные операции.
+Сценарий предназначен для действующего стенда с двумя контейнерами и Compose
+в `/etc/dlp-lab/docker/compose.json`. Он обновляет оба образа согласованно,
+проверяет сервер, затем устанавливает локальный DEB. Подробности и обновление
+второго агента: [административное управление](ADMIN_CONTROL.md).
+Для отдельного нового сервера используйте порядок из [Docker](DOCKER.md).
 
 ## Лабораторный сертификат
 

@@ -6,7 +6,7 @@ case "$1" in
             deb-systemd-invoke stop dlp-lab-files.service dlp-lab-session.service >/dev/null || true
         fi
         if [ "$1" != upgrade ] && [ -d /run/systemd/system ]; then
-            deb-systemd-invoke stop dlp-lab-central.service dlp-lab-forwarder.service dlp-lab-session.service >/dev/null || true
+            deb-systemd-invoke stop dlp-lab-central.service dlp-lab-forwarder.service dlp-lab-session.service dlp-lab-admin-control.service >/dev/null || true
         fi
         # Remove only bytecode belonging to this package before dpkg drops its list.
         if command -v py3clean >/dev/null 2>&1; then

@@ -1,3 +1,10 @@
+dlp-lab (0.2.21) unstable; urgency=medium
+
+  * Add authenticated fixed component restarts with a privileged local broker.
+  * Add private per-device installation kits with a single entry command.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sat, 07 Nov 2026 18:00:00 +0000
+
 dlp-lab (0.2.20) unstable; urgency=medium
 
   * Detect desktop sessions without traversing a private runtime directory

@@ -28,7 +28,8 @@ install('packaging/dlp-lab-run-files', '/usr/sbin/dlp-lab-run-files', 0o755)
 install('packaging/dlp-lab-configure', '/usr/sbin/dlp-lab-configure', 0o755)
 install('packaging/dlp-lab-files.service', '/usr/lib/systemd/system/dlp-lab-files.service')
 install('packaging/dlp-lab-session.service', '/usr/lib/systemd/system/dlp-lab-session.service')
-for entry in ('session-supervisor', 'session-worker'):
+install('packaging/dlp-lab-admin-control.service', '/usr/lib/systemd/system/dlp-lab-admin-control.service')
+for entry in ('session-supervisor', 'session-worker', 'admin-control'):
     install('packaging/'+entry, '/usr/libexec/dlp-lab/'+entry, 0o755)
 for unit in ('dlp-lab-central', 'dlp-lab-forwarder'):
     install('packaging/'+unit+'.service', '/usr/lib/systemd/system/'+unit+'.service')

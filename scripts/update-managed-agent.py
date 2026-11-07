@@ -10,8 +10,8 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = Path('/etc/dlp-lab/docker/compose.json')
-IMAGE = 'dlp-lab-central:0.2.19'
-PACKAGE = ROOT/'build/dlp-lab_0.2.20_amd64.deb'
+IMAGE = 'dlp-lab-central:0.2.21'
+PACKAGE = ROOT/'build/dlp-lab_0.2.21_amd64.deb'
 
 
 def run(*args, capture=False):
@@ -40,10 +40,10 @@ def main():
     updated = json.loads(original)
     if set(updated['services']) != {'local', 'https'}:
         raise ValueError('Неизвестная конфигурация контейнеров')
-    if run('dpkg-deb', '-f', str(PACKAGE), 'Version', capture=True) != '0.2.20':
-        raise ValueError('Нужен пакет0.2.20')
+    if run('dpkg-deb', '-f', str(PACKAGE), 'Version', capture=True) != '0.2.21':
+        raise ValueError('Нужен пакет0.2.21')
     installed = run('dpkg-query', '-W', '-f=${Version}', 'dlp-lab', capture=True)
-    if subprocess.run(['dpkg', '--compare-versions', installed, 'gt', '0.2.20']).returncode == 0:
+    if subprocess.run(['dpkg', '--compare-versions', installed, 'gt', '0.2.21']).returncode == 0:
         raise ValueError('Установлена более новая версия; понижение отменено')
     run('apt-get', '--simulate', '--no-remove', 'install', str(PACKAGE))
     token = json.loads(Path('/var/lib/dlp-central/admin.json').read_text())['token']
@@ -77,7 +77,7 @@ def main():
     run('apt-get', '-y', '--no-remove', '-o', 'Dpkg::Options::=--force-confold', 'install', str(PACKAGE))
     run('systemctl', 'enable', '--now', 'dlp-lab-session.service')
     run('systemctl', 'restart', 'dlp-lab-session.service', 'dlp-lab-forwarder.service')
-    run('systemctl', 'is-active', '--quiet', 'dlp-lab-forwarder.service', 'dlp-lab-session.service')
+    run('systemctl', 'is-active', '--quiet', 'dlp-lab-forwarder.service', 'dlp-lab-session.service', 'dlp-lab-admin-control.service')
     print('PASS: сервер и системный отправщик обновлены. Обновите страницу и повторите тестовое прикрепление.')
     print('Проверьте состояние текстового контроля в карточке устройства. Второй агент обновляется после сервера.')
 

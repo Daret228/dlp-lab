@@ -114,3 +114,18 @@ class RemoteControlTests(unittest.TestCase):
         with patch.object(self.worker,'request',return_value=response), patch.object(control,'diagnose') as run:
             with self.assertRaises(ValueError): control.poll(self.worker)
             run.assert_not_called()
+
+    def test_restart_requires_capability_and_uses_fixed_broker(self):
+        agent=self.configs[0]['agent_id']
+        with self.assertRaises(HTTPError):
+            self.post('/api/commands','admin-test',{'agent':agent,'kind':'restart_session'})
+        from dlp.central import project, now
+        self.store.ingest(agent,[{'id':'f'*64,'payload':project({'event':'endpoint_health','timestamp':now(),'management_ready':True})}])
+        identity=self.post('/api/commands','admin-test',{'agent':agent,'kind':'restart_session'})['id']
+        with patch('dlp.admin_control.request_restart',return_value=True) as restart, patch.object(control,'diagnose',return_value=self.result(identity)):
+            control.poll(self.worker)
+            self.assertEqual(restart.call_args.args[0]['kind'],'restart_session')
+        with patch('dlp.admin_control.request_restart') as restart:
+            control.poll(self.worker)
+            restart.assert_not_called()
+        self.assertEqual(self.store.report()['commands'][0]['status'],'completed')

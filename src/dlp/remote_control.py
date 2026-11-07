@@ -1,9 +1,10 @@
-"""Bounded, read-only remote diagnostics. No shell, paths or executable payloads."""
+"""Bounded diagnostics and fixed service restarts. No shell or executable payloads."""
 import json
+from datetime import datetime
 import time
 import uuid
 
-KINDS = ('diagnose',)
+KINDS = ('diagnose', 'restart_files', 'restart_session')
 CHECK_NAMES = ('Политика', 'Мессенджеры', 'Сеансовая служба', 'Файловая защита', 'Отправщик событий',
                'Центральный сервер (необязательно)', 'HTTPS сервера (необязательно)',
                'Текст и локальные базы', 'Доставка и очередь')
@@ -29,6 +30,15 @@ def create(db, agent, kind):
     expire(db)
     if not db.execute('SELECT 1 FROM agents WHERE id=?', (agent,)).fetchone():
         raise ValueError('Unknown agent')
+    if kind != 'diagnose':
+        row = db.execute('SELECT payload FROM endpoint_health WHERE agent=?', (agent,)).fetchone()
+        health = json.loads(row[0]) if row else {}
+        try:
+            fresh = 0 <= time.time()-datetime.fromisoformat(health['timestamp']).timestamp() <= 120
+        except (KeyError, ValueError, TypeError):
+            fresh = False
+        if health.get('management_ready') is not True or not fresh:
+            raise ValueError('Management agent unavailable or outdated')
     if db.execute("SELECT 1 FROM commands WHERE agent=? AND status='pending'", (agent,)).fetchone():
         raise ValueError('A request is already pending')
     identity, stamp = str(uuid.uuid4()), time.time()
@@ -122,7 +132,15 @@ def poll(worker):
         with connect(worker.state) as db:
             existing = db.execute('SELECT 1 FROM command_results WHERE id=?', (job['id'],)).fetchone()
         if not existing:
-            result = diagnose(job['id'])
+            if job['kind'] == 'diagnose':
+                result = diagnose(job['id'])
+            else:
+                from .admin_control import request_restart
+                try:
+                    success = request_restart(job)
+                except (OSError, ValueError):
+                    success = False
+                result = diagnose(job['id']) if success else {'id':job['id'],'status':'failed','checks':[]}
             with connect(worker.state) as db:
                 db.execute('INSERT OR IGNORE INTO command_results VALUES(?,?)', (job['id'], json.dumps(result)))
     return len(response['commands'])

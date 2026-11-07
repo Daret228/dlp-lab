@@ -33,7 +33,7 @@ if [ "$1" = configure ]; then
     if [ -d /run/systemd/system ]; then
         systemctl --system daemon-reload >/dev/null || true
         # Central roles remain opt-in; upgrades restart only already active roles.
-        for unit in dlp-lab-central.service dlp-lab-forwarder.service; do
+        for unit in dlp-lab-central.service dlp-lab-admin-control.service dlp-lab-forwarder.service; do
             if systemctl --system is-active --quiet "$unit"; then
                 deb-systemd-invoke restart "$unit" >/dev/null || true
             fi

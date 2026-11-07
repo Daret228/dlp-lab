@@ -7,7 +7,7 @@ if [ "$1" = purge ]; then
     fi
     deb-systemd-helper purge dlp-lab-files.service >/dev/null || true
     deb-systemd-helper unmask dlp-lab-files.service >/dev/null || true
-    for unit in dlp-lab-central.service dlp-lab-forwarder.service dlp-lab-session.service; do
+    for unit in dlp-lab-central.service dlp-lab-forwarder.service dlp-lab-session.service dlp-lab-admin-control.service; do
         deb-systemd-helper purge "$unit" >/dev/null || true
         deb-systemd-helper unmask "$unit" >/dev/null || true
     done

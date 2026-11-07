@@ -32,3 +32,8 @@ assert.match(healthText,/Текст: остановлен/);
 const stale=vm.runInContext(`healthDescription({last_seen:new Date().toISOString(),health:{timestamp:'2000-01-01T00:00:00Z',session_state:'ready',files_state:'active'}})`,context);
 assert.match(stale,/нет свежих данных/);
 console.log('PASS: stopped and stale control are not displayed as healthy');
+
+assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),health:{timestamp:new Date().toISOString(),management_ready:true}})`,context),true);
+assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),health:{timestamp:'2000-01-01T00:00:00Z',management_ready:true}})`,context),false);
+assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),health:{timestamp:new Date().toISOString()}})`,context),false);
+console.log('PASS: restart requires fresh management capability');
