@@ -1,6 +1,6 @@
 # Установка и эксплуатация
 
-Актуально на 06.11.2026, версия 0.2.17. Основной путь: **сервер Docker →
+Актуально на 06.11.2026, версия исходников 0.2.19. Основной путь: **сервер Docker →
 регистрация устройства → установщик агента**. Используйте разделы по порядку для первой установки. Для работающего агента
 переходите сразу к проверке или обновлению.
 
@@ -19,8 +19,8 @@
 
 | ОС | Пакет |
 | --- | --- |
-| Debian 13 | `dlp-lab_0.2.17_amd64.deb` |
-| Debian 12 | `dlp-lab_0.2.17~deb12u1_amd64.deb` + локальный SQLCipher 4 |
+| Debian 13 | `dlp-lab_0.2.19_amd64.deb` |
+| Debian 12 | `dlp-lab_0.2.19~deb12u1_amd64.deb` + локальный SQLCipher 4 |
 
 Пакет Debian 13 не подходит Debian 12. Для сборки из исходников на совместимой
 ОС используйте `./scripts/build-deb.sh` после установки Build-Depends из
@@ -29,13 +29,13 @@
 Администратор собирает комплект из корня проекта, без sudo:
 
 ```bash
-./scripts/build-install-kit.py --package build/dlp-lab_0.2.17_amd64.deb --output build/dlp-install-0.2.17-debian13-amd64.tar.gz
+./scripts/build-install-kit.py --package build/dlp-lab_0.2.19_amd64.deb --output build/dlp-install-0.2.19-debian13-amd64.tar.gz
 ```
 
 Для Debian 12:
 
 ```bash
-./scripts/build-install-kit.py --package build/dlp-lab_0.2.17~deb12u1_amd64.deb --sqlcipher-package build/libsqlcipher1_4.6.1-2~dlplab12.1_amd64.deb --output build/dlp-install-0.2.17-debian12-amd64.tar.gz
+./scripts/build-install-kit.py --package build/dlp-lab_0.2.19~deb12u1_amd64.deb --sqlcipher-package build/libsqlcipher1_4.6.1-2~dlplab12.1_amd64.deb --output build/dlp-install-0.2.19-debian12-amd64.tar.gz
 ```
 
 Эти команды требуют уже подготовленных DEB по указанным путям. Архив не включает
@@ -48,7 +48,7 @@
 Распакуйте подходящий архив (для Debian 12 замените имя):
 
 ```bash
-tar -xzf dlp-install-0.2.17-debian13-amd64.tar.gz
+tar -xzf dlp-install-0.2.19-debian13-amd64.tar.gz
 cd dlp-install
 ```
 
@@ -71,8 +71,9 @@ sudo ./install-dlp.py
 пути задаются `--telegram /путь` и `--signal /путь`. На уже настроенном агенте
 не задавайте новые пути без необходимости. Для работы без сервера — `--local-only`.
 
-**Что не включается автоматически:** наблюдение за текстовыми полями и проверка
-локальных данных. Они требуют пользовательского сеанса, см. раздел 6.
+**Сеансовый текстовый компонент** запускается системной службой администратора;
+его доступность показывается отдельно от состояния процесса. Локальные базы
+автоматически не сканируются, см. раздел 6.
 Один `apt install` устанавливает пакет, но не заменяет регистрацию и настройку
 подключения к серверу. При ошибке установщика возможна частичная установка;
 исправьте причину и повторите, не удаляя очередь.
@@ -82,7 +83,7 @@ sudo ./install-dlp.py
 На агенте:
 
 ```bash
-dlp-agent doctor
+sudo dlp-agent doctor
 systemctl is-active dlp-lab-files.service dlp-lab-forwarder.service
 sudo journalctl -u dlp-lab-files.service -n 20 --no-pager
 sudo journalctl -u dlp-lab-forwarder.service -n 20 --no-pager
@@ -99,61 +100,30 @@ sudo journalctl -u dlp-lab-forwarder.service -n 20 --no-pager
 На агенте, перезапуск кратковременно прерывает файловый контроль:
 
 ```bash
-sudo systemctl restart dlp-lab-files.service dlp-lab-forwarder.service
+sudo systemctl restart dlp-lab-files.service dlp-lab-session.service dlp-lab-forwarder.service
 ```
 
 Обновление уже настроенного Debian 12 из каталога с новым пакетом:
 
 ```bash
-sudo apt -o Dpkg::Options::="--force-confold" install ./dlp-lab_0.2.17~deb12u1_amd64.deb
-sudo systemctl restart dlp-lab-files.service dlp-lab-forwarder.service
-dlp-agent doctor
+sudo apt -o Dpkg::Options::="--force-confold" install ./dlp-lab_0.2.19~deb12u1_amd64.deb
+sudo systemctl restart dlp-lab-files.service dlp-lab-session.service dlp-lab-forwarder.service
+sudo dlp-agent doctor
 ```
 
-Для Debian 13 используйте `dlp-lab_0.2.17_amd64.deb`. Повторная регистрация
+Для Debian 13 используйте `dlp-lab_0.2.19_amd64.deb`. Повторная регистрация
 при обычном обновлении не нужна. Серверный Docker-образ обновляется отдельно.
 Из панели доступны журнал и диагностика, но не установка обновлений агента.
 
 Правила, исключения, удаление и резервные копии:
 [обслуживание](MAINTENANCE.md).
 
-## 6. Текст и сохранённые данные
+## 6. Административный контроль текста
 
-В терминале графического сеанса, **без sudo**. Это отдельные запуски,
-не автоматическое продолжение установки файловой защиты.
+В 0.2.19 `dlp-lab-session.service` автоматически запускает наблюдение в активном
+графическом сеансе настроенного пользователя. Пользователь не запускает CLI
+и не управляет службой. [Команды и состояния](ADMIN_CONTROL.md).
 
-Для наблюдения откройте тестовый чат, введите `DLP_TEST коммерческая тайна`,
-оставьте окно видимым:
-
-```bash
-dlp-agent text-monitor --messenger telegram --marker DLP_TEST --seconds 120
-```
-
-Для Signal замените `telegram` на `signal`. Ожидаются `text_monitor_started`
-и `draft_analysis`. При недоступности Telegram полностью завершите клиент
-и запустите `QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1 /usr/bin/telegram-desktop`.
-Наблюдение предупреждает и журналирует; отправка текста не запрещается.
-
-Для чтения сохранённых сообщений собственного Signal полностью закройте клиент:
-
-```bash
-dlp-agent signal-local-check --root "$HOME/.config/Signal" --journal "$HOME/dlp-signal-local.jsonl"
-```
-
-Используется штатный Keyring, проверяется до 100 последних непустых текстов.
-Telegram: сохраните тестовый черновик с `DLP_STORAGE_TEST`, полностью закройте
-клиент. Следующая команда предназначена только для профиля без код-пароля:
-
-```bash
-dlp-agent local-check --root "$HOME/.local/share/TelegramDesktop/tdata" --profile-closed --no-passcode --marker DLP_STORAGE_TEST
-```
-
-Это проверка поддерживаемого черновика, не всей истории. JSON-экспорт проверяется
-отдельно: `dlp-agent analyze-export --file /полный/путь/result.json`.
-
-## 7. Административная панель
-
-Используется только центральная панель (на текущем стенде порт 8766).
-Локальная веб-панель удалена из версии 0.2.18. Пользовательские модули
-управляются через CLI: `dlp-agent agent status`, `dlp-agent agent logs --lines 30`
-и команды раздела 6. Ручные процессы могут не отображаться в agent status.
+Центральная веб-панель — единственная панель. Локальная панель удалена.
+Проверки баз и экспортов остаются отдельными исследовательскими инструментами,
+а не автоматически включаемым контролем всей переписки.

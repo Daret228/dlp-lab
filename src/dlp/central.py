@@ -18,7 +18,7 @@ import uuid
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener, HTTPSHandler, HTTPRedirectHandler
 
-EVENTS = {'analysis', 'draft_analysis', 'file_access_attempt', 'local_draft_analysis',
+EVENTS = {'endpoint_health', 'session_control', 'analysis', 'draft_analysis', 'file_access_attempt', 'local_draft_analysis',
           'export_message_analysis', 'signal_local_analysis_summary', 'monitor_started',
           'text_monitor_started', 'text_monitor_stopped', 'signal_local_failed',
           'queue_overflow', 'notification_delivery'}
@@ -168,6 +168,11 @@ def project(raw):
         group = correlation.get('group_id') if isinstance(correlation, dict) else raw.get('access_group')
         if isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
             value['access_group'] = group
+    if raw['event'] in ('endpoint_health', 'session_control'):
+        if raw.get('session_state') in ('ready','waiting_field','unavailable','no_session','restarting','stopped'):
+            value['session_state'] = raw['session_state']
+        if raw.get('files_state') in ('active','inactive','failed','activating','deactivating','unknown'):
+            value['files_state'] = raw['files_state']
     return value
 
 
@@ -200,7 +205,8 @@ class ServerStore:
             db.executescript('''CREATE TABLE IF NOT EXISTS agents
                 (id TEXT PRIMARY KEY, name TEXT NOT NULL, token_hash TEXT NOT NULL, last_seen TEXT);
                 CREATE TABLE IF NOT EXISTS events
-                (agent TEXT, id TEXT, received TEXT, payload TEXT, PRIMARY KEY(agent,id));''')
+                (agent TEXT, id TEXT, received TEXT, payload TEXT, PRIMARY KEY(agent,id));
+                CREATE TABLE IF NOT EXISTS endpoint_health(agent TEXT PRIMARY KEY, received TEXT, payload TEXT);''')
             from .remote_control import schema
             schema(db)
 
@@ -244,6 +250,12 @@ class ServerStore:
             prepared.append((agent, item['id'], now(), json.dumps(payload)))
         with connect(self.directory) as db:
             db.executemany('INSERT OR IGNORE INTO events VALUES(?,?,?,?)', prepared)
+            for _, _, received, encoded in prepared:
+                payload = json.loads(encoded)
+                if payload['event'] == 'endpoint_health' and payload.get('timestamp'):
+                    previous = db.execute('SELECT payload FROM endpoint_health WHERE agent=?', (agent,)).fetchone()
+                    if not previous or payload['timestamp'] > json.loads(previous[0]).get('timestamp', ''):
+                        db.execute('INSERT OR REPLACE INTO endpoint_health VALUES(?,?,?)', (agent,received,encoded))
             db.execute('UPDATE agents SET last_seen=? WHERE id=?', (now(), agent))
         return [item['id'] for item in batch]
 
@@ -253,6 +265,9 @@ class ServerStore:
                       db.execute('SELECT id,name,last_seen FROM agents ORDER BY name')]
             events = [dict(agent=row[0], received=row[1], **json.loads(row[2])) for row in
                       db.execute('SELECT agent,received,payload FROM events ORDER BY rowid DESC LIMIT 200')]
+            for entry in agents:
+                row = db.execute('SELECT received,payload FROM endpoint_health WHERE agent=?', (entry['id'],)).fetchone()
+                entry['health'] = dict(json.loads(row[1]), received=row[0]) if row else None
             from .remote_control import report
             commands = report(db)
         return {'agents': agents, 'events': events, 'event_groups': group_access_events(events), 'commands': commands}
@@ -375,6 +390,8 @@ class Forwarder:
         # Default journal scope includes both; --system would silently miss it.
         args = ['journalctl', *([] if system else ['--user']), '--output=json', '--no-pager',
                 '--unit=dlp-lab-files.service']
+        if system:
+            args += ['--unit=dlp-lab-session.service']
         if not system:
             from .service import UNITS
             args += ['--unit=' + unit for unit in UNITS.values() if unit != 'dlp-lab-files.service']
@@ -411,6 +428,16 @@ class Forwarder:
                 process.wait(timeout=10)
                 process.stdout.close()
         self.enqueue(records, source)
+
+    def queue_health(self, health):
+        # Latest health replaces pending health, so an outage cannot fill the
+        # audit queue with heartbeats. Historical file events are untouched.
+        payload = project(health)
+        if not payload or payload['event'] != 'endpoint_health':
+            raise ValueError('Invalid health')
+        with connect(self.state) as db:
+            db.execute('INSERT OR REPLACE INTO queue VALUES(?,?)',
+                       (digest(self.config['agent_id'] + ':latest-health'), json.dumps(payload)))
 
     def request(self, path, data):
         request = Request(endpoint(self.config['server']) + path, data=json.dumps(data).encode(),
@@ -487,6 +514,10 @@ def main(argv=None, *, systemd_credential=False):
                     print('Collection failed; local protection unchanged', flush=True)
                     failed = True
                 try:
+                    if args.system:
+                        from .endpoint_health import snapshot
+                        health = snapshot()
+                        worker.queue_health(health)
                     sent = worker.send()
                     print('Events acknowledged:', sent, flush=True)
                 except (OSError, ValueError):

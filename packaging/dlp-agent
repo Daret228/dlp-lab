@@ -2,6 +2,9 @@
 """Packaged entry point: no cwd, user site, or caller PYTHONPATH imports."""
 import os
 import sys
+if os.geteuid() != 0:
+    print('Управление DLP доступно только администратору.', file=sys.stderr)
+    raise SystemExit(2)
 os.environ['PYTHONPATH'] = '/usr/lib/dlp-lab/src'
 os.environ['PYTHONNOUSERSITE'] = '1'
 os.environ['PYTHONSAFEPATH'] = '1'

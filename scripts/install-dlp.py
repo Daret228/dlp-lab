@@ -240,7 +240,7 @@ def main(argv=None):
         print('ОС: Debian '+release['VERSION_ID']+'; архитектура: '+arch+'; DLP: '+version)
         print('Файловая защита: '+('сохранить настройки' if existing else ' '.join(setup[1:])))
         print('Сервер: '+('не настраивать, существующий отправщик не отключается' if args.local_only else 'включить системный отправщик'))
-        print('Текст/локальные базы требуют отдельной настройки пользовательского сеанса.')
+        print('Текстовый компонент запускает системная служба; доступность поля проверяется отдельно.')
         print('Проверка зависимостей apt (без установки):', flush=True)
         run(['/usr/bin/apt-get','--simulate','--no-remove','install',*packages])
         if args.check:
@@ -262,7 +262,7 @@ def main(argv=None):
             if not check_existing(path,data,mode):
                 atomic_write(path,data,mode)
         run(['/usr/bin/systemctl','daemon-reload'])
-        run(['/usr/bin/systemctl','enable','--now','dlp-lab-files.service'])
+        run(['/usr/bin/systemctl','enable','--now','dlp-lab-files.service','dlp-lab-session.service'])
         if not args.local_only:
             run(['/usr/bin/systemctl','enable','--now','dlp-lab-forwarder.service'])
         run(['/usr/bin/dlp-agent','doctor'])

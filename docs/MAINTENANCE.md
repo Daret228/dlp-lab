@@ -10,8 +10,8 @@
 ```bash
 install -m 600 /etc/dlp-lab/system/policy.yaml "$HOME/dlp-policy-candidate.yaml"
 nano "$HOME/dlp-policy-candidate.yaml"
-dlp-agent --policy "$HOME/dlp-policy-candidate.yaml" analyze --text 'Обычная встреча'
-dlp-agent --policy "$HOME/dlp-policy-candidate.yaml" analyze --text 'коммерческая тайна'
+sudo dlp-agent --policy "$HOME/dlp-policy-candidate.yaml" analyze --text 'Обычная встреча'
+sudo dlp-agent --policy "$HOME/dlp-policy-candidate.yaml" analyze --text 'коммерческая тайна'
 ```
 
 После проверки ожидаемых решений:
@@ -104,9 +104,9 @@ sudo systemctl disable --now dlp-lab-files.service dlp-lab-forwarder.service
 ## Если не работает
 
 - Панель не открывается: проверьте `docker compose ... ps` и `logs`, адрес и порт.
-- Агент не виден: проверьте `dlp-agent doctor`, журнал forwarder, CA и адрес сервера.
+- Агент не виден: проверьте `sudo dlp-agent doctor`, журнал forwarder, CA и адрес сервера.
 - `Events acknowledged: 0` само по себе не ошибка: проверьте новое тестовое событие.
-- Текст не анализируется: файловая служба не запускает AT-SPI-монитор; см. эксплуатацию.
+- Текст не анализируется: проверьте dlp-lab-session.service и доступность AT-SPI в карточке устройства.
 - `Address already in use`: сначала найдите запущенный экземпляр; не запускайте второй.
 - Файл ошибочно блокируется: проверьте причину анализа и политику, не отключайте
   защиту всей системы ради одного документа.

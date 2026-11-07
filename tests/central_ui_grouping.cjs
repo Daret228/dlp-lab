@@ -27,3 +27,8 @@ const text=n=>[n.textContent,...n.children.map(text)].join(' ');
 assert.match(text(get('events')),/Попыток открытия: 3/);
 assert.equal(get('events').children[0].children[1].children.length,1);
 console.log('PASS: actual UI renders three attempts as one row');
+const healthText=vm.runInContext(`healthDescription({last_seen:new Date().toISOString(),health:{timestamp:new Date().toISOString(),session_state:'stopped',files_state:'active'}})`,context);
+assert.match(healthText,/Текст: остановлен/);
+const stale=vm.runInContext(`healthDescription({last_seen:new Date().toISOString(),health:{timestamp:'2000-01-01T00:00:00Z',session_state:'ready',files_state:'active'}})`,context);
+assert.match(stale,/нет свежих данных/);
+console.log('PASS: stopped and stale control are not displayed as healthy');

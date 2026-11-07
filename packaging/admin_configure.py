@@ -181,7 +181,7 @@ def main():
         finally:
             os.close(fd)
         if args.enable:
-            subprocess.run(['/usr/bin/systemctl', 'enable', '--now', 'dlp-lab-files.service'], check=True)
+            subprocess.run(['/usr/bin/systemctl', 'enable', '--now', 'dlp-lab-files.service', 'dlp-lab-session.service'], check=True)
         print('Configured. Readiness is confirmed by monitor_started in the system journal.')
         if not args.enable:
             print('Start: sudo systemctl enable --now dlp-lab-files.service')

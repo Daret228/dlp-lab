@@ -1,0 +1,29 @@
+[Unit]
+Description=DLP administrator-managed desktop session control
+After=systemd-logind.service
+ConditionPathExists=/etc/dlp-lab/system-gateway.conf
+
+[Service]
+Type=exec
+ExecStart=/usr/libexec/dlp-lab/session-supervisor
+Restart=always
+RestartSec=5
+RuntimeDirectory=dlp-lab-session
+RuntimeDirectoryMode=0755
+UMask=0077
+KillMode=control-group
+TimeoutStopSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/run/dlp-lab-session
+ProtectHome=read-only
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=CAP_SETUID CAP_SETGID CAP_KILL
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

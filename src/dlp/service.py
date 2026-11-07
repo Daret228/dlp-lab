@@ -150,6 +150,8 @@ def logs(lines=50, follow=False):
 
 
 def manage(args):
+    if PACKAGED:
+        raise ValueError("Управление пакетным агентом: sudo systemctl; пользовательские units отключены")
     if os.geteuid() == 0:
         raise ValueError("Команды agent запускаются от обычного пользователя, без sudo")
     if args.action == "status":

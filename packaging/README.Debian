@@ -1,3 +1,10 @@
+Administrative mode (0.2.19): the installed dlp-agent CLI requires root.
+Session text observation is supervised by dlp-lab-session.service (system).
+Users receive notifications; no local UI or user-unit controls are exposed.
+The worker runs with the configured desktop UID, so user termination remains
+possible; the root supervisor restarts it and health is reported centrally.
+Update the central server before the agent to accept endpoint_health events.
+
 DLP Lab 0.2.17 for Debian 13; Debian 12 requires a separate native build
 ===================================================
 
@@ -41,8 +48,8 @@ Control:
   sudo systemctl disable --now dlp-lab-files.service
   sudo journalctl -u dlp-lab-files.service
 The old `dlp-agent agent` lifecycle is for laboratory user units; for packaged
-file protection use the systemctl commands above. Optional text-field/local
-storage tools remain explicit user-session commands, never root jobs. The local web dashboard has been removed; use CLI for session modules.
+file protection use the systemctl commands above. Text observation uses the system-managed session worker. Local database
+checks remain separate research tools; no user lifecycle commands are exposed.
 
 Updates stop and restart the configured system service; there is a protection
 gap during update/restart. Administrator disabling/masking is respected by the

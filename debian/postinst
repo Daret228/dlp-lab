@@ -24,6 +24,12 @@ if [ "$1" = configure ]; then
     else
         deb-systemd-helper update-state dlp-lab-files.service >/dev/null || true
     fi
+    deb-systemd-helper unmask dlp-lab-session.service >/dev/null || true
+    if deb-systemd-helper --quiet was-enabled dlp-lab-session.service; then
+        deb-systemd-helper enable dlp-lab-session.service >/dev/null || true
+    else
+        deb-systemd-helper update-state dlp-lab-session.service >/dev/null || true
+    fi
     if [ -d /run/systemd/system ]; then
         systemctl --system daemon-reload >/dev/null || true
         # Central roles remain opt-in; upgrades restart only already active roles.
@@ -36,6 +42,7 @@ if [ "$1" = configure ]; then
         # prevents an unconfigured service from claiming protection on boot.
         if [ -f /etc/dlp-lab/system-gateway.conf ]; then
             deb-systemd-invoke restart dlp-lab-files.service >/dev/null || true
+            deb-systemd-invoke restart dlp-lab-session.service >/dev/null || true
         fi
     fi
 fi

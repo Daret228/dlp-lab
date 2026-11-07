@@ -5,6 +5,7 @@ import subprocess
 
 UNITS = {
     'dlp-lab-files.service': 'Файловая защита',
+    'dlp-lab-session.service': 'Сеансовая служба',
     'dlp-lab-forwarder.service': 'Отправщик событий',
     'dlp-lab-central.service': 'Центральный сервер (необязательно)',
     'dlp-lab-central-tls.service': 'HTTPS сервера (необязательно)',
@@ -55,7 +56,7 @@ def collect(config=Path('/etc/dlp-lab/system'), state_reader=service_state):
 
     for unit, label in UNITS.items():
         state = state_reader(unit)
-        optional = unit != 'dlp-lab-files.service'
+        optional = unit not in ('dlp-lab-files.service', 'dlp-lab-session.service')
         if state is None:
             add(label, 'UNKNOWN', 'Состояние systemd недоступно.',
                 f'systemctl status {unit} --no-pager')
@@ -74,7 +75,7 @@ def collect(config=Path('/etc/dlp-lab/system'), state_reader=service_state):
                 f'Накопленный счётчик: {state["NRestarts"]}. Сам по себе не означает текущий сбой.')
 
     add('Текст и локальные базы', 'INFO', 'Проверяются отдельными модулями; данный отчёт их работу не подтверждает.',
-        'dlp-agent agent status (от пользователя рабочего стола)')
+        'Смотрите актуальное состояние текста в центральной панели; sudo systemctl status dlp-lab-session.service')
     add('Доставка и очередь', 'UNKNOWN',
         'В этой версии диагностики сеть, сертификат и очередь не проверяются.',
         'Сверьте журнал отправщика и событие устройства в центральной панели.')

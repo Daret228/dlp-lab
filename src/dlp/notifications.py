@@ -8,7 +8,7 @@ import subprocess
 def desktop_warning(decision):
     title = 'DLP: обнаружен риск в тексте'
     body = (f'Решение политики: {decision}. Найдены риски или текст не удалось проверить. '
-            'Отправка НЕ заблокирована. Подробности: scripts/dlp agent logs.')
+            'Отправка НЕ заблокирована. При необходимости обратитесь к администратору.')
     return deliver_notification(title, body)
 
 
