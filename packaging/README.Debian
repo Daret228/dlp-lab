@@ -16,8 +16,8 @@ If /etc/dlp-lab/connection.json is provisioned before installation, postinst
 runs setup automatically. Failure leaves the package installed and prints the
 retry command; it does not claim protection is ready.
 
-Debian12 requires SQLCipher4 from the project dependency package or a trusted
-repository providing it; stock SQLCipher3 cannot read the supported Signal DB.
+Debian12 amd64 packages include a private SQLCipher4 library. No additional
+SQLCipher DEB is required; the system SQLCipher library is not replaced.
 
 Service running does not prove field access or event delivery. Check the device
 in the central panel and perform a synthetic file test. Session status may be

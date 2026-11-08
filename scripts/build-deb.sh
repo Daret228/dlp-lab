@@ -8,7 +8,11 @@ mode=${1:-}
 if [[ -z $mode ]]; then
     dpkg-checkbuilddeps
 else
-    echo 'Local dependency mode: build dependency check skipped; tests use project .deps. No dependencies are bundled.' >&2
+    echo 'Local dependency mode: build dependency check skipped; tests use project .deps. Project Python dependencies are not bundled.' >&2
+fi
+# Debian12 builds require a reviewed private SQLCipher input; keep it outside snapshots.
+if [[ -n ${DLP_SQLCIPHER_DEB:-} ]]; then
+    export DLP_SQLCIPHER_DEB=$(realpath "$DLP_SQLCIPHER_DEB")
 fi
 snapshot=$(mktemp -d "$project/build/deb-source.XXXXXX")
 python3 - "$snapshot" "$mode" <<'PY'

@@ -1,3 +1,10 @@
+dlp-lab (0.2.23) unstable; urgency=medium
+
+  * Bundle reviewed SQLCipher4 privately in Debian12 packages, preserving system libraries.
+  * Resolve private SQLCipher for default Signal reads; derive ELF dependencies.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sun, 08 Nov 2026 12:00:00 +0000
+
 dlp-lab (0.2.22) unstable; urgency=medium
 
   * Ship dlp-setup for one-command enrollment with a private connection profile.

@@ -202,7 +202,7 @@ def main(argv=None):
             packages = []
             if args.sqlcipher_package:
                 packages.append(str(package_info(args.sqlcipher_package,'libsqlcipher1',arch,release['VERSION_ID'])[0]))
-            elif release['VERSION_ID'] == '12':
+            elif release['VERSION_ID'] == '12' and 'libsqlcipher1' in run(['/usr/bin/dpkg-deb','-f',str(package),'Depends'], True):
                 candidates = list(base.glob('libsqlcipher1_*.deb'))
                 if len(candidates) == 1:
                     packages.append(str(package_info(candidates[0],'libsqlcipher1',arch,'12')[0]))

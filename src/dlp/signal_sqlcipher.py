@@ -32,9 +32,17 @@ def unwrap_linux_v11(blob: bytes, password: bytes) -> bytes:
     return key
 
 
+PRIVATE_LIBRARY = Path("/usr/lib/dlp-lab/lib/libsqlcipher.so.1")
+
+
+def library_name(path):
+    if str(path) == "libsqlcipher.so.1":
+        return str(PRIVATE_LIBRARY) if PRIVATE_LIBRARY.is_file() else str(path)
+    return str(Path(path).resolve(strict=True))
+
+
 def load_library(path):
-    name = str(path)
-    lib = C.CDLL(name if name == 'libsqlcipher.so.1' else str(Path(path).resolve(strict=True)))
+    lib = C.CDLL(library_name(path))
     signatures = {
         'sqlite3_open_v2': ([C.c_char_p, C.POINTER(C.c_void_p), C.c_int, C.c_char_p], C.c_int),
         'sqlite3_close': ([C.c_void_p], C.c_int),

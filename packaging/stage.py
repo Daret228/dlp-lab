@@ -49,8 +49,16 @@ for path in root.rglob('*'):
     if path.is_dir():
         path.chmod(0o755)
 subprocess.run(['strip', '--strip-unneeded', str(root/'usr/libexec/dlp-lab/fanotify-gateway')], check=True)
-subprocess.run(['dpkg-shlibdeps', '-O', str(root/'usr/libexec/dlp-lab/fanotify-gateway')],
+version = subprocess.check_output(['dpkg-parsechangelog','-SVersion'],text=True).strip()
+private_library = None
+if 'deb12' in version:
+    from sqlcipher_bundle import stage
+    private_library = stage(root)
+subprocess.run(['dpkg-shlibdeps', '-O', str(root/'usr/libexec/dlp-lab/fanotify-gateway'),
+                *([str(private_library)] if private_library else [])],
                stdout=open('debian/substvars', 'w'), check=True)
+with open('debian/substvars','a') as substvars:
+    substvars.write('dlp:sqlcipher='+('' if private_library else 'libsqlcipher1 (>= 4)')+'\n')
 subprocess.run(['dpkg-gencontrol', '-pdlp-lab', '-P'+str(root)], check=True)
 # dpkg verifies installed payload against these hashes; conffiles have own handling.
 import hashlib

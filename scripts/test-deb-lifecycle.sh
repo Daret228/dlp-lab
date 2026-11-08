@@ -55,6 +55,11 @@ printf 'dlp-lab dlp-lab/configure boolean false\n' | debconf-set-selections
 if [ -d /tmp/extra-deps ]; then
     dpkg --no-triggers -i /tmp/extra-deps/*.deb
 fi
+# Optional clean-dependency case, confined to the ephemeral chroot.
+if [ "${DLP_TEST_NO_SYSTEM_SQLCIPHER:-0}" = 1 ]; then
+    dpkg --no-triggers --force-depends --remove libsqlcipher1
+    test ! -e /usr/lib/x86_64-linux-gnu/libsqlcipher.so.1
+fi
 # Host dpkg metadata may already list DLP; restore conffiles absent from this test root.
 dpkg --force-confmiss --no-triggers -i /tmp/yaml.deb /tmp/previous.deb
 # The first install must not invent a host target.
@@ -99,7 +104,19 @@ password=b'synthetic'; key=b'12'*32
 derived=hashlib.pbkdf2_hmac('sha1',password,b'saltysalt',1,16)
 blob=b'v11'+AES.new(derived,AES.MODE_CBC,b' '*16).encrypt(pad(key,16))
 assert unwrap_linux_v11(blob,password)==key
+import os
+if os.environ.get('DLP_TEST_NO_SYSTEM_SQLCIPHER') == '1':
+    try:
+        ctypes.CDLL('libsqlcipher.so.1')
+    except OSError:
+        pass
+    else:
+        raise AssertionError('System SQLCipher unexpectedly present')
 lib=load_library('libsqlcipher.so.1')
+if os.environ.get('DLP_TEST_NO_SYSTEM_SQLCIPHER') == '1':
+    assert lib._name == '/usr/lib/dlp-lab/lib/libsqlcipher.so.1'
+    assert Path(lib._name).stat().st_uid == 0
+    print('PASS: private SQLCipher loaded without system SQLCipher')
 with tempfile.TemporaryDirectory() as folder:
     path=Path(folder)/'synthetic.sqlite'; db=ctypes.c_void_p()
     assert lib.sqlite3_open_v2(str(path).encode(),ctypes.byref(db),6,None)==0
