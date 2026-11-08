@@ -1,3 +1,10 @@
+dlp-lab (0.2.24) unstable; urgency=medium
+
+  * Emit one durable file-operation result after inactivity, with BLOCK/WARN/ALLOW precedence.
+  * Preserve raw endpoint audit and make summary delivery idempotent.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Sun, 08 Nov 2026 18:00:00 +0000
+
 dlp-lab (0.2.23) unstable; urgency=medium
 
   * Bundle reviewed SQLCipher4 privately in Debian12 packages, preserving system libraries.

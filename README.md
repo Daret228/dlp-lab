@@ -17,7 +17,7 @@
 **Клиент Debian 13 amd64:** в каталоге с пакетом и профилем выполните:
 
 ```bash
-sudo apt install ./dlp-lab_0.2.23_amd64.deb
+sudo apt install ./dlp-lab_0.2.24_amd64.deb
 sudo dlp-setup connection.json
 ```
 
@@ -54,7 +54,7 @@ sudo dlp-setup connection.json
 | Подготовить демонстрацию | [Проверка стенда](docs/demo.md) |
 | Разобраться в коде или собрать пакет | [Разработка](docs/DEVELOPMENT.md) · [Архитектура](docs/architecture.md) |
 
-Текущий пакет — **0.2.23**, совместимый сервер — **0.2.21**.
+Текущий пакет — **0.2.24**, совместимый сервер — **0.2.24**.
 Результаты опытов и история разработки находятся в [контексте проекта](docs/PROJECT_CONTEXT.md)
 и `docs/research/`; для установки они не нужны.
 

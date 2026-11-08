@@ -37,3 +37,8 @@ assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),hea
 assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),health:{timestamp:'2000-01-01T00:00:00Z',management_ready:true}})`,context),false);
 assert.equal(vm.runInContext(`manageable({last_seen:new Date().toISOString(),health:{timestamp:new Date().toISOString()}})`,context),false);
 console.log('PASS: restart requires fresh management capability');
+
+vm.runInContext(`data.events=[{agent:'a',event:'file_operation',decision:'ALLOW',enforcement:'ALLOW',operation_count:8,received:new Date().toISOString()}];data.event_groups=data.events;renderEvents();`,context);
+assert.match(text(get('events')),/Операция с файлом/);
+assert.doesNotMatch(text(get('events')),/Попыток открытия/);
+console.log('PASS: one final file operation without intermediate opens');

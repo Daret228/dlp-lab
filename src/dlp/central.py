@@ -18,7 +18,7 @@ import uuid
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener, HTTPSHandler, HTTPRedirectHandler
 
-EVENTS = {'endpoint_health', 'session_control', 'analysis', 'draft_analysis', 'file_access_attempt', 'local_draft_analysis',
+EVENTS = {'endpoint_health', 'session_control', 'analysis', 'draft_analysis', 'file_operation', 'file_access_attempt', 'local_draft_analysis',
           'export_message_analysis', 'signal_local_analysis_summary', 'monitor_started',
           'text_monitor_started', 'text_monitor_stopped', 'signal_local_failed',
           'queue_overflow', 'notification_delivery'}
@@ -163,11 +163,13 @@ def project(raw):
         if isinstance(counts, dict):
             value['decisions'] = {k: counts[k] for k in DECISIONS
                                   if type(counts.get(k)) is int and 0 <= counts[k] <= 1000}
-    if raw['event'] == 'file_access_attempt':
+    if raw['event'] in ('file_access_attempt','file_operation'):
         correlation = raw.get('correlation')
         group = correlation.get('group_id') if isinstance(correlation, dict) else raw.get('access_group')
         if isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
             value['access_group'] = group
+    if raw['event'] == 'file_operation' and type(raw.get('operation_count')) is int and 1 <= raw['operation_count'] <= 1000000000:
+        value['operation_count'] = raw['operation_count']
     if raw['event'] == 'endpoint_health' and type(raw.get('management_ready')) is bool:
         value['management_ready'] = raw['management_ready']
     if raw['event'] in ('endpoint_health', 'session_control'):
@@ -252,6 +254,13 @@ class ServerStore:
             prepared.append((agent, item['id'], now(), json.dumps(payload)))
         with connect(self.directory) as db:
             db.executemany('INSERT OR IGNORE INTO events VALUES(?,?,?,?)', prepared)
+            for owner, identity, received, encoded in prepared:
+                incoming=json.loads(encoded)
+                if incoming.get('event')=='file_operation':
+                    old=db.execute('SELECT payload FROM events WHERE agent=? AND id=?',(owner,identity)).fetchone()
+                    previous=json.loads(old[0]) if old else {}
+                    if previous.get('event')=='file_operation' and previous.get('access_group')==incoming.get('access_group') and incoming.get('operation_count',0)>previous.get('operation_count',0):
+                        db.execute('UPDATE events SET received=?,payload=? WHERE agent=? AND id=?',(received,encoded,owner,identity))
             for _, _, received, encoded in prepared:
                 payload = json.loads(encoded)
                 if payload['event'] == 'endpoint_health' and payload.get('timestamp'):
@@ -361,11 +370,14 @@ class NoRedirect(HTTPRedirectHandler):
 class Forwarder:
     def __init__(self, state, config):
         self.state, self.config = state, config
+        self.collection_drained = True
         endpoint(config['server'])
         with connect(state) as db:
             db.executescript('''CREATE TABLE IF NOT EXISTS queue(id TEXT PRIMARY KEY,payload TEXT);
                 CREATE TABLE IF NOT EXISTS cursors(source TEXT PRIMARY KEY,value TEXT);
                 CREATE TABLE IF NOT EXISTS owner(id TEXT PRIMARY KEY);''')
+            from .file_operations import schema
+            schema(db)
             binding = digest(config['agent_id'] + ':' + endpoint(config['server']))
             row = db.execute('SELECT id FROM owner').fetchone()
             if row and row[0] != binding:
@@ -379,12 +391,20 @@ class Forwarder:
                 payload = project(raw)
                 if payload is not None:
                     identity = digest(self.config['agent_id'] + ':' + source + ':' + cursor)
-                    db.execute('INSERT OR IGNORE INTO queue VALUES(?,?)', (identity, json.dumps(payload)))
+                    correlation = raw.get('correlation')
+                    correlation = correlation if isinstance(correlation,dict) else {}
+                    if payload['event']=='file_access_attempt' and correlation.get('operation') is True and payload.get('access_group'):
+                        from .file_operations import add
+                        operation = digest(self.config['agent_id']+':operation:'+source+':'+payload['access_group']+':'+str(payload.get('messenger')))
+                        add(db,identity,operation,payload,time.time())
+                    else:
+                        db.execute('INSERT OR IGNORE INTO queue VALUES(?,?)', (identity, json.dumps(payload)))
                 db.execute('INSERT OR REPLACE INTO cursors VALUES(?,?)', (source, cursor))
-            if db.execute('SELECT count(*) FROM queue').fetchone()[0] > 10000:
+            if db.execute('SELECT count(*) FROM queue').fetchone()[0] + db.execute('SELECT count(*) FROM file_operations WHERE closed=0').fetchone()[0] > 10000:
                 raise ValueError('Queue full; collection paused, local protection continues')
 
     def collect(self, system=False):
+        self.collection_drained = False
         source = 'system' if system else 'user'
         with connect(self.state) as db:
             row = db.execute('SELECT value FROM cursors WHERE source=?', (source,)).fetchone()
@@ -430,6 +450,7 @@ class Forwarder:
                 process.wait(timeout=10)
                 process.stdout.close()
         self.enqueue(records, source)
+        self.collection_drained = len(records) < 500
 
     def queue_health(self, health):
         # Latest health replaces pending health, so an outage cannot fill the
@@ -453,6 +474,9 @@ class Forwarder:
 
     def send(self):
         with connect(self.state) as db:
+            if self.collection_drained:
+                from .file_operations import flush
+                flush(db,time.time())
             batch = [{'id': row[0], 'payload': json.loads(row[1])} for row in
                      db.execute('SELECT id,payload FROM queue ORDER BY rowid LIMIT 100')]
         result = self.request('/api/events', batch)

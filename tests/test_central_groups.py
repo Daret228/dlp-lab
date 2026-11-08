@@ -42,3 +42,12 @@ class AccessGroupingTests(unittest.TestCase):
         for invalid in ('private filename', 'a'*33, 1, None):
             raw['correlation']['group_id']=invalid
             self.assertNotIn('access_group',project(raw))
+
+
+class AllowedFileGroups(unittest.TestCase):
+    def test_allow_repeats_merge_but_warn_and_deny_do_not(self):
+        base=dict(agent='device',event='file_access_attempt',access_group='a'*32,
+                  decision='ALLOW',enforcement='ALLOW',complete=True,categories=[],received='2026-11-08T12:00:00Z')
+        rows=group_access_events([base,base,dict(base,decision='WARN'),dict(base,enforcement='DENY')])
+        self.assertEqual(len(rows),3)
+        self.assertEqual(rows[0]['attempts_in_view'],2)

@@ -30,22 +30,43 @@ class ProcessTests(unittest.TestCase):
         fake = ProcessIdentity(identity.pid, identity.uid, identity.executable, identity.start_ticks, identity.device, identity.inode+1)
         self.assertFalse(TelegramAdapter('test', [identity.executable]).matches(fake))
 
-    def test_process_restart_does_not_merge(self):
+    def test_same_messenger_processes_merge(self):
         identity = identify(os.getpid())
         st = (ROOT/'examples/secret.txt').stat()
         corr = AccessCorrelator(capacity=1)
         first = corr.observe(identity, st)
         self.assertEqual(corr.observe(identity, st)['repeat_count'], 2)
         restarted = ProcessIdentity(identity.pid, identity.uid, identity.executable, identity.start_ticks+1, identity.device, identity.inode)
-        self.assertNotEqual(corr.observe(restarted, st)['group_id'], first['group_id'])
+        self.assertEqual(corr.observe(restarted, st)['group_id'], first['group_id'])
         self.assertEqual(len(corr.groups), 1)
 
     def test_expiry(self):
         corr = AccessCorrelator()
-        with patch('dlp.correlation.time.monotonic', side_effect=[1, 7]):
+        with patch('dlp.correlation.time.monotonic', side_effect=[1, 31]):
             a = corr.observe(identify(os.getpid()), (ROOT/'examples/secret.txt').stat())
             b = corr.observe(identify(os.getpid()), (ROOT/'examples/secret.txt').stat())
         self.assertNotEqual(a['group_id'], b['group_id'])
+
+    def test_window_is_bounded_from_first_open(self):
+        identity=identify(os.getpid());st=(ROOT/'examples/secret.txt').stat()
+        corr=AccessCorrelator()
+        with patch('dlp.correlation.time.monotonic',side_effect=[0,4,8,12,16,20,24,28,30]):
+            groups=[corr.observe(identity,st) for _ in range(9)]
+        self.assertEqual([g['repeat_count'] for g in groups],[1,2,3,4,5,6,7,8,1])
+        self.assertNotEqual(groups[0]['group_id'],groups[-1]['group_id'])
+
+    def test_file_version_user_and_messenger_stay_separate(self):
+        from dataclasses import replace
+        from types import SimpleNamespace
+        identity=identify(os.getpid());st=(ROOT/'examples/secret.txt').stat()
+        values={k:getattr(st,k) for k in ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')}
+        corr=AccessCorrelator();first=corr.observe(identity,st)['group_id']
+        for field in values:
+            changed=SimpleNamespace(**{**values,field:values[field]+1})
+            self.assertNotEqual(first,corr.observe(identity,changed)['group_id'])
+        for changed in (replace(identity,uid=identity.uid+1),replace(identity,executable='/different'),replace(identity,inode=identity.inode+1)):
+            self.assertNotEqual(first,corr.observe(changed,st)['group_id'])
+        self.assertIsNone(corr.observe(None,st)['group_id'])
 
     def test_filter_enforcement(self):
         identity = identify(os.getpid())
