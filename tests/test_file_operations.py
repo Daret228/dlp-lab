@@ -59,3 +59,20 @@ class OperationTests(unittest.TestCase):
         second=self.send(117);store.ingest('test',second);store.ingest('test',first)
         events=store.report()['events'];self.assertEqual(len(events),1)
         self.assertEqual(events[0]['decision'],'BLOCK');self.assertEqual(events[0]['operation_count'],2)
+
+    def test_file_explanation_survives_summary_and_server_without_contents(self):
+        records=self.records(['ALLOW','WARN','BLOCK'])
+        for _,raw in records:
+            raw['path']='/home/test/<example>.txt'
+            raw['text']='PRIVATE CONTENT'
+        records[1][1]['result'].update(reason='sensitive_alerts_incomplete', complete=False)
+        records[2][1]['result']['findings']=[dict(analyzer='dictionary',rule_id='secret_keywords',category='confidential',metadata={'match':'PRIVATE CONTENT'})]
+        with patch('dlp.central.time.time',return_value=100):self.worker.enqueue(records,'system')
+        sent=self.send(107)
+        store=ServerStore(self.root/'server');store.ingest('test',sent)
+        e=store.report()['events'][0]
+        self.assertEqual(e['file_path'],'/home/test/<example>.txt')
+        self.assertEqual(e['reasons'],['sensitive_alerts_incomplete'])
+        self.assertEqual(e['rules'],['secret_keywords'])
+        self.assertFalse(e['complete'])
+        self.assertNotIn('PRIVATE CONTENT',json.dumps(sent))

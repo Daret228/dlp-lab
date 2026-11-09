@@ -15,7 +15,7 @@ import stat
 import subprocess
 import time
 import uuid
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 from urllib.request import Request, build_opener, HTTPSHandler, HTTPRedirectHandler
 
 EVENTS = {'endpoint_health', 'session_control', 'analysis', 'draft_analysis', 'file_operation', 'file_access_attempt', 'local_draft_analysis',
@@ -120,7 +120,7 @@ def endpoint(url):
 
 
 def project(raw):
-    """Fixed enums and bounded numbers only; never forward arbitrary strings."""
+    """Bounded event metadata; never forward file contents or matching excerpts."""
     if not isinstance(raw, dict) or not isinstance(raw.get('event'), str) or raw['event'] not in EVENTS:
         return None
     result = raw.get('result')
@@ -164,6 +164,19 @@ def project(raw):
             value['decisions'] = {k: counts[k] for k in DECISIONS
                                   if type(counts.get(k)) is int and 0 <= counts[k] <= 1000}
     if raw['event'] in ('file_access_attempt','file_operation'):
+        # File identity and explanation are explicitly requested by the administrator.
+        path = raw.get('file_path', raw.get('path'))
+        if isinstance(path, str) and path.startswith('/') and len(path) <= 4096:
+            value['file_path'] = ''.join(c for c in path if c.isprintable())
+        for key, source in (
+            ('rules', [f.get('rule_id') for f in findings[:100] if isinstance(f, dict)] if isinstance(findings, list) else []),
+            ('analyzers', [f.get('analyzer') for f in findings[:100] if isinstance(f, dict)] if isinstance(findings, list) else []),
+            ('reasons', [result.get('reason')])):
+            items = raw.get(key, source)
+            if isinstance(items, list):
+                cleaned = sorted({x for x in items[:100] if isinstance(x, str) and re.fullmatch(r'[a-zA-Z0-9_.:-]{1,80}', x)})[:32]
+                if cleaned:
+                    value[key] = cleaned
         correlation = raw.get('correlation')
         group = correlation.get('group_id') if isinstance(correlation, dict) else raw.get('access_group')
         if isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
@@ -172,6 +185,12 @@ def project(raw):
         value['operation_count'] = raw['operation_count']
     if raw['event'] == 'endpoint_health' and type(raw.get('management_ready')) is bool:
         value['management_ready'] = raw['management_ready']
+    if raw['event'] == 'endpoint_health':
+        installed = raw.get('policy_version')
+        if isinstance(installed, str) and re.fullmatch('[0-9a-f]{64}', installed):
+            value['policy_version'] = installed
+        if type(raw.get('policy_channel')) is bool:
+            value['policy_channel'] = raw['policy_channel']
     if raw['event'] in ('endpoint_health', 'session_control'):
         if raw.get('session_state') in ('ready','waiting_field','unavailable','no_session','restarting','stopped'):
             value['session_state'] = raw['session_state']
@@ -187,10 +206,15 @@ def group_access_events(events):
         group = event.get('access_group')
         key = None
         if event.get('event') == 'file_access_attempt' and isinstance(group, str) and re.fullmatch('[0-9a-f]{32}', group):
-            key = (event.get('agent'), group, event.get('messenger'), event.get('decision'),
-                   event.get('enforcement'), event.get('complete'), tuple(event.get('categories', [])))
+            key = (event.get('agent'), group, event.get('messenger'), event.get('file_path'))
         if key is not None and key in positions:
             row = grouped[positions[key]]
+            row['decision'] = max((row.get('decision', 'WARN'), event.get('decision', 'WARN')), key={'ALLOW':0,'WARN':1,'BLOCK':2}.get)
+            row['enforcement'] = 'DENY' if 'DENY' in (row.get('enforcement'), event.get('enforcement')) else 'ALLOW'
+            row['complete'] = row.get('complete') is True and event.get('complete') is True
+            for field in ('categories', 'rules', 'analyzers', 'reasons'):
+                if field in row or field in event:
+                    row[field] = sorted(set(row.get(field, [])) | set(event.get(field, [])))[:32]
             row['attempts_in_view'] += 1
             row['first_received'] = min(row['first_received'], event['received'])
             row['received'] = max(row['received'], event['received'])
@@ -213,6 +237,8 @@ class ServerStore:
                 CREATE TABLE IF NOT EXISTS endpoint_health(agent TEXT PRIMARY KEY, received TEXT, payload TEXT);''')
             from .remote_control import schema
             schema(db)
+            from .policy_channel import schema as policy_schema
+            policy_schema(db)
 
     def add(self, name, url, output):
         if not re.fullmatch(r'[\w .-]{1,64}', name):
@@ -281,7 +307,20 @@ class ServerStore:
                 entry['health'] = dict(json.loads(row[1]), received=row[0]) if row else None
             from .remote_control import report
             commands = report(db)
-        return {'agents': agents, 'events': events, 'event_groups': group_access_events(events), 'commands': commands}
+            from .policy_channel import assigned
+            policies = assigned(db)
+        return {'agents': agents, 'events': events, 'event_groups': group_access_events(events),
+                'commands': commands, 'policies': policies}
+
+    def policy_view(self, agent):
+        from .policy_channel import view
+        with connect(self.directory) as db:
+            return view(db, agent)
+
+    def policy_fetch(self, agent):
+        from .policy_channel import fetch
+        with connect(self.directory) as db:
+            return fetch(db, agent)
 
 
 PAGE = Path(__file__).with_name('central_page.html').read_text()
@@ -317,6 +356,18 @@ def make_server(store, admin_token, host, port):
                 return self.reply(200, PAGE, 'text/html')
             if self.path == '/app.js':
                 return self.reply(200, JS, 'text/javascript')
+            if urlsplit(self.path).path == '/api/policy':
+                if secrets.compare_digest(self.token(), admin_token):
+                    query = parse_qs(urlsplit(self.path).query)
+                    try:
+                        return self.reply(200, store.policy_view((query.get('agent') or [None])[0]))
+                    except ValueError:
+                        return self.reply(400, {})
+                agent = store.authenticate(self.token())
+                if not agent:
+                    return self.reply(401, {})
+                # An agent always receives only its own assigned policy.
+                return self.reply(200, store.policy_fetch(agent))
             if self.path != '/api/report':
                 return self.reply(404, {})
             if not secrets.compare_digest(self.token(), admin_token):
@@ -324,9 +375,9 @@ def make_server(store, admin_token, host, port):
             self.reply(200, store.report())
 
         def do_POST(self):
-            if self.path not in ('/api/events', '/api/commands', '/api/control'):
+            if self.path not in ('/api/events', '/api/commands', '/api/control', '/api/policy'):
                 return self.reply(404, {})
-            if self.path == '/api/commands':
+            if self.path in ('/api/commands', '/api/policy'):
                 if not secrets.compare_digest(self.token(), admin_token):
                     return self.reply(401, {})
                 agent = None
@@ -350,6 +401,12 @@ def make_server(store, admin_token, host, port):
                     from .remote_control import create
                     with connect(store.directory) as db:
                         result = {'id': create(db, data['agent'], data['kind'])}
+                elif self.path == '/api/policy':
+                    if not isinstance(data, dict) or set(data) != {'agent', 'content', 'expected_version', 'activate'}:
+                        raise ValueError('Invalid policy request')
+                    from .policy_channel import set_policy
+                    with connect(store.directory) as db:
+                        result = set_policy(db, data['agent'], data['content'], data['expected_version'], data['activate'])
                 else:
                     if not isinstance(data, dict) or set(data) != {'results'}:
                         raise ValueError('Invalid exchange')
@@ -462,9 +519,12 @@ class Forwarder:
             db.execute('INSERT OR REPLACE INTO queue VALUES(?,?)',
                        (digest(self.config['agent_id'] + ':latest-health'), json.dumps(payload)))
 
-    def request(self, path, data):
-        request = Request(endpoint(self.config['server']) + path, data=json.dumps(data).encode(),
-                          headers={'Authorization': 'Bearer ' + self.config['token'], 'Content-Type': 'application/json'})
+    def request(self, path, data=None):
+        headers = {'Authorization': 'Bearer ' + self.config['token']}
+        if data is not None:
+            headers['Content-Type'] = 'application/json'
+        request = Request(endpoint(self.config['server']) + path,
+                          data=None if data is None else json.dumps(data).encode(), headers=headers)
         opener = build_opener(NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
         with opener.open(request, timeout=10) as response:
             raw = response.read(MAX_BODY + 1)

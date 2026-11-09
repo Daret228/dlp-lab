@@ -38,3 +38,6 @@ private-exports/
 connection.json
 central-agent.json
 admin.json
+
+# Local assistant plans
+/.zcode/

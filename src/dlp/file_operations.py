@@ -22,6 +22,11 @@ def add(db, identity, operation, payload, stamp):
         result['complete']=result.get('complete') is True and payload.get('complete') is True
         result['categories']=sorted(set(result.get('categories',[]))|set(payload.get('categories',[])))
         result['enforcement']='DENY' if 'DENY' in (result.get('enforcement'),payload.get('enforcement')) else 'ALLOW'
+        for field in ('rules', 'analyzers', 'reasons'):
+            if field in result or field in payload:
+                result[field] = sorted(set(result.get(field, [])) | set(payload.get(field, [])))[:32]
+        if payload.get('file_path'):
+            result['file_path'] = payload['file_path']
         result['operation_count']+=1
         if payload.get('timestamp','')>result.get('timestamp',''):result['timestamp']=payload['timestamp']
     else:

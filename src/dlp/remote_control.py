@@ -1,10 +1,16 @@
-"""Bounded diagnostics and fixed service restarts. No shell or executable payloads."""
+"""Bounded diagnostics, fixed service restarts and policy installation. No shell or executable payloads."""
+import hashlib
 import json
+import os
 from datetime import datetime
+from pathlib import Path
+import re
 import time
 import uuid
 
-KINDS = ('diagnose', 'restart_files', 'restart_session')
+from .policy_channel import MAX_POLICY
+
+KINDS = ('diagnose', 'restart_files', 'restart_session', 'apply_policy')
 CHECK_NAMES = ('Политика', 'Мессенджеры', 'Сеансовая служба', 'Файловая защита', 'Отправщик событий',
                'Центральный сервер (необязательно)', 'HTTPS сервера (необязательно)',
                'Текст и локальные базы', 'Доставка и очередь')
@@ -22,23 +28,31 @@ def expire(db):
     db.execute("UPDATE commands SET status='expired' WHERE status='pending' AND expires<=?", (time.time(),))
 
 
+def fresh_health(db, agent):
+    row = db.execute('SELECT payload FROM endpoint_health WHERE agent=?', (agent,)).fetchone()
+    health = json.loads(row[0]) if row else {}
+    try:
+        fresh = 0 <= time.time()-datetime.fromisoformat(health['timestamp']).timestamp() <= 120
+    except (KeyError, ValueError, TypeError):
+        fresh = False
+    return health, fresh
+
+
 def create(db, agent, kind):
     if not isinstance(agent, str) or kind not in KINDS:
         raise ValueError('Unsupported command')
     # Serialize enqueue and the pending limit across both server listeners.
-    db.execute('BEGIN IMMEDIATE')
+    if not db.in_transaction:
+        db.execute('BEGIN IMMEDIATE')
     expire(db)
     if not db.execute('SELECT 1 FROM agents WHERE id=?', (agent,)).fetchone():
         raise ValueError('Unknown agent')
     if kind != 'diagnose':
-        row = db.execute('SELECT payload FROM endpoint_health WHERE agent=?', (agent,)).fetchone()
-        health = json.loads(row[0]) if row else {}
-        try:
-            fresh = 0 <= time.time()-datetime.fromisoformat(health['timestamp']).timestamp() <= 120
-        except (KeyError, ValueError, TypeError):
-            fresh = False
+        health, fresh = fresh_health(db, agent)
         if health.get('management_ready') is not True or not fresh:
             raise ValueError('Management agent unavailable or outdated')
+        if kind == 'apply_policy' and health.get('policy_channel') is not True:
+            raise ValueError('Agent does not support policy management')
     if db.execute("SELECT 1 FROM commands WHERE agent=? AND status='pending'", (agent,)).fetchone():
         raise ValueError('A request is already pending')
     identity, stamp = str(uuid.uuid4()), time.time()
@@ -107,6 +121,45 @@ def diagnose(identity):
         return {'id': identity, 'status': 'failed', 'checks': []}
 
 
+STAGED_POLICY = '/run/dlp-admin-control/incoming/policy.yaml'
+
+
+def apply_policy(worker, job):
+    """Fetch the assigned policy, verify it locally, stage it and ask the root broker to install."""
+    from .policy import parse_policy
+    fetched = worker.request('/api/policy')
+    if not isinstance(fetched, dict) or set(fetched) != {'version', 'content'}:
+        raise ValueError('Invalid policy payload')
+    content = fetched['content']
+    if fetched['version'] is None or content is None:
+        # Nothing is assigned; report failure instead of retrying until expiry.
+        return {'id': job['id'], 'status': 'failed', 'checks': []}
+    if (not isinstance(fetched['version'], str) or not re.fullmatch('[0-9a-f]{64}', fetched['version'])
+            or not isinstance(content, str) or not 0 < len(content.encode('utf-8')) <= MAX_POLICY
+            or hashlib.sha256(content.encode('utf-8')).hexdigest() != fetched['version']):
+        raise ValueError('Invalid policy payload')
+    parse_policy(content.encode('utf-8'))
+    staged = Path(worker.state) / STAGED_POLICY
+    try:
+        descriptor = os.open(staged, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        # Root broker has no DAC override capability; read through its forwarder group.
+        os.fchmod(descriptor, 0o640)
+        with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        from .admin_control import request_restart
+        # The broker knows fixed local actions; translate the control command kind.
+        installation = {'id': job['id'], 'kind': 'install_policy', 'expires': job['expires']}
+        try:
+            success = request_restart(installation)
+        except (OSError, ValueError):
+            success = False
+    finally:
+        staged.unlink(missing_ok=True)
+    return diagnose(job['id']) if success else {'id': job['id'], 'status': 'failed', 'checks': []}
+
+
 def poll(worker):
     from .central import connect
     with connect(worker.state) as db:
@@ -134,6 +187,8 @@ def poll(worker):
         if not existing:
             if job['kind'] == 'diagnose':
                 result = diagnose(job['id'])
+            elif job['kind'] == 'apply_policy':
+                result = apply_policy(worker, job)
             else:
                 from .admin_control import request_restart
                 try:
