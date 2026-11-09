@@ -51,6 +51,14 @@ class BrokerTests(unittest.TestCase):
 
 
 class PolicyInstallTests(unittest.TestCase):
+    def setUp(self):
+        # Ordinary unit runs cannot create root-owned files. The same suite also
+        # runs unpatched as namespace-root with all capabilities dropped.
+        if os.getuid() != 0:
+            mocked = patch.object(admin_control, 'secure_policy_file', side_effect=lambda fd: os.fchmod(fd,0o644))
+            mocked.start()
+            self.addCleanup(mocked.stop)
+
     def job(self):
         return {'id':'bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb','kind':'install_policy','expires':time.time()+60}
 
@@ -72,6 +80,8 @@ class PolicyInstallTests(unittest.TestCase):
                 self.assertEqual(execute(self.job(), Path(folder)/'db', runner)['status'],'completed')
                 self.assertEqual(policy.read_bytes(), VALID.read_bytes())
                 self.assertEqual(policy.stat().st_mode & 0o777, 0o644)
+                if os.getuid() == 0:
+                    self.assertEqual((policy.stat().st_uid,policy.stat().st_gid),(0,0))
                 saved = backups/(hashlib.sha256(b'old: policy\n').hexdigest()+'.yaml')
                 self.assertEqual(saved.read_bytes(), b'old: policy\n')
                 self.assertEqual(saved.stat().st_mode & 0o777, 0o600)
@@ -122,6 +132,8 @@ class PolicyInstallTests(unittest.TestCase):
                 self.assertEqual(execute(self.job(),Path(folder)/'db',runner)['status'],'failed')
             self.assertEqual(policy.read_bytes(),previous)
             self.assertEqual(runner.call_count,5)
+            if os.getuid() == 0:
+                self.assertEqual((policy.stat().st_uid,policy.stat().st_gid),(0,0))
 
     def test_symlink_and_fifo_staging_rejected_without_blocking(self):
         for kind in ('symlink','fifo'):
@@ -134,3 +146,30 @@ class PolicyInstallTests(unittest.TestCase):
                 with patch.object(admin_control,'POLICY',str(policy)), patch.object(admin_control,'INCOMING',str(incoming)), patch.object(admin_control,'BACKUPS',str(backups)):
                     self.assertEqual(execute(self.job(),Path(folder)/'db',runner)['status'],'failed')
                 runner.assert_not_called()
+
+    def test_crash_after_replacement_is_uncertain_and_not_reexecuted(self):
+        with tempfile.TemporaryDirectory() as folder:
+            previous=VALID.read_bytes()
+            policy,incoming,backups=self.install(folder,previous+b'\n',previous)
+            db=Path(folder)/'db'
+            with patch.object(admin_control,'POLICY',str(policy)), patch.object(admin_control,'INCOMING',str(incoming)), patch.object(admin_control,'BACKUPS',str(backups)):
+                with self.assertRaises(KeyboardInterrupt):
+                    execute(self.job(),db,Mock(side_effect=KeyboardInterrupt))
+                self.assertEqual(policy.read_bytes(),previous+b'\n')
+                runner=Mock()
+                self.assertEqual(execute(self.job(),db,runner)['status'],'failed')
+                runner.assert_not_called()
+
+
+
+class PolicyOwnershipTests(unittest.TestCase):
+    def test_wrong_owner_is_rejected(self):
+        info=Mock(st_uid=123,st_gid=0,st_mode=0o100644)
+        with patch.object(admin_control.os,'fchown') as owner, patch.object(admin_control.os,'fchmod'), patch.object(admin_control.os,'fstat',return_value=info):
+            with self.assertRaises(ValueError):admin_control.secure_policy_file(42)
+            owner.assert_called_once_with(42,-1,0)
+
+    def test_broker_uses_group_membership_without_extra_capabilities(self):
+        unit=(VALID.parents[1]/'packaging/dlp-lab-admin-control.service').read_text()
+        self.assertIn('SupplementaryGroups=root',unit)
+        self.assertIn('CapabilityBoundingSet=\n',unit)

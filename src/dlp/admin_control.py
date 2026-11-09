@@ -39,6 +39,23 @@ def restart(runner, unit):
            stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 
 
+def secure_policy_file(fd):
+    """Set root:root without CAP_CHOWN: the broker owns the file and belongs to group root."""
+    os.fchown(fd, -1, 0)
+    os.fchmod(fd, 0o644)
+    info = os.fstat(fd)
+    if (info.st_uid, info.st_gid, stat.S_IMODE(info.st_mode)) != (0, 0, 0o644):
+        raise ValueError('Policy must be root:root with mode 0644')
+
+
+def sync_directory(path):
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
 def install(runner):
     """Validate the staged policy, back up the current one, replace it atomically, restart protection."""
     from .policy import parse_policy
@@ -65,14 +82,15 @@ def install(runner):
     handle, temporary = tempfile.mkstemp(dir=source.parent)
     try:
         with os.fdopen(handle,'wb') as stream:
+            secure_policy_file(stream.fileno())
             stream.write(raw)
             stream.flush()
             os.fsync(stream.fileno())
-        os.chmod(temporary,0o644)
         if source.is_symlink() or source.read_bytes() != previous:
             raise ValueError('Installed policy changed during installation')
         os.replace(temporary,source)
         temporary = None
+        sync_directory(source.parent)
     finally:
         if temporary:
             os.unlink(temporary)
@@ -84,11 +102,12 @@ def install(runner):
         handle, rollback = tempfile.mkstemp(dir=source.parent)
         try:
             with os.fdopen(handle,'wb') as stream:
+                secure_policy_file(stream.fileno())
                 stream.write(previous)
                 stream.flush()
                 os.fsync(stream.fileno())
-            os.chmod(rollback,0o644)
             os.replace(rollback,source)
+            sync_directory(source.parent)
         finally:
             if os.path.exists(rollback):
                 os.unlink(rollback)

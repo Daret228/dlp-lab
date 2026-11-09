@@ -6,6 +6,8 @@ After=dbus.service
 Type=exec
 User=root
 Group=dlp-forwarder
+# Set the group of owned policy files to root without granting CAP_CHOWN.
+SupplementaryGroups=root
 ExecStart=/usr/libexec/dlp-lab/admin-control
 RuntimeDirectory=dlp-admin-control
 RuntimeDirectoryMode=0750
