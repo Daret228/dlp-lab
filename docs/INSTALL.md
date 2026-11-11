@@ -7,33 +7,57 @@
 ## 1. Сервер
 
 Docker нужен **только серверу**. На рабочей машине агент ставится DEB-пакетом.
-Нужны Linux, Docker Engine, Compose v2, Git и HTTPS-сертификат для адреса сервера.
+Нужны Linux, Docker Engine, Compose v2 и Git. Шаги копируются блоками целиком;
+свои данные вы меняете один раз — в переменной `server_ip`.
+
+**Шаг 1 — исходники и проверка Docker** (при ошибках сначала установите
+Docker Engine и Compose v2):
 
 ```bash
 git clone https://github.com/Daret228/dlp-lab.git
 cd dlp-lab
 sudo docker version && sudo docker compose version
-mkdir -p build/docker-tls
 ```
 
-Сертификат (SAN должен содержать адрес сервера) положите в
-`build/docker-tls/server.crt`, ключ — в `server.key`. Для лабораторного
-самоподписанного сертификата см. [ADMIN](ADMIN.md#лабораторный-сертификат).
+**Шаг 2 — адрес этого сервера.** Замените значение на IP (или DNS-имя)
+машины, на которой ставите сервер, — он используется во всех дальнейших
+командах:
 
-Права для контейнера UID/GID 10001:
+```bash
+server_ip=192.168.0.50
+```
+
+**Шаг 3 — сертификат.** Лабораторный самоподписанный сертификат на год:
+
+```bash
+mkdir -p -m 700 build/docker-tls
+openssl req -x509 -newkey rsa:3072 -nodes -days 365 \
+  -subj "/CN=$server_ip" -addext "subjectAltName=IP:$server_ip" \
+  -keyout build/docker-tls/server.key -out build/docker-tls/server.crt
+cp build/docker-tls/server.crt build/central-ca.crt
+```
+
+Для DNS-имени замените `subjectAltName=IP:$server_ip` на
+`subjectAltName=DNS:$server_ip`. С сертификатом организации вместо openssl
+положите готовые `server.crt` и `server.key` в `build/docker-tls/`, а CA
+организации — в `build/central-ca.crt`.
+
+**Шаг 4 — права для контейнера** (UID/GID 10001):
 
 ```bash
 sudo chown root:10001 build/docker-tls build/docker-tls/server.key build/docker-tls/server.crt
-sudo chmod 750 build/docker-tls && sudo chmod 640 build/docker-tls/server.key && sudo chmod 644 build/docker-tls/server.crt
+sudo chmod 750 build/docker-tls
+sudo chmod 640 build/docker-tls/server.key
+sudo chmod 644 build/docker-tls/server.crt
 ```
 
-Создайте `.env` в корне (замените IP на адрес этого сервера; без `.env`
-сервер слушает только 127.0.0.1):
+**Шаг 5 — адрес публикации** (без `.env` сервер слушает только 127.0.0.1):
 
-```text
-DLP_BIND_ADDRESS=192.168.17.131
-DLP_HTTPS_PORT=8876
+```bash
+printf 'DLP_BIND_ADDRESS=%s\nDLP_HTTPS_PORT=8876\n' "$server_ip" > .env
 ```
+
+**Шаг 6 — запуск:**
 
 ```bash
 sudo docker compose config --quiet
@@ -42,12 +66,19 @@ sudo docker compose ps
 sudo docker compose exec central python3 /app/entrypoint.py admin-token
 ```
 
-Откройте `https://АДРЕС_СЕРВЕРА:8876/`, войдите с показанным токеном.
-Проверка сертификата с административной машины:
+Ожидания: `config --quiet` молчит; `ps` показывает `central` как
+`running (healthy)`; последняя команда печатает токен администратора —
+сохраните его, он показывается один раз.
+
+**Шаг 7 — проверка.** Откройте `https://$server_ip:8876/` и войдите токеном.
+С сервера:
 
 ```bash
-curl --cacert /путь/central-ca.crt https://АДРЕС_СЕРВЕРА:8876/ -o /dev/null
+curl --cacert build/central-ca.crt "https://$server_ip:8876/" -o /dev/null -w '%{http_code}\n'
 ```
+
+Ожидание: `200`. Если панель не открывается с другой машины — проверьте
+фаервол на порт 8876 и что `server_ip` совпадает с адресом сертификата.
 
 Состояние хранится в Docker-томе `central-data`. Не удаляйте его через
 `down -v`: там база и регистрации. Healthcheck подтверждает доступность
@@ -55,12 +86,14 @@ curl --cacert /путь/central-ca.crt https://АДРЕС_СЕРВЕРА:8876/ -
 
 ## 2. Профиль устройства
 
-Для каждой машины — отдельная регистрация (замените адрес и имя):
+Выполняется на сервере (в том же каталоге и оболочке — `server_ip` из шага 2
+ещё действует). Для каждой машины — отдельная регистрация со своим именем:
 
 ```bash
-sudo docker compose exec central python3 /app/entrypoint.py add-agent --name new-device --server https://АДРЕС_СЕРВЕРА:8876 --out /var/lib/dlp-central/new-device.json
+device=new-device   # имя машины, которую подключаете
+sudo docker compose exec central python3 /app/entrypoint.py add-agent --name "$device" --server "https://$server_ip:8876" --out "/var/lib/dlp-central/$device.json"
 mkdir -p -m 700 build/registration
-sudo docker compose cp central:/var/lib/dlp-central/new-device.json build/registration/central-agent.json
+sudo docker compose cp "central:/var/lib/dlp-central/$device.json" "build/registration/central-agent.json"
 sudo chown "$(id -u):$(id -g)" build/registration/central-agent.json && chmod 600 build/registration/central-agent.json
 ```
 
