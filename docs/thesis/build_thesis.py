@@ -145,7 +145,7 @@ for text in ['Срок сдачи _________________________________','Плано
 heading('РЕФЕРАТ')
 abstract_count=para(f'ВКР {PAGE_COUNT or "___"} с., 5 рис., 17 табл., 24 источника, 5 приложений.')
 para('LINUX, DLP, TELEGRAM, SIGNAL, FANOTIFY, AT-SPI, МАШИННОЕ ОБУЧЕНИЕ, АУДИТ',indent=0)
-para('Объект исследования — обработка информации настольными мессенджерами Linux. Цель — разработка модульной системы контроля файлов, текстовых полей и локальных данных. Реализованы анализ правил и обучаемая модель, файловый контроль fanotify, наблюдение AT-SPI, чтение черновиков Telegram и выборки локальных текстов Signal. Созданы DEB-пакет, системные службы, установщик и центральный журнал с удалённой диагностикой. На двухмашинном стенде проверены контроль файлов, доставка событий и автозапуск. Классификатор финансовых сведений, паспортных данных и данных доступа оценён на диагностическом синтетическом наборе. Результаты представлены в виде журналируемых событий и доступны администратору в веб-панели.')
+para('Объект исследования — обработка информации настольными мессенджерами Linux. Цель — разработка модульной системы контроля файлов, текстовых полей и локальных данных. Реализованы анализ правил и обучаемая модель, файловый контроль fanotify с настраиваемой политикой типов файлов, наблюдение AT-SPI, чтение черновиков Telegram и выборки локальных текстов Signal. Созданы DEB-пакеты Debian 12 и 13, системные службы, установщик, центральный сервер с журналом итоговых файловых операций, фильтрами событий и управлением политиками устройств. На двухмашинном стенде подтверждены контроль файлов, сводка серий открытий, доставка событий, автозапуск и применение политики с сервера. Классификатор финансовых сведений, паспортных данных и данных доступа оценён на диагностическом синтетическом наборе. Результаты представлены в виде журналируемых событий и доступны администратору в веб-панели.')
 # TOC filled after all headings have been registered.
 p=para('СОДЕРЖАНИЕ','Heading 1');toc_anchor=p
 heading('ТЕРМИНЫ И ОПРЕДЕЛЕНИЯ')
@@ -154,6 +154,21 @@ for term,definition in [
  para(f'{term} — {definition}')
 heading('ПЕРЕЧЕНЬ СОКРАЩЕНИЙ И ОБОЗНАЧЕНИЙ')
 for a,b in [('ВКР','выпускная квалификационная работа'),('ОС','операционная система'),('DLP','Data Loss Prevention, контроль и предотвращение утечек'),('CLI','интерфейс командной строки'),('GUI','графический интерфейс пользователя'),('API','программный интерфейс'),('FD','файловый дескриптор'),('PID','идентификатор процесса'),('UID','идентификатор пользователя'),('GID','идентификатор группы'),('AT-SPI','интерфейс доступности приложений'),('JSON','формат структурированного обмена данными'),('YAML','формат конфигурационных данных'),('ML','машинное обучение'),('TP, FP, FN','верное обнаружение, ложное обнаружение, пропуск'),('KiB, MiB','1024 и 1 048 576 байт соответственно')]:para(f'{a} — {b}.',indent=0)
+
+def shot(num,caption,hint):
+ """Placeholder frame for an administrator screenshot inserted into Word later."""
+ global figure_count
+ t=D.add_table(rows=1,cols=1);t.alignment=WD_TABLE_ALIGNMENT.CENTER;t.autofit=False
+ t.columns[0].width=Mm(165);cell=t.rows[0].cells[0];cell.width=Mm(165)
+ trpr=t.rows[0]._tr.get_or_add_trPr();h=OxmlElement('w:trHeight');h.set(qn('w:val'),'4500');h.set(qn('w:hRule'),'atLeast');trpr.append(h)
+ p=cell.paragraphs[0];p.style=styles['Small'];p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+ p.paragraph_format.first_line_indent=Mm(0);p.paragraph_format.space_before=Pt(130);p.paragraph_format.line_spacing=1.5
+ r=p.add_run('Место для скриншота: '+hint);r.italic=True;r.font.color.rgb=RGBColor(0x99,0x99,0x99)
+ borders=OxmlElement('w:tblBorders')
+ for side in ['top','left','bottom','right','insideH','insideV']:
+  e=OxmlElement('w:'+side);e.set(qn('w:val'),'single');e.set(qn('w:sz'),'5');e.set(qn('w:color'),'999999');borders.append(e)
+ t._tbl.tblPr.append(borders)
+ para(f'Рисунок {num} — {caption}','Caption',WD_ALIGN_PARAGRAPH.CENTER);figure_count+=1
 
 def parse(path):
  global figure_count
@@ -178,6 +193,8 @@ def parse(path):
    i+=1;table(lab,title,rows)
   elif line.startswith(':::figure '):
    name,num,caption=line[10:].split('|');p=para('',align=WD_ALIGN_PARAGRAPH.CENTER,indent=0);p.paragraph_format.keep_with_next=True;p.add_run().add_picture(str(TMP/f'{name}.png'),width=Mm(155));para(f'Рисунок {num} — {caption}','Caption',WD_ALIGN_PARAGRAPH.CENTER);figure_count+=1
+  elif line.startswith(':::shot '):
+   num,caption,hint=line[8:].split('|',2);shot(num,caption,hint)
   elif line.startswith(':::equation '):
    expr,num=line[12:].split('|');p=para('',indent=0);p.paragraph_format.tab_stops.add_tab_stop(Mm(82.5),WD_TAB_ALIGNMENT.CENTER);p.paragraph_format.tab_stops.add_tab_stop(Mm(165),WD_TAB_ALIGNMENT.RIGHT);p.add_run('\t');om=OxmlElement('m:oMath');mr=OxmlElement('m:r');mt=OxmlElement('m:t');mt.text=expr;mr.append(mt);om.append(mr);p._p.append(om);p.add_run('\t('+num+')')
   elif line.startswith(':::codefile '):code((ROOT/line[12:]).read_text())
