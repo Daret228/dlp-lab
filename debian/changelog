@@ -1,3 +1,10 @@
+dlp-lab (0.2.28) unstable; urgency=medium
+
+  * Count hidden service readings in the panel overview and link to the technical view.
+  * Explain session files and recent-document lists in event causes.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 09 Nov 2026 14:00:00 +0000
+
 dlp-lab (0.2.27) unstable; urgency=medium
 
   * Enforce root:root policy ownership on installation and rollback without CAP_CHOWN.

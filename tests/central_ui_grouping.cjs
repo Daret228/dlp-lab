@@ -82,6 +82,30 @@ assert.equal(get('decision-filter').value,'');
 assert.match(get('filter-summary').textContent,/Показано 9 из 14/);
 console.log('PASS: event views, retained warnings/denials, exact service paths, combined filters and reset');
 
+// Overview keeps the audit visible: hidden technical readings are counted, not erased.
+const note=get('hidden-note');
+assert.equal(note.hidden,false);
+assert.match(text(note),/Скрыто записей: 5 — служебных чтений файлов: 2, уведомлений: 1, штатных событий служб: 2/);
+assert.match(text(note),/Журнал сохранён полностью/);
+assert.equal(note.children.find(n=>n.textContent==='Показать технические') instanceof Object,true);
+note.children.find(n=>n.textContent==='Показать технические').onclick();
+assert.equal(get('event-filter').value,'technical');
+assert.equal(note.hidden,true);
+assert.equal(get('filter-summary').textContent.includes('Скрыты уведомления'),false);
+vm.runInContext(`data.events=[];data.event_groups=[];renderEvents();`,context);
+assert.equal(note.hidden,true);
+console.log('PASS: overview counts hidden service readings and jumps to the technical view');
+vm.runInContext(`data.events=fixture;data.event_groups=fixture;renderEvents();`,context);
+const rows=vm.runInContext(`(data.event_groups||[]).map(e=>causeLabel(e))`,context);
+assert.match(rows[1],/Файл настроек сеанса или оболочки/);
+assert.match(rows[2],/Список недавно открытых файлов/);
+assert.match(rows[3],/Служебный идентификатор ОС/);
+assert.equal(vm.runInContext(`servicePath({file_path:'/etc/machine-id'})`,context),true);
+assert.equal(vm.runInContext(`servicePath({file_path:'/home/test/project/.profile'})`,context),false);
+assert.equal(vm.runInContext(`servicePath({file_path:'/home/test/.config/notes.txt'})`,context),false);
+assert.equal(vm.runInContext(`causeLabel({decision:'ALLOW',complete:true})`,context).includes('Файл настроек'),false);
+console.log('PASS: causes explain session files, recent-document lists and machine identifiers');
+
 // Policy section: badges compare the assigned version with the installed one.
 const assigned='a'.repeat(64), disk='b'.repeat(64), stamp=new Date().toISOString();
 const badgeText=a=>vm.runInContext(`policyBadge(${JSON.stringify(a)})`,context).textContent;
