@@ -91,7 +91,7 @@ setInterval(()=>{if(token&&$('auto').checked&&!document.hidden)refresh();},15000
 
 function fileLabel(e){return e.file_path?e.file_path.split('/').pop():'Имя не передано (старый агент/событие)';}
 function causeLabel(e){
- const reasons={sensitive_alerts_incomplete:'Проверка чувствительных данных не завершена',broker_deadline_or_overload:'Истекло время проверки или перегружен обработчик'};
+ const reasons={sensitive_alerts_incomplete:'Проверка чувствительных данных не завершена',broker_deadline_or_overload:'Истекло время проверки или перегружен обработчик',file_type_denied:'Тип файла запрещён политикой; содержимое не проверялось',file_type_allowed:'Тип файла разрешён политикой; содержимое не проверялось',unknown_file_type:'Тип файла не распознан',unsupported_content_type:'Тип файла без поддержки извлечения текста'};
  const parts=[];
  if(e.file_path==='/var/lib/dbus/machine-id'||e.file_path==='/etc/machine-id')parts.push('Служебный идентификатор ОС; возможное фоновое чтение');
  if(RECENTLY_USED.test(e.file_path||''))parts.push('Список недавно открытых файлов; возможное фоновое чтение');

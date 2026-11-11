@@ -104,6 +104,8 @@ assert.equal(vm.runInContext(`servicePath({file_path:'/etc/machine-id'})`,contex
 assert.equal(vm.runInContext(`servicePath({file_path:'/home/test/project/.profile'})`,context),false);
 assert.equal(vm.runInContext(`servicePath({file_path:'/home/test/.config/notes.txt'})`,context),false);
 assert.equal(vm.runInContext(`causeLabel({decision:'ALLOW',complete:true})`,context).includes('Файл настроек'),false);
+assert.match(vm.runInContext(`causeLabel({reasons:['file_type_denied']})`,context),/Тип файла запрещён политикой/);
+assert.match(vm.runInContext(`causeLabel({reasons:['file_type_allowed'],decision:'ALLOW'})`,context),/Тип файла разрешён политикой; содержимое не проверялось/);
 console.log('PASS: causes explain session files, recent-document lists and machine identifiers');
 
 // Policy section: badges compare the assigned version with the installed one.

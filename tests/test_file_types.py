@@ -53,12 +53,15 @@ class FileTypeTests(unittest.TestCase):
         self.assertEqual((r.decision, r.complete, r.reason),
                          (Decision.WARN, False, 'unknown_file_type'))
 
-    def test_allowed_image_still_requires_extractor(self):
+    def test_permitted_image_allows_without_extractor(self):
+        # Explicit type permission is a final policy verdict: ALLOW with the
+        # content honestly marked unchecked (no OCR in this build).
         self.policy['file_types']['allow'] = ['text', 'png']
         r = self.analyze(b'\x89PNG\r\n\x1a\n')
-        self.assertEqual(r.reason, 'unsupported_content_type')
-        self.assertFalse(r.complete)
+        self.assertEqual((r.decision, r.reason, r.complete),
+                         (Decision.ALLOW, 'file_type_allowed', True))
         self.assertFalse(r.metadata['content_checked'])
+        self.assertEqual(r.metadata['decision_basis'], 'file_type_policy')
 
     def test_allowlist_and_denylist(self):
         self.policy['file_types']['allow'] = ['text']
@@ -66,6 +69,25 @@ class FileTypeTests(unittest.TestCase):
         self.policy['file_types']['allow'] = []
         self.assertEqual(self.analyze(b'\x89PNG\r\n\x1a\n').reason, 'unsupported_content_type')
         self.assertEqual(self.analyze(b'PK\x03\x04').reason, 'file_type_denied')
+
+    def test_images_blocked_by_type_and_allowed_explicitly(self):
+        # Supervisor scenario: block images per device policy, allow them for another role.
+        for sample in (b'\x89PNG\r\n\x1a\n', b'\xff\xd8\xff\xe0' + b'\x00' * 32):
+            self.policy['file_types']['allow'] = ['text', 'pdf', 'docx']
+            r = self.analyze(sample)
+            self.assertEqual(r.decision, Decision.BLOCK)
+            self.assertEqual(r.reason, 'file_type_denied')
+            self.assertTrue(r.complete)
+            self.assertFalse(r.metadata['content_checked'])
+        # A role that explicitly permits images gets an honest ALLOW, content unchecked.
+        self.policy['file_types']['allow'] = ['text', 'pdf', 'docx', 'png', 'jpeg']
+        for sample in (b'\x89PNG\r\n\x1a\n', b'\xff\xd8\xff\xe0' + b'\x00' * 32):
+            r = self.analyze(sample)
+            self.assertEqual(r.decision, Decision.ALLOW)
+            self.assertEqual(r.reason, 'file_type_allowed')
+            self.assertTrue(r.complete)
+            self.assertFalse(r.metadata['content_checked'])
+            self.assertEqual(r.metadata['decision_basis'], 'file_type_policy')
 
     def test_old_policy_no_format_allow(self):
         del self.policy['file_types']

@@ -1,3 +1,11 @@
+dlp-lab (0.2.29) unstable; urgency=medium
+
+  * Allow per-role file-type policies: explicitly permitted non-text types
+    now resolve to an honest ALLOW with content marked unchecked.
+  * Explain file-type decisions in the panel with human-readable causes.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Tue, 10 Nov 2026 23:30:00 +0000
+
 dlp-lab (0.2.28) unstable; urgency=medium
 
   * Count hidden service readings in the panel overview and link to the technical view.

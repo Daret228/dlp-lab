@@ -109,6 +109,12 @@ class ContentAnalyzer:
                         metadata.update(extracted)
                     elif kind == "text":
                         text = data.decode("utf-8-sig", errors="strict")
+                    elif types is not None and kind in types.get("allow", []):
+                        # Explicitly permitted type without text extraction: the policy
+                        # allows it as-is; content stays unchecked (no OCR in this build).
+                        metadata["decision_basis"] = "file_type_policy"
+                        return AnalysisResult([], 0, Decision.ALLOW, True,
+                                              "file_type_allowed", metadata)
                     else:
                         return AnalysisResult([], 0, Decision(self.policy["on_error"]), False,
                                               "unsupported_content_type", metadata)
