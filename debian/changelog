@@ -1,3 +1,10 @@
+dlp-lab (0.2.30) unstable; urgency=medium
+
+  * Add the interactive dlp-lab administrator console menu.
+  * Wrap documented maintenance commands with confirmation and role detection.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 12 Nov 2026 00:40:00 +0000
+
 dlp-lab (0.2.29) unstable; urgency=medium
 
   * Allow per-role file-type policies: explicitly permitted non-text types

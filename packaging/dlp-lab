@@ -1,0 +1,9 @@
+#!/usr/bin/python3 -I
+"""Interactive administrator console; privileged steps call sudo themselves."""
+import os
+import sys
+os.environ['PYTHONNOUSERSITE'] = '1'
+os.environ['PYTHONSAFEPATH'] = '1'
+sys.path.insert(0, '/usr/lib/dlp-lab/src')
+from dlp.console_menu import main
+raise SystemExit(main())
