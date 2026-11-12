@@ -1,3 +1,9 @@
+dlp-lab (0.2.31) unstable; urgency=medium
+
+  * Fix vertical spacing of panel buttons in the device card and the hidden-events note.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Wed, 12 Nov 2026 12:20:00 +0000
+
 dlp-lab (0.2.30) unstable; urgency=medium
 
   * Add the interactive dlp-lab administrator console menu.
