@@ -1,3 +1,11 @@
+dlp-lab (0.2.34) unstable; urgency=medium
+
+  * Add the passwordless dlp-lab-update helper scoped by the empty dlp-updaters
+    group through a no-argument sudoers rule; only strictly newer validated
+    dlp-lab packages from ~/dlp-build-input are installed.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 13 Nov 2026 02:30:00 +0000
+
 dlp-lab (0.2.33) unstable; urgency=medium
 
   * Trim duplicated panel explanations; keep each disclaimer in one place.

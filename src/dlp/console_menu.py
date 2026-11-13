@@ -238,12 +238,18 @@ class Console:
             else:
                 print('Нет такого пункта.')
 
+    def update_agent(self):
+        if not self.confirm('Установить новый пакет агента из ~/dlp-build-input?'):
+            return
+        self.root_execute(['dlp-lab-update'])
+
     def services_menu(self):
         self.loop('Службы агента', [
             ('Состояние служб', self.service_state),
             ('Журнал файловой службы', lambda: self.service_logs('dlp-lab-files.service')),
             ('Журнал отправщика', lambda: self.service_logs('dlp-lab-forwarder.service')),
             ('Перезапустить защиту', self.restart_services),
+            ('Обновить агент', self.update_agent),
         ], True)
 
     def server_menu(self):

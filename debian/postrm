@@ -15,6 +15,8 @@ if [ "$1" = purge ]; then
     # Only generated package configuration. Never erase legacy gateway.conf,
     # the shared lock, laboratory data, or the administrator's other files.
     rm -f /etc/dlp-lab/system-gateway.conf /etc/dlp-lab/system/processes.yaml
+    # Leave the group only if it has no members left.
+    delgroup --system dlp-updaters >/dev/null 2>&1 || true
     rmdir /etc/dlp-lab/system 2>/dev/null || true
     rmdir /var/lib/dlp-lab-package 2>/dev/null || true
 fi

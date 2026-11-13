@@ -1,0 +1,9 @@
+#!/usr/bin/python3 -I
+"""Passwordless agent update helper; the sudoers rule permits no arguments."""
+import os
+import sys
+os.environ['PYTHONNOUSERSITE'] = '1'
+os.environ['PYTHONSAFEPATH'] = '1'
+sys.path.insert(0, '/usr/lib/dlp-lab/src')
+from dlp.update_assist import main
+raise SystemExit(main())

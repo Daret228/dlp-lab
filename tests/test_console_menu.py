@@ -131,6 +131,14 @@ class SafetyTests(unittest.TestCase):
         self.assertEqual(len(restarts), 1)
         self.assertIn('systemctl', restarts[0])
 
+    def test_update_agent_menu_item_confirms_and_runs_helper(self):
+        console, script = make_console(['4', '5', 'нет', '', '0', '0', '4', '5', 'да', '', '0', '0'])
+        with redirect_stdout(script.stdout):
+            console.main()
+        updates = [c for c in script.commands if 'dlp-lab-update' in ' '.join(c)]
+        self.assertEqual(updates, [['sudo', 'dlp-lab-update']])
+        self.assertIn('Обновить агент', script.stdout.getvalue())
+
     def test_doctor_uses_dlp_agent(self):
         console, script = make_console(['2', '', '0'])
         with redirect_stdout(script.stdout):

@@ -2,6 +2,15 @@
 set -e
 if [ "$1" = configure ]; then
     systemd-sysusers /usr/lib/sysusers.d/dlp-lab.conf
+    # Empty by default; the administrator adds members explicitly.
+    if command -v getent >/dev/null 2>&1 && getent group dlp-updaters >/dev/null 2>&1; then
+        :
+    elif command -v addgroup >/dev/null 2>&1; then
+        addgroup --system dlp-updaters >/dev/null || true
+    fi
+    if command -v visudo >/dev/null 2>&1; then
+        visudo -c -f /etc/sudoers.d/dlp-lab-update >/dev/null || true
+    fi
     # Optional administrator-provisioned profile: setup never invokes apt.
     if [ -f /etc/dlp-lab/connection.json ] && [ -d /run/systemd/system ]; then
         if /usr/sbin/dlp-setup /etc/dlp-lab/connection.json; then

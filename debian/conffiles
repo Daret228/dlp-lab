@@ -1,1 +1,2 @@
 /etc/dlp-lab/system/policy.yaml
+/etc/sudoers.d/dlp-lab-update

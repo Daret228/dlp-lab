@@ -1,0 +1,6 @@
+# Members of the system group dlp-updaters may install a strictly newer
+# dlp-lab package from their ~/dlp-build-input without a password prompt.
+# The empty argument spec means the command must run without arguments.
+# The group is created empty; add users explicitly:
+#   sudo usermod -aG dlp-updaters ИМЯ
+%dlp-updaters ALL=(root) NOPASSWD: /usr/sbin/dlp-lab-update ""
