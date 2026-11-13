@@ -1,3 +1,10 @@
+dlp-lab (0.2.32) unstable; urgency=medium
+
+  * Add breathing room below the policy editor textarea so the action buttons
+    do not stick to it.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Thu, 13 Nov 2026 00:10:00 +0000
+
 dlp-lab (0.2.31) unstable; urgency=medium
 
   * Fix vertical spacing of panel buttons in the device card and the hidden-events note.
