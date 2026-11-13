@@ -1,3 +1,9 @@
+dlp-lab (0.2.33) unstable; urgency=medium
+
+  * Trim duplicated panel explanations; keep each disclaimer in one place.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Fri, 13 Nov 2026 00:50:00 +0000
+
 dlp-lab (0.2.32) unstable; urgency=medium
 
   * Add breathing room below the policy editor textarea so the action buttons
