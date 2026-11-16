@@ -3,6 +3,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
@@ -54,6 +55,14 @@ class BootstrapTests(unittest.TestCase):
 
     def run_flow(self, folder, extra):
         calls=[]
+        # main() tightens the process umask before writing; the test process
+        # must not leak it onto later tests in the same run.
+        saved_umask=os.umask(0o022)
+        try:
+            return self._run_flow(folder, extra, calls)
+        finally:
+            os.umask(saved_umask)
+    def _run_flow(self, folder, extra, calls):
         def fake_run(args,capture=False):
             calls.append(args)
             return 'amd64' if args[0]=='/usr/bin/dpkg' and '--print-architecture' in args else ''

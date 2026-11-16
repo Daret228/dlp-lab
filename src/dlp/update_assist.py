@@ -37,12 +37,21 @@ def dpkg_newer(candidate, installed):
 
 
 def read_fields(path, fields):
+    """Read control fields with dpkg-deb.
+
+    With several fields dpkg-deb prints `Field: value` lines; with one
+    field it prints the bare value. Strip the expected prefix so both
+    real formats yield bare values.
+    """
     result = subprocess.run(['dpkg-deb', '-f', str(path), *fields],
                             capture_output=True, text=True)
     if result.returncode != 0:
         return None
-    values = result.stdout.strip().splitlines()
-    return dict(zip(fields, values)) if len(values) == len(fields) else None
+    values = {}
+    for name, line in zip(fields, result.stdout.strip().splitlines()):
+        prefix = name + ': '
+        values[name] = line[len(prefix):] if line.startswith(prefix) else line
+    return values if len(values) == len(fields) else None
 
 
 def select_candidate(directory, *, installed, architecture,
@@ -83,7 +92,13 @@ def build_install_command(path):
 
 
 def invoking_home():
-    user = os.environ.get('SUDO_USER') if os.geteuid() != 0 else None
+    """Home directory of the invoking user.
+
+    The helper runs as root via sudo, and sudo keeps the invoking user in
+    SUDO_USER — while HOME already points at /root. Resolve SUDO_USER
+    whenever it is set; without it (direct root run) fall back to HOME.
+    """
+    user = os.environ.get('SUDO_USER')
     if not user:
         return Path.home()
     try:

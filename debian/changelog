@@ -1,3 +1,14 @@
+dlp-lab (0.2.35) unstable; urgency=medium
+
+  * Fix dlp-lab-update field parsing: dpkg-deb prefixes multi-field output
+    with field names, so every real package was rejected; resolve the
+    invoking user from SUDO_USER under sudo instead of falling back to
+    root's home; cover the real dpkg-deb output format and the sudo
+    context with tests, and stop test_bootstrap_install from leaking the
+    tightened process umask onto the rest of the suite.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 16 Nov 2026 00:40:00 +0000
+
 dlp-lab (0.2.34) unstable; urgency=medium
 
   * Add the passwordless dlp-lab-update helper scoped by the empty dlp-updaters
