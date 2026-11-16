@@ -13,7 +13,7 @@ class MigrationPreparationTests(unittest.TestCase):
         services = MODULE['configuration']()['services']
         local, tls = services['local'], services['https']
         self.assertEqual(local['command'], ['serve-local'])
-        self.assertEqual(tls['environment'], {'DLP_TLS_HOST': '192.168.17.131', 'DLP_TLS_PORT': '8767'})
+        self.assertEqual(tls['environment'], {'DLP_TLS_HOST': '0.0.0.0', 'DLP_TLS_PORT': '8767'})
         for service in services.values():
             self.assertEqual(service['network_mode'], 'host')
             self.assertTrue(service['init'])

@@ -24,21 +24,28 @@ sudo docker version && sudo docker compose version
 командах:
 
 ```bash
-server_ip=192.168.0.50
+server_ip=dlp-server.example.org
 ```
+
+Для переносимого сервера используйте постоянное DNS-имя, обновляемое при смене
+IP. В одной локальной сети можно использовать фактическое имя Avahi, например
+`debian.local`: на клиентах должны работать mDNS и разрешение `.local`.
+Имя должно быть уникальным и сохраняться после переноса; mDNS не обеспечивает
+доступ через маршрутизаторы/VPN. Проверяйте разрешение имени с каждого агента.
 
 **Шаг 3 — сертификат.** Лабораторный самоподписанный сертификат на год:
 
 ```bash
 mkdir -p -m 700 build/docker-tls
 openssl req -x509 -newkey rsa:3072 -nodes -days 365 \
-  -subj "/CN=$server_ip" -addext "subjectAltName=IP:$server_ip" \
+  -subj "/CN=$server_ip" -addext "subjectAltName=DNS:$server_ip" \
   -keyout build/docker-tls/server.key -out build/docker-tls/server.crt
 cp build/docker-tls/server.crt build/central-ca.crt
 ```
 
-Для DNS-имени замените `subjectAltName=IP:$server_ip` на
-`subjectAltName=DNS:$server_ip`. С сертификатом организации вместо openssl
+При использовании фиксированного IP замените `subjectAltName=DNS:$server_ip`
+на `subjectAltName=IP:$server_ip`; такой профиль потребует обновления при смене
+IP. С сертификатом организации вместо openssl
 положите готовые `server.crt` и `server.key` в `build/docker-tls/`, а CA
 организации — в `build/central-ca.crt`.
 
@@ -54,8 +61,14 @@ sudo chmod 644 build/docker-tls/server.crt
 **Шаг 5 — адрес публикации** (без `.env` сервер слушает только 127.0.0.1):
 
 ```bash
-printf 'DLP_BIND_ADDRESS=%s\nDLP_HTTPS_PORT=8876\n' "$server_ip" > .env
+printf 'DLP_BIND_ADDRESS=0.0.0.0\nDLP_HTTPS_PORT=8876\n' > .env
 ```
+
+Это публикует HTTPS на всех IPv4-интерфейсах: IP может меняться без изменения
+Compose. Ограничьте доступ нужной сетью на уровне firewall. Адрес прослушивания
+`0.0.0.0` не указывается в сертификате или профилях: там остаётся DNS-имя.
+При смене IP обновляется DNS; сертификат, CA и токены сохраняются.
+Существующий мигрированный стенд переводится отдельно, см. [ADMIN](ADMIN.md#перенос-сервера-в-другую-сеть).
 
 **Шаг 6 — запуск:**
 

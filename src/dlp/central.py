@@ -623,6 +623,9 @@ def main(argv=None, *, systemd_credential=False):
         return 130
     except (OSError, ValueError) as error:
         print('Central operation failed:', type(error).__name__)
+        if isinstance(error, OSError) and isinstance(error.errno, int):
+            # Generic OS diagnostics, not exception text (which may contain paths/data).
+            print('OS error:', error.errno, os.strerror(error.errno))
         return 2
     return 0
 

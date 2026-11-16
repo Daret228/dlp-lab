@@ -48,7 +48,8 @@ def configuration():
                                   interval='5s', timeout='4s', retries=3, start_period='5s')
         if name == 'https':
             item['volumes'].append(str(DEST/'tls')+':/run/tls:ro')
-            item['environment'] = {'DLP_TLS_HOST': LAN, 'DLP_TLS_PORT': '8767'}
+            # Binding is independent of the advertised address/certificate identity.
+            item['environment'] = {'DLP_TLS_HOST': '0.0.0.0', 'DLP_TLS_PORT': '8767'}
         services[name] = item
     return {'services': services}
 
