@@ -6,6 +6,10 @@ dlp-lab (0.2.35) unstable; urgency=medium
     root's home; cover the real dpkg-deb output format and the sudo
     context with tests, and stop test_bootstrap_install from leaking the
     tightened process umask onto the rest of the suite.
+  * Support stable DNS addressing when relocating the DLP server: bind the
+    TLS listener on all interfaces with a debian.local certificate from the
+    existing CA, and add configure-portable-server.py with checks, backup
+    and rollback for the move.
 
  -- DLP Lab contributors <noreply@invalid.example>  Mon, 16 Nov 2026 00:40:00 +0000
 
