@@ -10,6 +10,10 @@ dlp-lab (0.2.35) unstable; urgency=medium
     TLS listener on all interfaces with a debian.local certificate from the
     existing CA, and add configure-portable-server.py with checks, backup
     and rollback for the move.
+  * Rework the policy editor actions: a single «Сохранить и применить»
+    button plus «Вернуть исходную» that discards unsaved edits back to the
+    assigned policy; the buttons no longer stay disabled after a save
+    completes (rendering depended on the transient data-refresh flag).
 
  -- DLP Lab contributors <noreply@invalid.example>  Mon, 16 Nov 2026 00:40:00 +0000
 
