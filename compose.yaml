@@ -1,6 +1,6 @@
 services:
   central:
-    image: dlp-lab-central:0.2.37
+    image: dlp-lab-central:0.2.38
     build:
       context: .
       dockerfile: docker/Dockerfile

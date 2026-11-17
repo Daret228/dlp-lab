@@ -207,16 +207,18 @@ def update_agent(worker, job):
         except ValueError:
             success = False
         except OSError:
-            # The broker connection died mid-install: an upgrade restarts the
-            # broker and this forwarder. Never report failure from an uncertain
-            # state — let the command stay pending and re-run after the restart.
-            if installed_version() == fetched['version']:
-                return diagnose(job['id'])
-            raise
+            success = None
     finally:
         package.unlink(missing_ok=True)
         sidecar.unlink(missing_ok=True)
-    return diagnose(job['id']) if success else {'id': job['id'], 'status': 'failed', 'checks': []}
+    if success is not True and installed_version() != fetched['version']:
+        # An upgrade restarts the broker and this forwarder mid-install, so a
+        # negative or interrupted broker reply does not prove the install
+        # failed. Stay pending: the retry either finds the new version or
+        # re-runs the idempotent installer; a genuinely broken package simply
+        # expires after the usual 15 minutes.
+        raise OSError('Update outcome unconfirmed')
+    return diagnose(job['id'])
 
 
 def poll(worker):

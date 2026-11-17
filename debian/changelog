@@ -1,3 +1,15 @@
+dlp-lab (0.2.38) unstable; urgency=medium
+
+  * Report remote agent updates honestly: an upgrade restarts the broker
+    and the forwarder in the middle of an install, so a negative or
+    interrupted broker reply no longer fails the command. Completion now
+    requires the broker confirmation or the installed version itself; a
+    genuinely broken package expires after the usual 15 minutes instead
+    of showing a false execution error.
+  * Ship the server-driven agent updates from the unreleased 0.2.37.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 17 Nov 2026 14:20:00 +0000
+
 dlp-lab (0.2.37) unstable; urgency=medium
 
   * Add server-driven agent updates: the panel accepts an admin-uploaded

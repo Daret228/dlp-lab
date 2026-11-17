@@ -258,11 +258,23 @@ class UpdateChannelTests(unittest.TestCase):
             self.assertEqual(control.poll(self.worker), 1)
             self.assertEqual(control.poll(self.worker), 0)
         self.assertEqual(self.store.report()['commands'][0]['status'], 'completed')
-        # Outcome genuinely unknown: leave a fresh command pending for a retry.
+        # Any unconfirmed outcome — a dead connection OR a broker failure that
+        # our own restart race can produce while apt keeps running in the
+        # oneshot unit — keeps the command pending until the version confirms.
         self.assign(sha)
-        with patch('dlp.update_assist.installed_version', return_value='0.2.36'), \
+        for reply in (OSError('connection reset'), lambda *args, **kwargs: False):
+            with patch('dlp.update_assist.installed_version', return_value='0.2.36'), \
+                 patch.object(self.worker, 'download', return_value=PACKAGE), \
+                 patch('dlp.admin_control.request_restart', side_effect=reply):
+                with self.assertRaises(OSError):
+                    control.poll(self.worker)
+            self.assertEqual(self.store.report()['commands'][0]['status'], 'pending')
+        # Once the version itself landed, even a negative broker reply is completion.
+        result = self.completed(self.store.report()['commands'][0]['id'])
+        with patch('dlp.update_assist.installed_version', side_effect=['0.2.36','0.2.37']), \
              patch.object(self.worker, 'download', return_value=PACKAGE), \
-             patch('dlp.admin_control.request_restart', side_effect=OSError('connection reset')):
-            with self.assertRaises(OSError):
-                control.poll(self.worker)
-        self.assertEqual(self.store.report()['commands'][0]['status'], 'pending')
+             patch('dlp.admin_control.request_restart', return_value=False), \
+             patch.object(control, 'diagnose', return_value=result):
+            self.assertEqual(control.poll(self.worker), 1)
+            self.assertEqual(control.poll(self.worker), 0)
+        self.assertEqual(self.store.report()['commands'][0]['status'], 'completed')
