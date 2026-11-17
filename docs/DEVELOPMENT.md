@@ -2,6 +2,20 @@
 
 Для установки готового агента используйте [INSTALL](INSTALL.md).
 
+## Скачать исходники
+
+На Debian 12/13 установите Git и скачайте проект:
+
+```bash
+sudo apt update
+sudo apt install git ca-certificates
+git clone https://github.com/Daret228/dlp-lab.git
+cd dlp-lab
+```
+
+Следующие команды выполняйте из каталога `dlp-lab`. Если репозиторий уже
+скачан, перейдите в существующий каталог.
+
 ## Сборка пакета
 
 Собирайте на той же версии Debian, для которой предназначен агент. На Debian 13:
