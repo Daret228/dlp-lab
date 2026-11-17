@@ -14,7 +14,19 @@ fi
 if [[ -n ${DLP_SQLCIPHER_DEB:-} ]]; then
     export DLP_SQLCIPHER_DEB=$(realpath "$DLP_SQLCIPHER_DEB")
 fi
+mkdir -p "$project/build"
 snapshot=$(mktemp -d "$project/build/deb-source.XXXXXX")
+cleanup_snapshot() {
+    local result=$?
+    if [[ $result == 0 && ${DLP_KEEP_BUILD:-0} != 1 ]]; then
+        cd "$project"
+        rm -rf -- "$snapshot"
+    else
+        printf 'Build snapshot retained: %s\n' "$snapshot" >&2
+    fi
+    return "$result"
+}
+trap cleanup_snapshot EXIT
 python3 - "$snapshot" "$mode" <<'PY'
 from pathlib import Path
 import shutil
@@ -29,7 +41,7 @@ if sys.argv[2] == '--local-deps':
 PY
 cd "$snapshot"
 if [[ $mode == --local-deps ]]; then
-    exec dpkg-buildpackage -b -us -uc -d
+    dpkg-buildpackage -b -us -uc -d
 else
-    exec dpkg-buildpackage -b -us -uc
+    dpkg-buildpackage -b -us -uc
 fi
