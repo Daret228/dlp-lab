@@ -1,3 +1,13 @@
+dlp-lab (0.2.36) unstable; urgency=medium
+
+  * Fix portable server naming with explicit Avahi/mDNS configuration,
+    verified TLS, rollback and queue ownership migration preserving events.
+  * Include configure-portable-server.py in /usr/lib/dlp-lab for deployment.
+  * Align package, Python and Docker versions; ship the revised policy
+    editor and updater fixes from the unreleased 0.2.35 changes.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Tue, 17 Nov 2026 09:00:00 +0000
+
 dlp-lab (0.2.35) unstable; urgency=medium
 
   * Fix dlp-lab-update field parsing: dpkg-deb prefixes multi-field output

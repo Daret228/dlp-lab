@@ -21,6 +21,7 @@ for path in Path('src/dlp').rglob('*'):
     if path.is_file() and path.suffix in ('.py', '.json', '.html', '.js', '.css') and '__pycache__' not in path.parts:
         install(path, '/usr/lib/dlp-lab/src/dlp/' + str(path.relative_to('src/dlp')))
 install('build/debian/fanotify-gateway', '/usr/libexec/dlp-lab/fanotify-gateway', 0o755)
+install('scripts/configure-portable-server.py', '/usr/lib/dlp-lab/configure-portable-server.py')
 install('scripts/install-dlp.py', '/usr/lib/dlp-lab/install-dlp.py')
 install('packaging/dlp-setup', '/usr/sbin/dlp-setup', 0o755)
 install('packaging/admin_configure.py', '/usr/lib/dlp-lab/admin_configure.py')

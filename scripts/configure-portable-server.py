@@ -6,8 +6,11 @@ Default is preflight only; --apply performs backed-up changes. No tokens printed
 """
 import argparse
 import copy
+from contextlib import closing
 import fcntl
 import http.client
+import hashlib
+import inspect
 import ipaddress
 import json
 import os
@@ -16,6 +19,7 @@ import re
 import secrets
 import socket
 import ssl
+import sqlite3
 import stat
 import subprocess
 import tempfile
@@ -29,6 +33,112 @@ AGENT_CA = Path('/etc/dlp-lab/central-ca.crt')
 TLS = Path('/etc/dlp-lab/docker/tls')
 PUBLIC_TLS = Path('/etc/dlp-lab/tls')
 COMPOSE = ['docker', 'compose', '-p', 'dlp-central-migrated', '-f', str(CONFIG)]
+NSS = Path('/etc/nsswitch.conf')
+MDNS_ALLOW = Path('/etc/mdns.allow')
+AVAHI = Path('/etc/avahi/avahi-daemon.conf')
+
+
+def queue_binding(registration):
+    return hashlib.sha256((registration['agent_id']+':'+
+                           registration['server'].rstrip('/')).encode()).hexdigest()
+
+
+def rebind_queue_file(path, old, new):
+    """Called as the service user, with the forwarder stopped; preserve all events."""
+    if not path.exists():
+        return False
+    if path.is_symlink():
+        raise ValueError('Очередь не должна быть символической ссылкой')
+    with closing(sqlite3.connect(str(path), timeout=10)) as db, db:
+        db.execute('BEGIN IMMEDIATE')
+        rows = db.execute('SELECT id FROM owner').fetchall()
+        if rows == [(new,)]:
+            return False
+        if rows != [(old,)]:
+            raise ValueError('Очередь принадлежит другой регистрации; перенос отменён')
+        db.execute('UPDATE owner SET id=? WHERE id=?', (new, old))
+    return True
+
+
+def rebind_queue(old, new):
+    output = run('runuser', '-u', 'dlp-forwarder', '--', '/usr/bin/python3', '-I', '-c',
+                 'import sqlite3,sys\nfrom pathlib import Path\nfrom contextlib import closing\n'+inspect.getsource(rebind_queue_file)+
+                 '\nprint(int(rebind_queue_file(Path("/var/lib/dlp-forwarder/state.sqlite"),'
+                 'sys.argv[1],sys.argv[2])))', old, new)
+    return output == '1'
+
+
+def previous_registration(backup, current):
+    info = backup.lstat()
+    if not stat.S_ISDIR(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o077:
+        raise ValueError('Нужна приватная root-owned резервная копия')
+    protected(backup/'manifest.json')
+    entries = json.loads((backup/'manifest.json').read_text())
+    names = [e['file'] for e in entries if e['path'] == str(AGENT)]
+    if len(names) != 1 or not isinstance(names[0], str) or not names[0].isdigit():
+        raise ValueError('В копии нет исходной регистрации')
+    path = backup/names[0]
+    protected(path)
+    old = json.loads(path.read_text())
+    if changed_registration(old, current['server']) != current:
+        raise ValueError('Копия принадлежит другой регистрации')
+    return old
+
+
+def mdns_changes(name, server=False):
+    """Make .local authoritative in Avahi even when unicast DNS misanswers."""
+    if not re.fullmatch(r'[a-z0-9-]+\.local', name):
+        raise ValueError('--configure-mdns требует имя вида dlp-server.local')
+    run('systemctl', 'is-active', 'avahi-daemon.service')
+    run('dpkg-query', '-W', '-f=${Status}', 'libnss-mdns')
+    protected(NSS)
+    source = NSS.read_text()
+    lines = re.findall(r'^hosts:.*$', source, re.M)
+    if len(lines) != 1 or not re.search(r'\bmdns4(?:_minimal)?\s+\[NOTFOUND=return\]', lines[0]):
+        raise ValueError('Неизвестная hosts-строка nsswitch.conf; автоматическая замена отменена')
+    line = re.sub(r'\bmdns4_minimal\b', 'mdns4', lines[0])
+    if any(line.find(token) < line.find('mdns4') for token in (' dns', ' resolve') if token in line):
+        raise ValueError('DNS стоит раньше mDNS; требуется отдельная проверка nsswitch.conf')
+    # Refuse to overwrite an administrator's unrelated mDNS domain policy.
+    if MDNS_ALLOW.exists() or MDNS_ALLOW.is_symlink():
+        protected(MDNS_ALLOW)
+        domains = {x.split('#')[0].strip() for x in MDNS_ALLOW.read_text().splitlines()} - {''}
+        if domains != {'.local', '.local.'}:
+            raise ValueError('Нестандартный /etc/mdns.allow; автоматическая замена отменена')
+    changes = [(NSS, source.replace(lines[0], line).encode(), 0o644, 0, 0),
+               (MDNS_ALLOW, b'# DLP Lab: resolve .local through Avahi\n.local.\n.local\n', 0o644, 0, 0)]
+    if server:
+        protected(AVAHI)
+        text = AVAHI.read_text()
+        match = re.search(r'(?ms)^\[server\]\s*\n(.*?)(?=^\[|\Z)', text)
+        if not match:
+            raise ValueError('Нет секции server в avahi-daemon.conf')
+        section = re.sub(r'(?m)^\s*#?\s*host-name=.*\n?', '', match[1])
+        section = 'host-name='+name[:-6]+'\n'+section
+        text = text[:match.start(1)]+section+text[match.end(1):]
+        changes.append((AVAHI, text.encode(), 0o644, 0, 0))
+    return changes
+
+
+def check_mdns(name, server=False):
+    if server:
+        published = json.loads(run('busctl', 'call', 'org.freedesktop.Avahi', '/',
+                                   'org.freedesktop.Avahi.Server', 'GetHostNameFqdn')[2:])
+        if published != name:
+            raise ValueError('Avahi объявляет другое имя (возможен конфликт): '+published)
+    # A fresh process observes nsswitch changes without libc's in-process cache.
+    output = run('getent', 'ahostsv4', name)
+    addresses = {line.split()[0] for line in output.splitlines()}
+    if not addresses or any(ipaddress.ip_address(ip).is_loopback or
+                            ipaddress.ip_address(ip).is_unspecified for ip in addresses):
+        raise ValueError('Имя сервера разрешается в loopback или пустой адрес')
+
+
+def fresh_probe(name, port, ca):
+    run('/usr/bin/python3', '-I', '-c',
+        'import runpy,sys; m=runpy.run_path(sys.argv[1]); '
+        'm["probe"](sys.argv[2],int(sys.argv[3]),sys.argv[4])',
+        str(Path(__file__).resolve()), name, str(port), str(ca))
 
 
 def run(*argv):
@@ -159,6 +269,11 @@ def probe(name, port, ca, address=None):
 def apply_changes(changes, activate, verify, recover):
     originals = []
     for path, *_ in changes:
+        if not path.exists() and not path.is_symlink():
+            if path != MDNS_ALLOW:
+                raise ValueError('Неожиданный отсутствующий файл: '+str(path))
+            originals.append((path, None, 0o644, 0, 0))
+            continue
         info = protected(path)
         originals.append((path, path.read_bytes(), stat.S_IMODE(info.st_mode), info.st_uid, info.st_gid))
     backup = Path(tempfile.mkdtemp(prefix='dlp-portable-', dir='/var/backups'))
@@ -166,9 +281,11 @@ def apply_changes(changes, activate, verify, recover):
     manifest = []
     for index, (path, data, mode, uid, gid) in enumerate(originals):
         target = backup/str(index)
-        target.write_bytes(data)
-        target.chmod(0o600)
-        manifest.append(dict(path=str(path), file=str(index), mode=mode, uid=uid, gid=gid))
+        if data is not None:
+            target.write_bytes(data)
+            target.chmod(0o600)
+        manifest.append(dict(path=str(path), file=str(index) if data is not None else None,
+                             mode=mode, uid=uid, gid=gid))
     (backup/'manifest.json').write_bytes(encoded(manifest))
     print('Резервная копия:', backup, flush=True)
     try:
@@ -178,7 +295,10 @@ def apply_changes(changes, activate, verify, recover):
         verify()
     except BaseException:
         for args in originals:
-            atomic(*args)
+            if args[1] is None:
+                args[0].unlink(missing_ok=True)
+            else:
+                atomic(*args)
         recover()
         print('Исходные файлы восстановлены; проверьте службы. Копия:', backup, flush=True)
         raise
@@ -192,22 +312,56 @@ def main(argv=None):
     parser.add_argument('--agent-only', action='store_true')
     parser.add_argument('--port', type=int, default=8767, help='Порт для --agent-only')
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--configure-mdns', action='store_true',
+                        help='Настроить .local через Avahi; на сервере также задать объявляемое имя')
+    parser.add_argument('--previous-backup', type=Path,
+                        help='Для восстановления привязки очереди после уже выполненной смены URL')
     args = parser.parse_args(argv)
     if os.geteuid() != 0:
         raise ValueError('Запустите через sudo; без --apply выполняется только проверка')
     os.umask(0o077)
+    if args.previous_backup and not args.agent_only:
+        raise ValueError('--previous-backup применяется только с --agent-only')
     with open('/run/lock/dlp-portable-server.lock', 'w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        network_changes = mdns_changes(args.hostname, not args.agent_only) if args.configure_mdns else []
         if args.agent_only:
             if not 1 <= args.port <= 65535:
                 raise ValueError('Некорректный порт')
             url = f'https://{args.hostname}:{args.port}'
-            changes = agent_changes(url)
-            probe(args.hostname, args.port, AGENT_CA)
+            changes = network_changes + agent_changes(url)
+            current = json.loads(AGENT.read_text())
+            old = previous_registration(args.previous_backup, current) if args.previous_backup else current
+            old_binding = queue_binding(old)
+            new_binding = queue_binding(changed_registration(current, url))
+            if not args.configure_mdns:
+                probe(args.hostname, args.port, AGENT_CA)
             if args.apply:
                 restart = lambda: run('systemctl', 'restart', 'dlp-lab-forwarder.service')
-                apply_changes(changes, restart,
-                              lambda: probe(args.hostname, args.port, AGENT_CA), restart)
+                rebound = False
+                def activate_agent():
+                    nonlocal rebound
+                    if args.configure_mdns:
+                        check_mdns(args.hostname)
+                    fresh_probe(args.hostname, args.port, AGENT_CA)
+                    run('systemctl', 'stop', 'dlp-lab-forwarder.service')
+                    rebound = rebind_queue(old_binding, new_binding)
+                    restart()
+                def verify_agent():
+                    fresh_probe(args.hostname, args.port, AGENT_CA)
+                    for _ in range(3):
+                        time.sleep(1)
+                        run('systemctl', 'is-active', 'dlp-lab-forwarder.service')
+                def recover_agent():
+                    run('systemctl', 'stop', 'dlp-lab-forwarder.service')
+                    if rebound:
+                        rebind_queue(new_binding, old_binding)
+                    restart()
+                apply_changes(changes, activate_agent,
+                              verify_agent, recover_agent)
+            elif args.configure_mdns:
+                print('План mDNS готов; HTTPS по новому имени будет проверен при --apply.')
+                return
             print('HTTPS проверен. '+('Адрес агента обновлён: ' if args.apply else 'План адреса: ')+url)
             return
         protected(CONFIG)
@@ -220,15 +374,16 @@ def main(argv=None):
         expected = fingerprint(TLS/'ca.crt')
         if any(fingerprint(p) != expected for p in (args.ca_cert, PUBLIC_TLS/'ca.crt')):
             raise ValueError('CA не совпадает с действующим; замена доверия запрещена')
-        if args.hostname.endswith('.local'):
+        if args.hostname.endswith('.local') and not args.configure_mdns:
             published = json.loads(run('busctl', 'call', 'org.freedesktop.Avahi', '/',
                                        'org.freedesktop.Avahi.Server', 'GetHostNameFqdn')[2:])
             if published != args.hostname:
                 raise ValueError('Avahi объявляет другое имя: '+published)
         # Name must resolve before changing the installed service.
-        socket.getaddrinfo(args.hostname, port, family=socket.AF_INET, type=socket.SOCK_STREAM)
+        if not args.configure_mdns:
+            socket.getaddrinfo(args.hostname, port, family=socket.AF_INET, type=socket.SOCK_STREAM)
         url = f'https://{args.hostname}:{port}'
-        changes = [(CONFIG, encoded(config), 0o600, 0, 0)]
+        changes = network_changes + [(CONFIG, encoded(config), 0o600, 0, 0)]
         print('HTTPS будет слушать все IPv4-интерфейсы; адрес агентов:', url)
         print('HTTP и локальный отправщик остаются прежними; CA, токены и база сохраняются.')
         with tempfile.TemporaryDirectory(prefix='dlp-portable-cert-') as tmp:
@@ -242,6 +397,8 @@ def main(argv=None):
                 print('Проверка завершена, сертификат проверен. Для установки добавьте --apply.')
                 return
             def activate():
+                if args.configure_mdns:
+                    run('systemctl', 'restart', 'avahi-daemon.service')
                 run(*COMPOSE, 'config', '--quiet')
                 run(*COMPOSE, 'up', '-d', '--no-deps', '--force-recreate', 'https')
             def verify():
@@ -253,12 +410,24 @@ def main(argv=None):
                         if attempt == 19:
                             raise
                         time.sleep(1)
-                probe(args.hostname, port, TLS/'ca.crt')
+                if args.configure_mdns:
+                    for attempt in range(15):
+                        try:
+                            check_mdns(args.hostname, server=True)
+                            fresh_probe(args.hostname, port, TLS/'ca.crt')
+                            break
+                        except (OSError, ValueError, subprocess.CalledProcessError):
+                            if attempt == 14:
+                                raise
+                            time.sleep(1)
+                else:
+                    probe(args.hostname, port, TLS/'ca.crt')
             def recover():
                 activate()
             apply_changes(changes, activate, verify, recover)
         print('Готово: '+url+' — HTTPS и имя сертификата проверены.')
-        print('Другие агенты: выполните этот скрипт с --agent-only --hostname '+args.hostname+
+        print('Другие агенты: выполните этот скрипт с --agent-only '+
+              ('--configure-mdns ' if args.configure_mdns else '')+'--hostname '+args.hostname+
               ' --port '+str(port)+' --apply на каждом из них.')
         print('Доставка событий и доступ из другой машины проверяются отдельно.')
 

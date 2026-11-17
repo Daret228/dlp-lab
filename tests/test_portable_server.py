@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import runpy
 import socket
+import sqlite3
 import ssl
 import subprocess
 import tempfile
@@ -22,6 +23,96 @@ SCRIPT = Path(__file__).resolve().parents[1]/'scripts/configure-portable-server.
 class PortablePlanTests(unittest.TestCase):
     def setUp(self):
         self.m = runpy.run_path(str(SCRIPT))
+
+    def test_queue_rebind_preserves_pending_events_and_cursors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'queue.sqlite'
+            with contextlib.closing(sqlite3.connect(path)) as db, db:
+                db.executescript("CREATE TABLE owner(id TEXT PRIMARY KEY); INSERT INTO owner VALUES('old');"
+                                 "CREATE TABLE queue(id TEXT PRIMARY KEY,payload TEXT);"
+                                 "INSERT INTO queue VALUES('event-1','synthetic');"
+                                 "CREATE TABLE cursors(source TEXT PRIMARY KEY,value TEXT);"
+                                 "INSERT INTO cursors VALUES('test','cursor-1');")
+            rebind = self.m['rebind_queue_file']
+            self.assertTrue(rebind(path, 'old', 'new'))
+            self.assertFalse(rebind(path, 'old', 'new'))
+            with self.assertRaisesRegex(ValueError, 'другой регистрации'):
+                rebind(path, 'foreign', 'other')
+            self.assertTrue(rebind(path, 'new', 'old'))
+            with contextlib.closing(sqlite3.connect(path)) as db, db:
+                self.assertEqual(db.execute('SELECT * FROM owner').fetchall(), [('old',)])
+                self.assertEqual(db.execute('SELECT * FROM queue').fetchall(), [('event-1', 'synthetic')])
+                self.assertEqual(db.execute('SELECT * FROM cursors').fetchall(), [('test', 'cursor-1')])
+
+    def test_previous_backup_requires_same_agent_and_token(self):
+        function = self.m['previous_registration']
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current = dict(agent_id='test', token='synthetic', server='https://new.local:8767')
+            old = dict(current, server='https://old.local:8767')
+            (root/'0').write_text(json.dumps(old))
+            (root/'manifest.json').write_text(json.dumps([dict(path=str(self.m['AGENT']),file='0')]))
+            with patch('pathlib.Path.lstat') as metadata, \
+                 patch.dict(function.__globals__, protected=lambda p:None):
+                import stat
+                metadata.return_value.st_mode = stat.S_IFDIR | 0o700
+                metadata.return_value.st_uid = 0
+                self.assertEqual(function(root, current), old)
+                with self.assertRaisesRegex(ValueError, 'другой регистрации'):
+                    function(root, dict(current, token='different'))
+
+    def test_mdns_plan_preserves_other_settings_and_is_idempotent(self):
+        function = self.m['mdns_changes']
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            nss, allow, avahi = (root/n for n in ('nss', 'allow', 'avahi'))
+            nss.write_text('passwd: files\nhosts: files myhostname mdns4_minimal [NOTFOUND=return] dns\n')
+            avahi.write_text('[server]\n#host-name=foo\nuse-ipv4=yes\n[wide-area]\nenable-wide-area=yes\n')
+            with patch.dict(function.__globals__, NSS=nss, MDNS_ALLOW=allow, AVAHI=avahi,
+                            protected=lambda p:p.stat(), run=lambda *a:'active'):
+                changes = function('dlp-server.local', server=True)
+                self.assertIn(b'hosts: files myhostname mdns4 [NOTFOUND=return] dns', changes[0][1])
+                self.assertIn(b'host-name=dlp-server\nuse-ipv4=yes\n[wide-area]', changes[2][1])
+                for path, data, *_ in changes:
+                    path.write_bytes(data)
+                self.assertEqual(function('dlp-server.local', server=True), changes)
+                allow.write_text('*\n')
+                with self.assertRaisesRegex(ValueError, 'Нестандартный'):
+                    function('dlp-server.local')
+                allow.unlink()
+                nss.write_text('hosts: files dns mdns4_minimal [NOTFOUND=return]\n')
+                with self.assertRaisesRegex(ValueError, 'DNS стоит раньше'):
+                    function('dlp-server.local')
+
+    def test_mdns_verification_rejects_loopback_and_name_collision(self):
+        function = self.m['check_mdns']
+        with patch.dict(function.__globals__, run=lambda *a:'127.0.0.200 STREAM'):
+            with self.assertRaisesRegex(ValueError, 'loopback'):
+                function('dlp-server.local')
+        with patch.dict(function.__globals__, run=lambda *a:'s "dlp-server-2.local"'):
+            with self.assertRaisesRegex(ValueError, 'конфликт'):
+                function('dlp-server.local', server=True)
+        with patch.dict(function.__globals__, run=lambda *a:'192.0.2.10 STREAM'):
+            function('dlp-server.local')
+
+    def test_rollback_removes_new_mdns_file(self):
+        function = self.m['apply_changes']
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            allow = root/'allow'
+            real_mkdtemp = tempfile.mkdtemp
+            with patch.dict(function.__globals__, MDNS_ALLOW=allow), \
+                 patch('tempfile.mkdtemp', side_effect=lambda **kw:real_mkdtemp(dir=root)), \
+                 patch('os.fchown'), contextlib.redirect_stdout(io.StringIO()):
+                def fail():
+                    self.assertTrue(allow.exists())
+                    raise ValueError('failed TLS')
+                with self.assertRaisesRegex(ValueError, 'failed TLS'):
+                    function([(allow, b'.local\n.local.\n', 0o644, 0, 0)],
+                             lambda:None, fail, lambda:None)
+            self.assertFalse(allow.exists())
+            manifest = json.loads(next(root.glob('*/manifest.json')).read_text())
+            self.assertIsNone(manifest[0]['file'])
 
     def test_binding_changes_without_touching_local_server_or_state(self):
         original = {'services': {
