@@ -1,0 +1,9 @@
+[Unit]
+Description=DLP staged agent package installer
+Documentation=file:/usr/share/doc/dlp-lab/README.Debian
+
+[Service]
+Type=oneshot
+# Started on demand by dlp-lab-admin-control; the fixed staged pair is the only input.
+ExecStart=/usr/libexec/dlp-lab/update-install
+TimeoutStartSec=165

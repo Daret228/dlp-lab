@@ -10,7 +10,7 @@ import uuid
 
 from .policy_channel import MAX_POLICY
 
-KINDS = ('diagnose', 'restart_files', 'restart_session', 'apply_policy')
+KINDS = ('diagnose', 'restart_files', 'restart_session', 'apply_policy', 'update_agent')
 CHECK_NAMES = ('Политика', 'Мессенджеры', 'Сеансовая служба', 'Файловая защита', 'Отправщик событий',
                'Центральный сервер (необязательно)', 'HTTPS сервера (необязательно)',
                'Текст и локальные базы', 'Доставка и очередь')
@@ -53,6 +53,8 @@ def create(db, agent, kind):
             raise ValueError('Management agent unavailable or outdated')
         if kind == 'apply_policy' and health.get('policy_channel') is not True:
             raise ValueError('Agent does not support policy management')
+        if kind == 'update_agent' and health.get('auto_update') is not True:
+            raise ValueError('Agent does not support automatic updates')
     if db.execute("SELECT 1 FROM commands WHERE agent=? AND status='pending'", (agent,)).fetchone():
         raise ValueError('A request is already pending')
     identity, stamp = str(uuid.uuid4()), time.time()
@@ -160,6 +162,63 @@ def apply_policy(worker, job):
     return diagnose(job['id']) if success else {'id': job['id'], 'status': 'failed', 'checks': []}
 
 
+def update_agent(worker, job):
+    """Fetch the assigned package, verify it locally, stage the pair and ask the root broker to install."""
+    from .update_assist import installed_version
+    from .update_channel import MAX_UPDATE, STAGED_UPDATE, STAGED_UPDATE_META, meta_from
+    fetched = worker.request('/api/update')
+    if not isinstance(fetched, dict):
+        raise ValueError('Invalid update payload')
+    if not fetched:
+        # Nothing is assigned anymore; report failure instead of retrying until expiry.
+        return {'id': job['id'], 'status': 'failed', 'checks': []}
+    if set(fetched) != {'filename', 'sha256', 'size', 'version'}:
+        raise ValueError('Invalid update payload')
+    try:
+        canonical = meta_from(fetched['filename'], fetched['size'])
+    except ValueError:
+        raise ValueError('Invalid update payload')
+    if (fetched['version'] != canonical['version'] or not isinstance(fetched['sha256'], str)
+            or not re.fullmatch('[0-9a-f]{64}', fetched['sha256'])):
+        raise ValueError('Invalid update payload')
+    if installed_version() == fetched['version']:
+        # A previous attempt completed after this forwarder was restarted.
+        return diagnose(job['id'])
+    data = worker.download('/api/update/blob', limit=MAX_UPDATE)
+    if len(data) != fetched['size'] or hashlib.sha256(data).hexdigest() != fetched['sha256']:
+        raise ValueError('Downloaded update does not match its metadata')
+    package = Path(worker.state) / STAGED_UPDATE
+    sidecar = Path(worker.state) / STAGED_UPDATE_META
+    try:
+        for path, payload in ((package, data), (sidecar, json.dumps(
+                {'filename': fetched['filename'], 'sha256': fetched['sha256'],
+                 'size': fetched['size']}).encode())):
+            descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+            # Root broker has no DAC override capability; read through its forwarder group.
+            os.fchmod(descriptor, 0o640)
+            with os.fdopen(descriptor, 'wb') as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+        from .admin_control import request_restart
+        installation = {'id': job['id'], 'kind': 'install_update', 'expires': job['expires']}
+        try:
+            success = request_restart(installation, timeout=185)
+        except ValueError:
+            success = False
+        except OSError:
+            # The broker connection died mid-install: an upgrade restarts the
+            # broker and this forwarder. Never report failure from an uncertain
+            # state — let the command stay pending and re-run after the restart.
+            if installed_version() == fetched['version']:
+                return diagnose(job['id'])
+            raise
+    finally:
+        package.unlink(missing_ok=True)
+        sidecar.unlink(missing_ok=True)
+    return diagnose(job['id']) if success else {'id': job['id'], 'status': 'failed', 'checks': []}
+
+
 def poll(worker):
     from .central import connect
     with connect(worker.state) as db:
@@ -189,6 +248,8 @@ def poll(worker):
                 result = diagnose(job['id'])
             elif job['kind'] == 'apply_policy':
                 result = apply_policy(worker, job)
+            elif job['kind'] == 'update_agent':
+                result = update_agent(worker, job)
             else:
                 from .admin_control import request_restart
                 try:

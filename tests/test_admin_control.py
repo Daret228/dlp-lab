@@ -11,6 +11,7 @@ import time
 import unittest
 from unittest.mock import Mock, patch
 from dlp import admin_control
+from dlp import update_channel
 from dlp.admin_control import execute, validate_job, authorized_peer, installed_version
 
 VALID = Path(__file__).resolve().parents[1] / 'config/policy.yaml'
@@ -160,6 +161,58 @@ class PolicyInstallTests(unittest.TestCase):
                 self.assertEqual(execute(self.job(),db,runner)['status'],'failed')
                 runner.assert_not_called()
 
+
+
+class UpdateInstallTests(unittest.TestCase):
+    def job(self):
+        return {'id':'dddddddd-dddd-4ddd-dddd-dddddddddddd','kind':'install_update','expires':time.time()+60}
+
+    def stage(self, folder, package=b'package body', filename='dlp-lab_0.2.37_amd64.deb', sha=None, size=None):
+        staged = Path(folder)/'update.deb'; sidecar = Path(folder)/'update.meta.json'
+        staged.write_bytes(package)
+        sidecar.write_text(json.dumps({'filename':filename,
+                                       'sha256':sha or hashlib.sha256(package).hexdigest(),
+                                       'size':size if size is not None else len(package)}))
+        return staged, sidecar
+
+    def patched(self, staged, sidecar):
+        return patch.object(update_channel,'STAGED_UPDATE',str(staged)), \
+               patch.object(update_channel,'STAGED_UPDATE_META',str(sidecar))
+
+    def test_valid_pair_triggers_dedicated_oneshot_unit_once(self):
+        with tempfile.TemporaryDirectory() as folder:
+            staged, sidecar = self.stage(folder)
+            with self.patched(staged, sidecar)[0], self.patched(staged, sidecar)[1]:
+                runner = Mock()
+                self.assertEqual(execute(self.job(), Path(folder)/'db', runner)['status'],'completed')
+                runner.assert_called_once()
+                self.assertEqual(runner.call_args.args[0],
+                                 ['/usr/bin/systemctl','start','--wait','dlp-lab-update-install.service'])
+                self.assertEqual(runner.call_args.kwargs['timeout'], 175)
+                # Recorded intent is never repeated, exactly like restarts.
+                self.assertEqual(execute(self.job(), Path(folder)/'db', Mock())['status'],'completed')
+
+    def test_mismatched_pair_never_reaches_systemctl(self):
+        for sha, size, filename in (('f'*64, None, 'dlp-lab_0.2.37_amd64.deb'),
+                                    (None, 999, 'dlp-lab_0.2.37_amd64.deb'),
+                                    (None, None, 'evil.deb')):
+            with tempfile.TemporaryDirectory() as folder:
+                staged, sidecar = self.stage(folder, sha=sha, size=size, filename=filename)
+                runner = Mock()
+                with self.patched(staged, sidecar)[0], self.patched(staged, sidecar)[1]:
+                    self.assertEqual(execute(self.job(), Path(folder)/'db', runner)['status'],'failed')
+                runner.assert_not_called()
+
+    def test_missing_or_symlinked_staging_fails(self):
+        with tempfile.TemporaryDirectory() as folder:
+            staged, sidecar = self.stage(folder)
+            db = Path(folder)/'db'
+            with self.patched(staged, sidecar)[0], self.patched(staged, sidecar)[1]:
+                staged.unlink()
+                self.assertEqual(execute(self.job(), db, Mock())['status'],'failed')
+                self.stage(folder)
+                staged.unlink(); staged.symlink_to(sidecar)
+                self.assertEqual(execute(self.job(), db, Mock())['status'],'failed')
 
 
 class PolicyOwnershipTests(unittest.TestCase):

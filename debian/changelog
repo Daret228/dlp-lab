@@ -1,3 +1,18 @@
+dlp-lab (0.2.37) unstable; urgency=medium
+
+  * Add server-driven agent updates: the panel accepts an admin-uploaded
+    dlp-lab DEB (content-addressed, up to 4 MiB) and assigns it per device;
+    the agent downloads it over the existing TLS token channel, re-checks
+    the sha256, dpkg-deb fields and the strictly-newer rule, and a dedicated
+    root oneshot installer (dlp-lab-update-install.service, triggered by the
+    admin-control broker) installs it with apt --force-confold behind the
+    shared dlp-lab-update lock. Older agents never receive the new
+    update_agent command (auto_update capability flag).
+  * Bound the unattended apt dpkg-lock wait to 60 seconds so an unrelated
+    system transaction can no longer stall dlp-lab-update indefinitely.
+
+ -- DLP Lab contributors <noreply@invalid.example>  Mon, 17 Nov 2026 12:00:00 +0000
+
 dlp-lab (0.2.36) unstable; urgency=medium
 
   * Fix portable server naming with explicit Avahi/mDNS configuration,

@@ -15,20 +15,16 @@ newer than the installed version. Install preserves local configuration
 import fcntl
 import os
 import pwd
-import re
 import subprocess
 import sys
 from pathlib import Path
 
-NAME = re.compile(r'^dlp-lab_([0-9][0-9A-Za-z.~+-]*)_([a-z0-9]+)\.deb$')
+# The name grammar is shared with the server-side update channel so both
+# sides accept exactly the same package file names.
+from .update_channel import NAME, candidate_from_name
+
 LOCK = '/run/lock/dlp-lab-update.lock'
 INPUT_DIR = 'dlp-build-input'
-
-
-def candidate_from_name(name):
-    """Return (version, architecture) for a valid package file name."""
-    match = NAME.fullmatch(name)
-    return (match.group(1), match.group(2)) if match else None
 
 
 def dpkg_newer(candidate, installed):
@@ -88,7 +84,10 @@ def installed_version(runner=subprocess.run):
 
 
 def build_install_command(path):
-    return ['apt-get', 'install', '-y', '-o', 'Dpkg::Options::=--force-confold', str(path)]
+    # The dpkg lock timeout keeps unattended runs from waiting behind an
+    # unrelated system transaction (for example packagekitd) forever.
+    return ['apt-get', 'install', '-y', '-o', 'Dpkg::Options::=--force-confold',
+            '-o', 'DPkg::Lock::Timeout=60', str(path)]
 
 
 def invoking_home():
@@ -105,6 +104,44 @@ def invoking_home():
         return Path(pwd.getpwnam(user).pw_dir)
     except KeyError:
         return None
+
+
+def perform_install(path, *, expected_version, capture=True):
+    """Validate one package file and install it as root.
+
+    Shared by the sudo helper and the broker-triggered oneshot installer:
+    the declared fields must match the trusted file name, the version must
+    be strictly newer than the installed one, and only one install may run
+    at a time (the lock is shared with dlp-lab-update). Returns the version.
+    """
+    if os.geteuid() != 0:
+        raise ValueError('Требуются права администратора.')
+    architecture = subprocess.run(['dpkg', '--print-architecture'],
+                                  capture_output=True, text=True).stdout.strip()
+    if not architecture:
+        raise ValueError('Не удалось определить архитектуру системы.')
+    fields = read_fields(path, ['Package', 'Architecture', 'Version'])
+    if (not fields or fields['Package'] != 'dlp-lab' or fields['Architecture'] != architecture
+            or fields['Version'] != expected_version):
+        raise ValueError('Пакет не соответствует доверенному имени файла.')
+    current = installed_version()
+    if not current:
+        raise ValueError('Пакет dlp-lab не установлен.')
+    if not dpkg_newer(expected_version, current):
+        raise ValueError('Пакет не новее установленной версии.')
+    lock = open(LOCK, 'w')
+    try:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            raise ValueError('Другое обновление уже выполняется.')
+        environment = dict(os.environ, DEBIAN_FRONTEND='noninteractive')
+        result = subprocess.run(build_install_command(path), env=environment, capture_output=capture)
+        if result.returncode != 0:
+            raise subprocess.CalledProcessError(result.returncode, build_install_command(path))
+    finally:
+        lock.close()
+    return expected_version
 
 
 def main(argv=None):
@@ -133,16 +170,13 @@ def main(argv=None):
         return 0
     path, version = chosen
     print(f'Устанавливается {path.name} (новее {current})…')
-    lock = open(LOCK, 'w')
     try:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except OSError:
-        print('Обновление уже выполняется другим процессом.', file=sys.stderr)
-        return 1
-    environment = dict(os.environ, DEBIAN_FRONTEND='noninteractive')
-    result = subprocess.run(build_install_command(path), env=environment)
-    if result.returncode != 0:
+        perform_install(path, expected_version=version, capture=False)
+    except subprocess.CalledProcessError:
         print('Установка не завершена; конфигурация не изменена.', file=sys.stderr)
+        return 1
+    except (ValueError, OSError) as error:
+        print(str(error) or 'Установка не выполнена.', file=sys.stderr)
         return 1
     for unit in ('dlp-lab-files.service', 'dlp-lab-session.service',
                  'dlp-lab-forwarder.service', 'dlp-lab-admin-control.service'):

@@ -20,7 +20,11 @@ UNITS = {'restart_files': 'dlp-lab-files.service', 'restart_session': 'dlp-lab-s
 POLICY = '/etc/dlp-lab/system/policy.yaml'
 INCOMING = '/run/dlp-admin-control/incoming/policy.yaml'
 BACKUPS = '/var/lib/dlp-admin-control/policy-backups'
-ACTIONS = (*UNITS, 'install_policy')
+# The staged package pair is written by the forwarder; installation itself
+# runs in the dedicated oneshot unit (apt needs a wider filesystem surface
+# than this broker's sandbox allows).
+UPDATE_UNIT = 'dlp-lab-update-install.service'
+ACTIONS = (*UNITS, 'install_policy', 'install_update')
 
 
 def validate_job(job):
@@ -119,6 +123,16 @@ def install(runner):
         raise
 
 
+def install_update(runner):
+    """Re-check the staged package pair, then hand it to the oneshot installer."""
+    from .update_channel import STAGED_UPDATE, STAGED_UPDATE_META, validate_staged_update
+    validate_staged_update(STAGED_UPDATE, STAGED_UPDATE_META)
+    # The oneshot unit's own TimeoutStartSec cuts a hung install before this
+    # timeout, so the broker reports a definite outcome instead of dangling.
+    runner(['/usr/bin/systemctl', 'start', '--wait', UPDATE_UNIT], check=True, timeout=175,
+           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
 def installed_version():
     try:
         with open(POLICY,'rb') as stream:
@@ -144,6 +158,8 @@ def execute(job, database=DATABASE, runner=subprocess.run):
     try:
         if job['kind'] == 'install_policy':
             install(runner)
+        elif job['kind'] == 'install_update':
+            install_update(runner)
         else:
             restart(runner,UNITS[job['kind']])
         status='completed'
@@ -154,10 +170,10 @@ def execute(job, database=DATABASE, runner=subprocess.run):
     return {'id':job['id'],'status':status}
 
 
-def request_restart(job):
+def request_restart(job, timeout=120):
     validate_job(job)
     with socket.socket(socket.AF_UNIX,socket.SOCK_STREAM) as client:
-        client.settimeout(120)
+        client.settimeout(timeout)
         client.connect(SOCKET)
         client.sendall(json.dumps(job).encode()+b'\n')
         data=b''

@@ -191,6 +191,8 @@ def project(raw):
             value['policy_version'] = installed
         if type(raw.get('policy_channel')) is bool:
             value['policy_channel'] = raw['policy_channel']
+        if type(raw.get('auto_update')) is bool:
+            value['auto_update'] = raw['auto_update']
     if raw['event'] in ('endpoint_health', 'session_control'):
         if raw.get('session_state') in ('ready','waiting_field','unavailable','no_session','restarting','stopped'):
             value['session_state'] = raw['session_state']
@@ -239,6 +241,8 @@ class ServerStore:
             schema(db)
             from .policy_channel import schema as policy_schema
             policy_schema(db)
+            from .update_channel import schema as update_schema
+            update_schema(db)
 
     def add(self, name, url, output):
         if not re.fullmatch(r'[\w .-]{1,64}', name):
@@ -309,8 +313,10 @@ class ServerStore:
             commands = report(db)
             from .policy_channel import assigned
             policies = assigned(db)
+            from .update_channel import assignments as update_assignments, uploads as update_uploads
+            updates = {'uploads': update_uploads(db), 'assignments': update_assignments(db)}
         return {'agents': agents, 'events': events, 'event_groups': group_access_events(events),
-                'commands': commands, 'policies': policies}
+                'commands': commands, 'policies': policies, 'updates': updates}
 
     def policy_view(self, agent):
         from .policy_channel import view
@@ -337,7 +343,10 @@ def make_server(store, admin_token, host, port):
             self.connection.settimeout(10)
 
         def reply(self, code, body, content='application/json'):
-            data = json.dumps(body).encode() if content == 'application/json' else body.encode()
+            if isinstance(body, (bytes, bytearray)):
+                data = bytes(body)
+            else:
+                data = json.dumps(body).encode() if content == 'application/json' else body.encode()
             self.send_response(code)
             self.send_header('Content-Type', content + '; charset=utf-8')
             self.send_header('Content-Length', str(len(data)))
@@ -368,6 +377,25 @@ def make_server(store, admin_token, host, port):
                     return self.reply(401, {})
                 # An agent always receives only its own assigned policy.
                 return self.reply(200, store.policy_fetch(agent))
+            if urlsplit(self.path).path == '/api/update':
+                agent = store.authenticate(self.token())
+                if not agent:
+                    return self.reply(401, {})
+                from .update_channel import fetch as update_fetch
+                with connect(store.directory) as db:
+                    meta = update_fetch(db, agent)
+                return self.reply(200, meta or {})
+            if urlsplit(self.path).path == '/api/update/blob':
+                agent = store.authenticate(self.token())
+                if not agent:
+                    return self.reply(401, {})
+                try:
+                    from .update_channel import blob as update_blob
+                    with connect(store.directory) as db:
+                        payload = update_blob(db, agent)
+                except ValueError:
+                    return self.reply(400, {})
+                return self.reply(200, payload, 'application/octet-stream')
             if self.path != '/api/report':
                 return self.reply(404, {})
             if not secrets.compare_digest(self.token(), admin_token):
@@ -375,9 +403,10 @@ def make_server(store, admin_token, host, port):
             self.reply(200, store.report())
 
         def do_POST(self):
-            if self.path not in ('/api/events', '/api/commands', '/api/control', '/api/policy'):
+            if self.path not in ('/api/events', '/api/commands', '/api/control', '/api/policy',
+                                 '/api/updates', '/api/updates/assign'):
                 return self.reply(404, {})
-            if self.path in ('/api/commands', '/api/policy'):
+            if self.path in ('/api/commands', '/api/policy', '/api/updates', '/api/updates/assign'):
                 if not secrets.compare_digest(self.token(), admin_token):
                     return self.reply(401, {})
                 agent = None
@@ -385,6 +414,21 @@ def make_server(store, admin_token, host, port):
                 agent = store.authenticate(self.token())
                 if not agent:
                     return self.reply(401, {})
+            if self.path == '/api/updates':
+                # Package bodies are raw bytes with their own size cap; never JSON.
+                from .update_channel import MAX_UPDATE, save as update_save
+                try:
+                    size = int(self.headers.get('Content-Length', '0'))
+                    if not 0 < size <= MAX_UPDATE or self.headers.get('Transfer-Encoding'):
+                        raise ValueError('Invalid length')
+                    raw = self.rfile.read(size)
+                    if len(raw) != size:
+                        raise ValueError('Incomplete body')
+                    with connect(store.directory) as db:
+                        result = update_save(db, self.headers.get('X-Filename', ''), raw)
+                except (ValueError, TypeError):
+                    return self.reply(400, {})
+                return self.reply(200, result)
             try:
                 size = int(self.headers.get('Content-Length', '0'))
                 if not 0 < size <= MAX_BODY or self.headers.get('Transfer-Encoding'):
@@ -407,6 +451,12 @@ def make_server(store, admin_token, host, port):
                     from .policy_channel import set_policy
                     with connect(store.directory) as db:
                         result = set_policy(db, data['agent'], data['content'], data['expected_version'], data['activate'])
+                elif self.path == '/api/updates/assign':
+                    if not isinstance(data, dict) or set(data) != {'agent', 'sha256'}:
+                        raise ValueError('Invalid assignment')
+                    from .update_channel import assign as update_assign
+                    with connect(store.directory) as db:
+                        result = update_assign(db, data['agent'], data['sha256'])
                 else:
                     if not isinstance(data, dict) or set(data) != {'results'}:
                         raise ValueError('Invalid exchange')
@@ -531,6 +581,17 @@ class Forwarder:
         if len(raw) > MAX_BODY:
             raise ValueError('Response too large')
         return json.loads(raw)
+
+    def download(self, path, limit=4 * 1024 * 1024):
+        """Fetch one binary artifact with the same TLS, token and redirect policy."""
+        request = Request(endpoint(self.config['server']) + path,
+                          headers={'Authorization': 'Bearer ' + self.config['token']})
+        opener = build_opener(NoRedirect(), HTTPSHandler(context=ssl.create_default_context()))
+        with opener.open(request, timeout=30) as response:
+            raw = response.read(limit + 1)
+        if len(raw) > limit:
+            raise ValueError('Download too large')
+        return raw
 
     def send(self):
         with connect(self.state) as db:

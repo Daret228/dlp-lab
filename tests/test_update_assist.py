@@ -13,7 +13,7 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from dlp.update_assist import (  # noqa: E402
     build_install_command, candidate_from_name, invoking_home,
-    read_fields, select_candidate)
+    perform_install, read_fields, select_candidate)
 
 
 def touch(directory, name):
@@ -167,10 +167,79 @@ class InstallCommandTests(unittest.TestCase):
         command = build_install_command(Path('/tmp/x/dlp-lab_1.0_amd64.deb'))
         self.assertEqual(command[:3], ['apt-get', 'install', '-y'])
         self.assertIn('Dpkg::Options::=--force-confold', command)
+        self.assertIn('DPkg::Lock::Timeout=60', command)
         self.assertTrue(all(isinstance(a, str) for a in command))
         for arg in command:
             self.assertNotIn(';', arg)
             self.assertNotIn('|', arg)
+
+
+class PerformInstallTests(unittest.TestCase):
+    """The shared validation-and-install step used by sudo and the broker."""
+
+    def steps(self, arch='amd64\n', fields='Package: dlp-lab\nArchitecture: amd64\nVersion: 0.2.37\n',
+              newer=0, apt=0):
+        # installed_version is patched directly: its default runner argument
+        # binds the real subprocess.run at import time and ignores patching.
+        def build(returncode=0, stdout=''):
+            return subprocess.CompletedProcess([], returncode, stdout, '')
+        return [build(stdout=arch), build(stdout=fields), build(returncode=newer), build(returncode=apt)]
+
+    def perform(self, side_effect, lock=None, euid=0, installed='0.2.36'):
+        path = Path(tempfile.mkdtemp())/'dlp-lab_0.2.37_amd64.deb'
+        path.write_bytes(b'package')
+        patches = [mock.patch('dlp.update_assist.subprocess.run', side_effect=side_effect),
+                   mock.patch('dlp.update_assist.installed_version', return_value=installed),
+                   mock.patch('dlp.update_assist.os.geteuid', return_value=euid),
+                   mock.patch('dlp.update_assist.LOCK', lock or (path.parent/'test-update.lock'))]
+        with patches[0], patches[1], patches[2], patches[3]:
+            return perform_install(path, expected_version='0.2.37')
+
+    def test_success_installs_with_bounded_lock_wait(self):
+        path = Path(tempfile.mkdtemp())/'dlp-lab_0.2.37_amd64.deb'
+        path.write_bytes(b'package')
+        patcher = mock.patch('dlp.update_assist.subprocess.run', side_effect=self.steps())
+        run = patcher.start()
+        try:
+            with mock.patch('dlp.update_assist.installed_version', return_value='0.2.36'), \
+                 mock.patch('dlp.update_assist.os.geteuid', return_value=0), \
+                 mock.patch('dlp.update_assist.LOCK', path.parent/'test-update.lock'):
+                self.assertEqual(perform_install(path, expected_version='0.2.37'), '0.2.37')
+        finally:
+            patcher.stop()
+        self.assertEqual(run.call_count, 4)
+        apt = run.call_args_list[3]
+        self.assertEqual(apt.args[0][:3], ['apt-get', 'install', '-y'])
+        self.assertIn('DPkg::Lock::Timeout=60', apt.args[0])
+        self.assertIn('DEBIAN_FRONTEND', apt.kwargs['env'])
+        self.assertTrue(apt.kwargs.get('capture_output'))
+
+    def test_non_root_is_rejected_before_any_subprocess(self):
+        with self.assertRaises(ValueError):
+            self.perform(self.steps(), euid=1000)
+
+    def test_declared_fields_must_match_the_trusted_name(self):
+        bad = self.steps(fields='Package: evil\nArchitecture: amd64\nVersion: 0.2.37\n')
+        with self.assertRaises(ValueError):
+            self.perform(bad)
+        older = self.steps(newer=1)
+        with self.assertRaises(ValueError):
+            self.perform(older)
+
+    def test_busy_lock_never_runs_two_installs(self):
+        import fcntl
+        lock_path = Path(tempfile.mkdtemp())/'busy.lock'
+        handle = open(lock_path, 'w')
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        try:
+            with self.assertRaises(ValueError):
+                self.perform(self.steps(), lock=lock_path)
+        finally:
+            handle.close()
+
+    def test_apt_failure_raises_without_masking(self):
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.perform(self.steps(apt=100))
 
 
 if __name__ == '__main__':

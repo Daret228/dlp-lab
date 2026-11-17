@@ -48,4 +48,6 @@ def snapshot():
         result['policy_version'] = installed
     # This agent build understands the policy command; older agents simply omit the flag.
     result['policy_channel'] = True
+    # This agent build accepts server-assigned package updates.
+    result['auto_update'] = True
     return result
